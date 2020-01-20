@@ -14,16 +14,18 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 
 public class Robot extends TimedRobot {
- 
-	public static OIHandler oi;
-  public static DriveTrain Gavin;//DriveTrain
+
+  public static OIHandler oi;
+  public static DriveTrain Gavin;// DriveTrain
   public static Shooter shooter;
+  //public static Intake intake;
   public static int time;
 
   @Override
   public void robotInit() {
     shooter = new Shooter();
     Gavin = new DriveTrain();
+    //intake = new Intake();
     oi = new OIHandler();
   }
 
@@ -37,5 +39,17 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
 
     SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+    Gavin.diffDrive.arcadeDrive(0.2, 0);
+    try {
+      Thread.sleep(200);
+    } catch (InterruptedException e) {
+      //TODOAuto-generatedcatchblock
+      e.printStackTrace();
+    }
+    Gavin.diffDrive.arcadeDrive(0, 0);
   }
 }

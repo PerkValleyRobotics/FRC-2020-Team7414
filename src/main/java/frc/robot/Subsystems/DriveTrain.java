@@ -18,7 +18,21 @@ public class DriveTrain extends Subsystem{
 	SpeedControllerGroup left;
 	SpeedControllerGroup right;
 
-	DifferentialDrive diffDrive;
+	public DifferentialDrive diffDrive;
+
+	boolean squaring = false;
+
+	//float leftAdjust1;
+	//float leftAdjust2;
+	//float rightAdjust1;
+	//float rightAdjust2;
+
+	//double leftSpeed1;
+	//double leftSpeed2;
+	//double rightSpeed1;
+	//double rightSpeed2;
+	double forwardsDifference = 0.015;
+	double backwardsDifference = 0.01;
 
 
 	public DriveTrain(){
@@ -33,11 +47,84 @@ public class DriveTrain extends Subsystem{
 		diffDrive = new DifferentialDrive(left, right);
 	}
 
-	public void drive(double x, double y){
-		diffDrive.arcadeDrive(y, x);
+	public void driveStraight() {
+		diffDrive.arcadeDrive(0.3, 0.0);
+	}
+	
+	public void setAdjust() {	
+		drive(0.0, 0.5);
 	}
 
-	public void initDefaultCommand(){
+	public void setBackwards() {
+		drive(0.0, -0.5);
+	}
+
+	public void slowDrive(double x, double y) {
+		x /= 2.0;
+		y /= 2.0;
+		drive(x, y);
+	}
+
+	public void drive(double x, double y) {
+		// if (y <= 0.05 && y >= -0.05) {
+		// 	y = 0;
+		// } else {
+		// 	x += difference;
+		// }
+		// //x /= 2;
+		// if (y < 0) {
+		// 	x *= -1;
+		// }
+		// diffDrive.arcadeDrive(y, x, squaring);
+		
+		//deadzone for y
+		if (y <= 0.05 && y >= -0.05) {
+			y = 0;
+		}
+		if (y > 0) {
+			//deadzone for x forwards
+			if (x <= 0.05 && x >= -0.05) {
+				x = 0;
+			}
+			//bigger deadzone for x going backwards
+		} else if (y < 0) {
+			if (x <= 0.08 && x >= -0.08) {
+				x = 0;
+			}
+		}
+		//no deadzone for x when not going forwards or backwards to be better at turning
+		
+		double maxInput = Math.copySign(Math.max(Math.abs(y), Math.abs(x)), y);
+		double leftMotorOutput = 0.0;
+		double rightMotorOutput = 0.0;
+		if (y >= 0.0) {
+			// First quadrant, else second quadrant
+			if (x >= 0.0) {
+				leftMotorOutput = maxInput;
+				rightMotorOutput = y - x;
+			} else {
+				leftMotorOutput = y + x;
+				rightMotorOutput = maxInput;
+			}
+		} else {
+			// Third quadrant, else fourth quadrant
+			if (x >= 0.0) {
+				leftMotorOutput = y + x;
+				rightMotorOutput = maxInput;
+			} else {
+				leftMotorOutput = maxInput;
+				rightMotorOutput = y - x;
+			}
+		}
+		if (leftMotorOutput > 0) {
+			leftMotorOutput += forwardsDifference;
+		} else if (leftMotorOutput < 0) {
+			leftMotorOutput -= backwardsDifference;
+		}
+		diffDrive.tankDrive(leftMotorOutput, rightMotorOutput);
+	}
+
+	public void initDefaultCommand() {
 		setDefaultCommand(new TeleopDrive());
 	}
 }

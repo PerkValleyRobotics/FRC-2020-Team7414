@@ -5,17 +5,22 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Encoder;
 
 import frc.robot.Commands.TeleopSpinUp;
+//import frc.robot.Commands.IntakeOn;
 
 public class OIHandler{
 	
 	Joystick joystick;
 	JoystickButton flywheelButton;
 	Encoder enc;
+	JoystickButton intakeButton;
+	JoystickButton straightButton;
 
 	public OIHandler() {
 		joystick = new Joystick(PortMap.joystick);
 		flywheelButton = new JoystickButton(joystick, PortMap.flywheels);
+		intakeButton = new JoystickButton(joystick, PortMap.intake);
 		flywheelButton.whenPressed(new TeleopSpinUp());
+		//intakeButton.whenPressed(new IntakeOn());
 		
 		enc = new Encoder(PortMap.flywheelEncoder1, PortMap.flywheelEncoder2);
 	}
