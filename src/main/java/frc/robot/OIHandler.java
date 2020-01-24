@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Encoder;
 
+import frc.robot.Commands.TeleopAim;
+
 import frc.robot.Commands.TeleopSpinUp;
 //import frc.robot.Commands.IntakeOn;
 
@@ -14,6 +16,7 @@ public class OIHandler{
 	Encoder enc;
 	JoystickButton intakeButton;
 	JoystickButton straightButton;
+	JoystickButton aimBotButton;
 
 	public OIHandler() {
 		joystick = new Joystick(PortMap.joystick);
@@ -21,6 +24,8 @@ public class OIHandler{
 		intakeButton = new JoystickButton(joystick, PortMap.intake);
 		flywheelButton.whenPressed(new TeleopSpinUp());
 		//intakeButton.whenPressed(new IntakeOn());
+		aimBotButton = new JoystickButton(joystick, PortMap.aimBot);
+		aimBotButton.whenPressed(new TeleopAim());
 		
 		enc = new Encoder(PortMap.flywheelEncoder1, PortMap.flywheelEncoder2);
 	}

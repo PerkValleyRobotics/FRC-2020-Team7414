@@ -1,12 +1,13 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.PortMap;
 import frc.robot.Commands.TeleopDrive;
+
+
 
 public class DriveTrain extends Subsystem{
 
@@ -34,6 +35,9 @@ public class DriveTrain extends Subsystem{
 	double forwardsDifference = 0.015;
 	double backwardsDifference = 0.01;
 
+	int degDist = 20;
+	double turn;
+	double move;
 
 	public DriveTrain(){
 		left1 = new PWMVictorSPX(PortMap.left1);
@@ -51,6 +55,85 @@ public class DriveTrain extends Subsystem{
 		diffDrive.arcadeDrive(0.3, 0.0);
 	}
 	
+	public void aimbot(double tx, double ty, boolean inRange, double getRange, double y) {
+		if (inRange == true){
+			if (getRange < 18.0) {
+			turn = tx / 45;
+			move = (degDist - ty) / 5;
+			if (move > .5) {
+				move = .5 * move / Math.abs(move);
+			}
+			if (move < .3) {
+				move = .3 * move / Math.abs(move);
+			}
+			if (Math.abs(turn) < .3) {
+				turn = .3 * turn / Math.abs(turn);
+			}
+			if (Math.abs(tx) < .5) {
+				turn = 0;
+			}
+			if (Math.abs(degDist - ty) < .5) {
+				move = 0;
+			}
+			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
+				diffDrive.arcadeDrive(move, turn);
+			} else {
+				diffDrive.arcadeDrive(0,0);
+				}
+			} else {
+				turn = tx / 45;
+				if (Math.abs(turn) < .3) {
+					turn = .3 * turn / Math.abs(turn);
+				}
+				if (Math.abs(tx) < .5) {
+					turn = 0;
+				}
+				diffDrive.arcadeDrive(0, turn);
+			}
+		} else {
+			diffDrive.arcadeDrive(0.0, y);
+		}
+	}
+
+	public void autonAimbot(double tx, double ty, boolean inRange, double getRange){
+		if (inRange == true){
+			if (getRange < 18.0) {
+			turn = tx / 45;
+			move = (degDist - ty) / 5;
+			if (move > .5) {
+				move = .5 * move / Math.abs(move);
+			}
+			if (move < .3) {
+				move = .3 * move / Math.abs(move);
+			}
+			if (Math.abs(turn) < .3) {
+				turn = .3 * turn / Math.abs(turn);
+			}
+			if (Math.abs(tx) < .5) {
+				turn = 0;
+			}
+			if (Math.abs(degDist - ty) < .5) {
+				move = 0;
+			}
+			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
+				diffDrive.arcadeDrive(move, turn);
+			} else {
+				diffDrive.arcadeDrive(0,0);
+				}
+			} else {
+				turn = tx / 45;
+				if (Math.abs(turn) < .3) {
+					turn = .3 * turn / Math.abs(turn);
+				}
+				if (Math.abs(tx) < .5) {
+					turn = 0;
+				}
+				diffDrive.arcadeDrive(0, turn);
+			}
+		}
+	}
+	
+
 	public void setAdjust() {	
 		drive(0.0, 0.5);
 	}

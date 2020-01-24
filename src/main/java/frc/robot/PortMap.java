@@ -6,8 +6,8 @@ public class PortMap{
 	
 	//PWM
 	public static int left1 = 3;
-	public static int left2 = 4;
-	public static int right1 = 2;
+	public static int left2 = 2;
+	public static int right1 = 4;
 	public static int right2 = 1;
 	public static int leftWheel = 8;
 	public static int rightWheel = 7;
@@ -19,6 +19,7 @@ public class PortMap{
 	public static int intake = 1;
 	public static int slowMode = 5;
 	public static int backwards = 3;
+	public static int aimBot = 6;
 	
 	//DIO
 	public static int flywheelEncoder1 = 0;

@@ -15,10 +15,6 @@ import frc.robot.Subsystems.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import frc.robot.Subsystems.Vision;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.SerialPort;
 
 
 public class Robot extends TimedRobot {
@@ -32,6 +28,8 @@ public class Robot extends TimedRobot {
   //public static Intake intake;
   public static int time;
   public static Vision limelight;
+  public static double startTime;
+  public static boolean timerFlag = false;
 
   @Override
   public void robotInit() {
@@ -79,15 +77,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    if (timerFlag == false) {
+      startTime = System.currentTimeMillis();
+      timerFlag = true;
+    }
     limelight.updateLimelight();
-    //Gavin.diffDrive.arcadeDrive(0.2, 0);
-    // try {
-    //   Thread.sleep(200);
-    // } catch (InterruptedException e) {
-    //   //TODOAuto-generatedcatchblock
-    //   e.printStackTrace();
-    // }
-    Gavin.diffDrive.arcadeDrive(0, 0);
     SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());
@@ -110,5 +104,16 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("RawMag_Y", ahrs.getRawMagY());
     SmartDashboard.putNumber("RawMag_Z", ahrs.getRawMagZ());
     SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());
+    if (System.currentTimeMillis() - startTime < 1000) {
+      Gavin.diffDrive.arcadeDrive(0.4, 0);
+    } else if (System.currentTimeMillis() - startTime < 6000) {
+      if (limelight.getTv()) {
+        Gavin.autonAimbot(Robot.limelight.getTx(), Robot.limelight.getTy(), Robot.limelight.getTv(), Robot.limelight.getRange());
+      } else {
+        Gavin.diffDrive.arcadeDrive(0.0, 0.4);
+      }
+    } else if (System.currentTimeMillis() - startTime > 6000) {
+      Gavin.diffDrive.arcadeDrive(0,0);
+    }
   }
 }

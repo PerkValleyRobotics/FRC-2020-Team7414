@@ -41,4 +41,25 @@ public void updateLimelight() {
     SmartDashboard.putBoolean("Detected? ", inRange);
     SmartDashboard.putNumber("LimelightArea: ", area);
     }
+    
+    public double getTx() {
+        double x = tx.getDouble(0.0);
+        return x;
+    }
+
+    public double getTy() {
+        double y = ty.getDouble(0.0);
+        return y;
+    }
+
+    public boolean getTv(){
+        boolean tv = inRange;
+        return tv;
+    }
+
+    public double getRange(){
+        double getRange = ta.getDouble(0.0);
+        return getRange;
+    }
+
 }
