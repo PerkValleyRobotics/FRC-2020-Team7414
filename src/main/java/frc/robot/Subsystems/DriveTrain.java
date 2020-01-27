@@ -23,15 +23,6 @@ public class DriveTrain extends Subsystem{
 
 	boolean squaring = false;
 
-	//float leftAdjust1;
-	//float leftAdjust2;
-	//float rightAdjust1;
-	//float rightAdjust2;
-
-	//double leftSpeed1;
-	//double leftSpeed2;
-	//double rightSpeed1;
-	//double rightSpeed2;
 	double forwardsDifference = 0.015;
 	double backwardsDifference = 0.01;
 
@@ -94,7 +85,7 @@ public class DriveTrain extends Subsystem{
 			diffDrive.arcadeDrive(0.0, y);
 		}
 	}
-
+///////////////////////////////////////////////////////////////////////////////////////
 	public void autonAimbot(double tx, double ty, boolean inRange, double getRange){
 		if (inRange == true){
 			if (getRange < 18.0) {
@@ -146,6 +137,11 @@ public class DriveTrain extends Subsystem{
 		x /= 2.0;
 		y /= 2.0;
 		drive(x, y);
+	}
+
+	public void flipDirection(double x, double y){
+		x *= -1.0;
+		y *= -1.0;
 	}
 
 	public void drive(double x, double y) {

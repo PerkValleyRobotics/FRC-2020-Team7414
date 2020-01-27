@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   public static OIHandler oi;
   public static DriveTrain Gavin;// DriveTrain
   public static Shooter shooter;
-  //public static Intake intake;
+  public static Intake intake;
   public static int time;
   public static Vision limelight;
   public static double startTime;
@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     shooter = new Shooter();
     Gavin = new DriveTrain();
-    //intake = new Intake();
+    intake = new Intake();
     oi = new OIHandler();
     limelight = new Vision();
     ahrs = new AHRS();

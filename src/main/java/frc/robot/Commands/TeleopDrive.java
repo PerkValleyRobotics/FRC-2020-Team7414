@@ -17,8 +17,10 @@ public class TeleopDrive extends Command {
 			Robot.Gavin.setAdjust();
 		} else if (Robot.oi.getButtonState(PortMap.backwards)) {
 			Robot.Gavin.setBackwards();
-		} else if (Robot.oi.getButtonState(PortMap.slowMode)){
+		} else if (Robot.oi.getButtonState(PortMap.slowMode)) {
 			Robot.Gavin.slowDrive(x, y);
+		} else if (Robot.oi.getButtonState(PortMap.flipDirection)) {
+			Robot.Gavin.flipDirection(x, y);
 		} else {
 			Robot.Gavin.drive(x,y);
 		}
