@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Encoder;
-
+import frc.robot.Commands.ColorWheelOn;
 import frc.robot.Commands.TeleopAim;
 
 import frc.robot.Commands.TeleopSpinUp;
@@ -17,6 +17,7 @@ public class OIHandler{
 	JoystickButton intakeButton;
 	JoystickButton straightButton;
 	JoystickButton aimBotButton;
+	JoystickButton colorWheelButton;
 
 	public OIHandler() {
 		joystick = new Joystick(PortMap.joystick);
@@ -25,7 +26,9 @@ public class OIHandler{
 		flywheelButton.whenPressed(new TeleopSpinUp());
 		//intakeButton.whenPressed(new IntakeOn());
 		aimBotButton = new JoystickButton(joystick, PortMap.aimBot);
+		colorWheelButton = new JoystickButton(joystick, PortMap.colorWheelActivate);
 		aimBotButton.whenPressed(new TeleopAim());
+		colorWheelButton.whenPressed(new ColorWheelOn());
 		
 		enc = new Encoder(PortMap.flywheelEncoder1, PortMap.flywheelEncoder2);
 	}

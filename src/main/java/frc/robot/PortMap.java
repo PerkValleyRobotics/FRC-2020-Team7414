@@ -13,6 +13,7 @@ public class PortMap{
 	public static int rightWheel = 7;
 	public static int intakeWheel = 6;
 	public static int conveyorWheel = 9;
+	public static int colorWheel = 0;
 
 	//Joystick Buttons
 	public static int flywheels = 4;
@@ -22,6 +23,7 @@ public class PortMap{
 	public static int backwards = 3;
 	public static int aimBot = 6;
 	public static int flipDirection = 5;
+	public static int colorWheelActivate = 7;
 	
 	//DIO
 	public static int flywheelEncoder1 = 0;

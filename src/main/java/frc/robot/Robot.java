@@ -30,15 +30,17 @@ public class Robot extends TimedRobot {
   public static Vision limelight;
   public static double startTime;
   public static boolean timerFlag = false;
+  public static WheelOfFortune colorWheel;
 
   @Override
   public void robotInit() {
     shooter = new Shooter();
     Gavin = new DriveTrain();
     intake = new Intake();
-    oi = new OIHandler();
     limelight = new Vision();
     ahrs = new AHRS();
+    colorWheel = new WheelOfFortune();
+    oi = new OIHandler();
     //ahrs.enableLogging(true);
   }
 
