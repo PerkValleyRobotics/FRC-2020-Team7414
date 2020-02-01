@@ -21,13 +21,17 @@ public class OIHandler{
 
 	public OIHandler() {
 		joystick = new Joystick(PortMap.joystick);
+
 		flywheelButton = new JoystickButton(joystick, PortMap.flywheels);
-		intakeButton = new JoystickButton(joystick, PortMap.intake);
 		flywheelButton.whenPressed(new TeleopSpinUp());
+
+		intakeButton = new JoystickButton(joystick, PortMap.intake);
 		//intakeButton.whenPressed(new IntakeOn());
+
 		aimBotButton = new JoystickButton(joystick, PortMap.aimBot);
-		colorWheelButton = new JoystickButton(joystick, PortMap.colorWheelActivate);
 		aimBotButton.whenPressed(new TeleopAim());
+		
+		colorWheelButton = new JoystickButton(joystick, PortMap.colorWheelActivate);
 		colorWheelButton.whenPressed(new ColorWheelOn());
 		
 		enc = new Encoder(PortMap.flywheelEncoder1, PortMap.flywheelEncoder2);

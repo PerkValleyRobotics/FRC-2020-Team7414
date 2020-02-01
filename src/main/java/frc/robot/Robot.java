@@ -1,30 +1,23 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot;
-//plz
+
 import com.kauailabs.navx.frc.AHRS;
+
 import com.revrobotics.ColorSensorV3;
-
-import org.opencv.highgui.HighGui;
-
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import frc.robot.Subsystems.Vision;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.OIHandler;
+import frc.robot.Commands.Autonomous.AutonDoNothing;
+import frc.robot.Commands.Autonomous.AutonDriveOffLine;
 import frc.robot.Subsystems.*;
-import frc.robot.Subsystems.Vision;
+import frc.robot.Vision;
 
 public class Robot extends TimedRobot {
 
@@ -36,23 +29,25 @@ public class Robot extends TimedRobot {
   public static int time;
   public static Vision limelight;
   public static double startTime;
-  public static boolean timerFlag = false;
   public static WheelOfFortune colorWheel;
+
+  public static boolean timerFlag = false;
+  
+  public static SendableChooser<Command> autoChooser;
+  public static SendableChooser<String> positionChooser;
+
+  private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
+  private final ColorMatch m_colorMatcher = new ColorMatch();
+  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
   public static boolean redDetected = false;
   public static boolean blueDetected = false;
   public static boolean greenDetected = false;
   public static boolean yellowDetected = false;
   double colorDetected = 0.0;
-
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-
-  private final ColorMatch m_colorMatcher = new ColorMatch();
-
-  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
   @Override
   public void robotInit() {
@@ -64,10 +59,20 @@ public class Robot extends TimedRobot {
     colorWheel = new WheelOfFortune();
     oi = new OIHandler();
     //ahrs.enableLogging(true);
+
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
+    
+    autoChooser = new SendableChooser<Command>();
+    autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
+    autoChooser.addOption("Drive Forward", new AutonDriveOffLine());
+    positionChooser = new SendableChooser<String>();
+    positionChooser.addOption("Left", "Left");
+    positionChooser.addOption("Center", "Center");
+    positionChooser.addOption("Right", "Right");
+    
   }
 
   @Override
@@ -92,12 +97,12 @@ public class Robot extends TimedRobot {
       colorString = "Unknown";
       colorDetected = 0.0;
     }
+
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
-    
   }
 
   @Override
@@ -151,7 +156,13 @@ public class Robot extends TimedRobot {
       blueDetected = false;
       yellowDetected = true;
       greenDetected = false;
-    }
+    }*/
+  }
+
+  @Override
+  public void autonomousInit() {
+    super.autonomousInit();
+    Scheduler.getInstance().add(autoChooser.getSelected());
   }
 
   @Override
@@ -184,15 +195,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("RawMag_Z", ahrs.getRawMagZ());
     SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());*/
     if (System.currentTimeMillis() - startTime < 1000) {
-      Gavin.diffDrive.arcadeDrive(0.4, 0);
+      Gavin.drive(0, 0.4);
     } else if (System.currentTimeMillis() - startTime < 6000) {
       if (limelight.getTv()) {
         Gavin.autonAimbot(Robot.limelight.getTx(), Robot.limelight.getTy(), Robot.limelight.getTv(), Robot.limelight.getRange());
       } else {
-        Gavin.diffDrive.arcadeDrive(0.0, 0.4);
+        Gavin.drive(0.4, 0);
       }
     } else if (System.currentTimeMillis() - startTime > 6000) {
-      Gavin.diffDrive.arcadeDrive(0,0);
+      Gavin.drive(0,0);
     }
   }
 }

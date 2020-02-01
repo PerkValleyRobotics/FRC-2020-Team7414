@@ -1,4 +1,4 @@
-package frc.robot.Subsystems;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;

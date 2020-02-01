@@ -85,7 +85,7 @@ public class DriveTrain extends Subsystem{
 			diffDrive.arcadeDrive(0.0, y);
 		}
 	}
-///////////////////////////////////////////////////////////////////////////////////////
+
 	public void autonAimbot(double tx, double ty, boolean inRange, double getRange){
 		if (inRange == true){
 			if (getRange < 18.0) {
@@ -106,10 +106,11 @@ public class DriveTrain extends Subsystem{
 			if (Math.abs(degDist - ty) < .5) {
 				move = 0;
 			}
+			move = 0; //temporary, might change if needed
 			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
-				diffDrive.arcadeDrive(move, turn);
+				drive(turn, move);
 			} else {
-				diffDrive.arcadeDrive(0,0);
+				drive(0,0);
 				}
 			} else {
 				turn = tx / 45;
@@ -119,7 +120,7 @@ public class DriveTrain extends Subsystem{
 				if (Math.abs(tx) < .5) {
 					turn = 0;
 				}
-				diffDrive.arcadeDrive(0, turn);
+				drive(turn, 0);
 			}
 		}
 	}
@@ -145,16 +146,6 @@ public class DriveTrain extends Subsystem{
 	}
 
 	public void drive(double x, double y) {
-		// if (y <= 0.05 && y >= -0.05) {
-		// 	y = 0;
-		// } else {
-		// 	x += difference;
-		// }
-		// //x /= 2;
-		// if (y < 0) {
-		// 	x *= -1;
-		// }
-		// diffDrive.arcadeDrive(y, x, squaring);
 		
 		//deadzone for y
 		if (y <= 0.05 && y >= -0.05) {
