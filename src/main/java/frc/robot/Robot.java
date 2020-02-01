@@ -10,18 +10,17 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import frc.robot.OIHandler;
-import frc.robot.Subsystems.*;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import frc.robot.Subsystems.Vision;
+import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.OIHandler;
+import frc.robot.Subsystems.*;
+import frc.robot.Subsystems.Vision;
 
 public class Robot extends TimedRobot {
 
-  AHRS ahrs;
-  
-
+  public static AHRS ahrs;
   public static OIHandler oi;
   public static DriveTrain Gavin;// DriveTrain
   public static Shooter shooter;
@@ -31,6 +30,7 @@ public class Robot extends TimedRobot {
   public static double startTime;
   public static boolean timerFlag = false;
   public static WheelOfFortune colorWheel;
+  public static SendableChooser<Command> autonChooser;
 
   @Override
   public void robotInit() {
@@ -42,6 +42,8 @@ public class Robot extends TimedRobot {
     colorWheel = new WheelOfFortune();
     oi = new OIHandler();
     //ahrs.enableLogging(true);
+    autonChooser = new SendableChooser<Command>();
+
   }
 
   @Override
@@ -53,7 +55,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
-    SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
+    /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());
     SmartDashboard.putNumber("Pitch: ", ahrs.getPitch());
@@ -74,7 +76,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("RawMag_X", ahrs.getRawMagX());
     SmartDashboard.putNumber("RawMag_Y", ahrs.getRawMagY());
     SmartDashboard.putNumber("RawMag_Z", ahrs.getRawMagZ());
-    SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());
+    SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());*/
   }
 
   @Override
@@ -84,7 +86,7 @@ public class Robot extends TimedRobot {
       timerFlag = true;
     }
     limelight.updateLimelight();
-    SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
+    /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());
     SmartDashboard.putNumber("Pitch: ", ahrs.getPitch());
@@ -105,7 +107,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("RawMag_X", ahrs.getRawMagX());
     SmartDashboard.putNumber("RawMag_Y", ahrs.getRawMagY());
     SmartDashboard.putNumber("RawMag_Z", ahrs.getRawMagZ());
-    SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());
+    SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());*/
     if (System.currentTimeMillis() - startTime < 1000) {
       Gavin.diffDrive.arcadeDrive(0.4, 0);
     } else if (System.currentTimeMillis() - startTime < 6000) {

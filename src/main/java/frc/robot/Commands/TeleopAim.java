@@ -6,7 +6,6 @@ import frc.robot.PortMap;
 
 public class TeleopAim extends Command {
     
-    
     public TeleopAim() {
         requires(Robot.Gavin);
     }

@@ -1,10 +1,9 @@
-package frc.robot.Commands;
+package frc.robot.Commands.Autonomous;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class AutonAim extends Command {
-    
     
     public AutonAim() {
         requires(Robot.Gavin);
