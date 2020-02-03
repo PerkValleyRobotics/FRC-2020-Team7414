@@ -4,12 +4,11 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 import frc.robot.PortMap;
 import frc.robot.Commands.TeleopDrive;
 
-
-
-public class DriveTrain extends Subsystem{
+public class DriveTrain extends Subsystem {
 
 	PWMVictorSPX left1;
 	PWMVictorSPX left2;
@@ -23,14 +22,14 @@ public class DriveTrain extends Subsystem{
 
 	boolean squaring = false;
 
-	double forwardsDifference = 0.015;
-	double backwardsDifference = 0.01;
+	final double K_FORWARD_DIFFERENCE = 0.015;
+	final double K_BACKWARD_DIFFERENCE = 0.01;
 
 	int degDist = 20;
 	double turn;
 	double move;
 
-	public DriveTrain(){
+	public DriveTrain() {
 		left1 = new PWMVictorSPX(PortMap.left1);
 		left2 = new PWMVictorSPX(PortMap.left2);
 		right1 = new PWMVictorSPX(PortMap.right1);
@@ -46,6 +45,7 @@ public class DriveTrain extends Subsystem{
 		diffDrive.arcadeDrive(0.3, 0.0);
 	}
 	
+	//TODO: what is the fucntional difference supposed to be between this and autonAimbot?
 	public void aimbot(double tx, double ty, boolean inRange, double getRange, double y) {
 		if (inRange == true){
 			if (getRange < 18.0) {
@@ -86,7 +86,8 @@ public class DriveTrain extends Subsystem{
 		}
 	}
 
-	public void autonAimbot(double tx, double ty, boolean inRange, double getRange){
+	//turn to center on limelight
+	public void autonAimbot(double tx, double ty, boolean inRange, double getRange) {
 		if (inRange == true){
 			if (getRange < 18.0) {
 			turn = tx / 45;
@@ -140,7 +141,7 @@ public class DriveTrain extends Subsystem{
 		drive(x, y);
 	}
 
-	public void flipDirection(double x, double y){
+	public void flipDirection(double x, double y) {
 		x *= -1.0;
 		y *= -1.0;
 	}
@@ -187,9 +188,9 @@ public class DriveTrain extends Subsystem{
 			}
 		}
 		if (leftMotorOutput > 0) {
-			leftMotorOutput += forwardsDifference;
+			leftMotorOutput += K_FORWARD_DIFFERENCE;
 		} else if (leftMotorOutput < 0) {
-			leftMotorOutput -= backwardsDifference;
+			leftMotorOutput -= K_BACKWARD_DIFFERENCE;
 		}
 		diffDrive.tankDrive(leftMotorOutput, rightMotorOutput);
 	}

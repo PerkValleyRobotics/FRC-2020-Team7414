@@ -6,11 +6,11 @@ import frc.robot.PortMap;
 
 public class TeleopDrive extends Command {
 
-	public TeleopDrive(){
+	public TeleopDrive() {
 		requires(Robot.Gavin);
 	}
 	
-	public void execute(){
+	public void execute() {
 		double x = Robot.oi.getJoystickX();
 		double y = Robot.oi.getJoystickY();
 		if (Robot.oi.getButtonState(PortMap.AdjBut)) {

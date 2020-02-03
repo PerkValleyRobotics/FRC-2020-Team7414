@@ -5,19 +5,24 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 public class AutonDriveOffLine extends Command {
-    
-    long startTime;
+
+    double leftStart;
+    double rightStart;
+    double length;
 
     public AutonDriveOffLine() {
         requires(Robot.Gavin);
-        startTime = System.currentTimeMillis();
+        leftStart = Robot.oi.getLeftDegrees();
+        rightStart = Robot.oi.getRightDegrees();
+        length = 1000; //TODO: figure out the actual length
     }
     
     public void execute() {
         Robot.Gavin.drive(0, 0.5);
     }
 
+    //TODO: figure out a better way to track distance than relying on both sides to hit a certian distance
     public boolean isFinished() {
-        return (System.currentTimeMillis() > startTime+1000); //for now
+        return (Robot.oi.getLeftDegrees()>leftStart+length && Robot.oi.getRightDegrees()>rightStart+length);
     }
 }

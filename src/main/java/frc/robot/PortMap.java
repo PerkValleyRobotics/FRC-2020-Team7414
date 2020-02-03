@@ -1,6 +1,11 @@
 package frc.robot;
 
-public class PortMap{
+enum StartingPosition {
+    LEFT, CENTER, RIGHT
+}
+
+public class PortMap {
+	
 	//Controller
 	public static int joystick = 0;
 	
@@ -28,5 +33,12 @@ public class PortMap{
 	//DIO
 	public static int flywheelEncoder1 = 0;
 	public static int flywheelEncoder2 = 1;
+	public static int leftDriveEncoder1 = 2;
+	public static int leftDriveEncoder2 = 3;
+	public static int rightDriveEncoder1 = 4;
+	public static int rightDriveEncoder2 = 5;
 
+	//Limelight Network Table Values
+	public static int lightOff = 1;
+	public static int lightOn = 3;
 }

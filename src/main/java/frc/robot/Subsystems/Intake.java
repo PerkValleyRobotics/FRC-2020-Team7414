@@ -17,17 +17,17 @@ public class Intake extends Subsystem {
         conveyorWheel = new PWMVictorSPX(PortMap.conveyorWheel);
     }
 
-    public void intakeOff (){
+    public void intakeOff() {
         intakeWheel.set(0);
         conveyorWheel.set(0);
     }
 
-    public void intakeOn(){
+    public void intakeOn() {
         intakeWheel.set(0.3);
         conveyorWheel.set(0.3);
     }
 
-    protected void initDefaultCommand(){
+    protected void initDefaultCommand() {
         setDefaultCommand(new IntakeOff());
     }
 }

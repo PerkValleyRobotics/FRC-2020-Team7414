@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
 
   public static AHRS ahrs;
   public static OIHandler oi;
-  public static DriveTrain Gavin;// DriveTrain
+  public static DriveTrain Gavin;
   public static Shooter shooter;
   public static Intake intake;
   public static int time;
@@ -37,17 +37,17 @@ public class Robot extends TimedRobot {
   public static SendableChooser<String> positionChooser;
 
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
-  private final ColorMatch m_colorMatcher = new ColorMatch();
-  private final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private static ColorSensorV3 m_colorSensor;
+  private static ColorMatch m_colorMatcher;
+  private final Color K_BLUE_TARGET = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color K_GREEN_TARGET = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color K_RED_TARGET = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color K_YELLOW_TARGET = ColorMatch.makeColor(0.361, 0.524, 0.113);
   public static boolean redDetected = false;
   public static boolean blueDetected = false;
   public static boolean greenDetected = false;
   public static boolean yellowDetected = false;
-  double colorDetected = 0.0;
+  public static double colorDetected = 0.0;
 
   @Override
   public void robotInit() {
@@ -55,24 +55,29 @@ public class Robot extends TimedRobot {
     Gavin = new DriveTrain();
     intake = new Intake();
     limelight = new Vision();
+    limelight.lightOff();
     ahrs = new AHRS();
+    m_colorSensor = new ColorSensorV3(i2cPort);
+    m_colorMatcher = new ColorMatch();
     colorWheel = new WheelOfFortune();
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
-    m_colorMatcher.addColorMatch(kBlueTarget);
-    m_colorMatcher.addColorMatch(kGreenTarget);
-    m_colorMatcher.addColorMatch(kRedTarget);
-    m_colorMatcher.addColorMatch(kYellowTarget);
-    
     autoChooser = new SendableChooser<Command>();
     autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
     autoChooser.addOption("Drive Forward", new AutonDriveOffLine());
+    SmartDashboard.putData("Autonomous", autoChooser);
+
     positionChooser = new SendableChooser<String>();
-    positionChooser.addOption("Left", "Left");
+    positionChooser.setDefaultOption("Left", "Left");
     positionChooser.addOption("Center", "Center");
     positionChooser.addOption("Right", "Right");
-    
+    SmartDashboard.putData("Position", positionChooser);
+
+    m_colorMatcher.addColorMatch(K_BLUE_TARGET);
+    m_colorMatcher.addColorMatch(K_GREEN_TARGET);
+    m_colorMatcher.addColorMatch(K_RED_TARGET);
+    m_colorMatcher.addColorMatch(K_YELLOW_TARGET);
   }
 
   @Override
@@ -81,16 +86,16 @@ public class Robot extends TimedRobot {
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-    if (match.color == kBlueTarget) {
+    if (match.color == K_BLUE_TARGET) {
       colorString = "Blue";
       colorDetected = 0.25;
-    } else if (match.color == kRedTarget) {
+    } else if (match.color == K_RED_TARGET) {
       colorString = "Red";
       colorDetected = 0.5;
-    } else if (match.color == kGreenTarget) {
+    } else if (match.color == K_GREEN_TARGET) {
       colorString = "Green";
       colorDetected = 0.75;
-    } else if (match.color == kYellowTarget) {
+    } else if (match.color == K_YELLOW_TARGET) {
       colorString = "Yellow";
       colorDetected = 1.0;
     } else {
@@ -172,6 +177,7 @@ public class Robot extends TimedRobot {
       timerFlag = true;
     }
     limelight.updateLimelight();
+    Scheduler.getInstance().run();
     /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());

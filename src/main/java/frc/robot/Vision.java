@@ -5,6 +5,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import frc.robot.PortMap;
+
 public class Vision {
 
 NetworkTableEntry tv;
@@ -13,7 +15,7 @@ NetworkTableEntry tx;
 NetworkTableEntry ty;
 boolean inRange;
 
-public Vision () {
+public Vision() {
     
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tx = table.getEntry("tx");
@@ -52,14 +54,21 @@ public void updateLimelight() {
         return y;
     }
 
-    public boolean getTv(){
+    public boolean getTv() {
         boolean tv = inRange;
         return tv;
     }
 
-    public double getRange(){
+    public double getRange() {
         double getRange = ta.getDouble(0.0);
         return getRange;
     }
 
+    public void lightOn() {
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(PortMap.lightOn);
+    }
+
+    public void lightOff() {
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(PortMap.lightOff);
+    }
 }
