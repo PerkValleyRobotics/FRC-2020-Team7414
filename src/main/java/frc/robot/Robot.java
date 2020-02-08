@@ -8,15 +8,21 @@ import com.revrobotics.ColorMatch;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
+import frc.robot.Commands.ConveyorOff;
+import frc.robot.Commands.ConveyorOn;
+import frc.robot.Commands.ConveyorOnUltra;
 import frc.robot.Subsystems.*;
+import frc.robot.Ultrasanic;
 import frc.robot.Vision;
 
 public class Robot extends TimedRobot {
@@ -30,6 +36,14 @@ public class Robot extends TimedRobot {
   public static Vision limelight;
   public static double startTime;
   public static WheelOfFortune colorWheel;
+  public static Conveyor conveyor;
+  public static Ultrasanic ultrasanicSensor;
+  public static Ultrasonic proximitySensor;
+
+  public static boolean conveyorOn;
+  public static int counter = 0;
+  public static boolean shooterTriggerHeld;
+  public static double timePressed;
 
   public static boolean timerFlag = false;
   
@@ -56,7 +70,11 @@ public class Robot extends TimedRobot {
     intake = new Intake();
     limelight = new Vision();
     limelight.lightOff();
+    ultrasanicSensor = new Ultrasanic(PortMap.ultrasonic);
+    proximitySensor = new Ultrasonic(9, 8);
+    proximitySensor.setAutomaticMode(true);
     ahrs = new AHRS();
+    conveyor = new Conveyor();
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
     colorWheel = new WheelOfFortune();
@@ -108,12 +126,37 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
-  }
+    SmartDashboard.putNumber("Range:", proximitySensor.getRangeMM());
+    SmartDashboard.putBoolean("Sensor enabled:", proximitySensor.isEnabled());
+    limelight.lightOff();
+ }
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
+    SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
+    if (oi.getButtonState(PortMap.flywheels)) {
+      if (shooterTriggerHeld == false) {
+        shooterTriggerHeld = true;
+        timePressed = System.currentTimeMillis();
+      }else if (System.currentTimeMillis() - timePressed > 2000) {
+        counter = 0;
+      }
+        Scheduler.getInstance().add(new ConveyorOn());
+    } else if (ultrasanicSensor.read() < PortMap.k_ULTRA) {
+      shooterTriggerHeld = false;
+      Scheduler.getInstance().add(new ConveyorOnUltra());
+      conveyorOn = true;
+    } else if (shooterTriggerHeld == true) {
+      shooterTriggerHeld = false;
+      if (conveyorOn == true) {
+        counter +=1;
+        conveyorOn = false;
+      }
+      Scheduler.getInstance().add(new ConveyorOff());
+    }
+    SmartDashboard.putNumber("Counter: ", counter);
     /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());

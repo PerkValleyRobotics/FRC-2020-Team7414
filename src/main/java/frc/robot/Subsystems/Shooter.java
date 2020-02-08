@@ -17,8 +17,8 @@ public class Shooter extends Subsystem {
     }
     
     public void spin() {
-        leftWheel.set(-0.65);
-        rightWheel.set(0.65);
+        leftWheel.set(-0.65); 
+        rightWheel.set(-0.65);
     }
 
     public void stopSpin() {

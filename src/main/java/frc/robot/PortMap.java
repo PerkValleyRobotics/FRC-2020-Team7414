@@ -14,16 +14,16 @@ public class PortMap {
 	public static int left2 = 2;
 	public static int right1 = 4;
 	public static int right2 = 1;
-	public static int leftWheel = 8;
+	public static int leftWheel = 5;
 	public static int rightWheel = 7;
 	public static int intakeWheel = 6;
 	public static int conveyorWheel = 9;
 	public static int colorWheel = 0;
 
 	//Joystick Buttons
-	public static int flywheels = 4;
+	public static int flywheels = 1;
 	public static int AdjBut = 2;
-	public static int intake = 1;
+	public static int intake = 4;
 	public static int slowMode = 12;
 	public static int backwards = 3;
 	public static int aimBot = 6;
@@ -41,4 +41,10 @@ public class PortMap {
 	//Limelight Network Table Values
 	public static int lightOff = 1;
 	public static int lightOn = 3;
+
+	//Analog
+	public static int ultrasonic = 3;
+
+	//constants
+	public static final double k_ULTRA = 2;
 }
