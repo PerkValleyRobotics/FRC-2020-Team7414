@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Compressor;
+
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
@@ -39,6 +41,7 @@ public class Robot extends TimedRobot {
   public static Conveyor conveyor;
   public static Ultrasanic ultrasanicSensor;
   public static Ultrasonic proximitySensor;
+  public static Compressor compressor;
 
   public static boolean conveyorOn;
   public static int counter = 0;
@@ -78,6 +81,8 @@ public class Robot extends TimedRobot {
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
     colorWheel = new WheelOfFortune();
+    compressor = new Compressor(0);
+    compressor.setClosedLoopControl(false);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
@@ -121,13 +126,13 @@ public class Robot extends TimedRobot {
       colorDetected = 0.0;
     }
 
-    SmartDashboard.putNumber("Red", detectedColor.red);
-    SmartDashboard.putNumber("Green", detectedColor.green);
-    SmartDashboard.putNumber("Blue", detectedColor.blue);
-    SmartDashboard.putNumber("Confidence", match.confidence);
-    SmartDashboard.putString("Detected Color", colorString);
-    SmartDashboard.putNumber("Range:", proximitySensor.getRangeMM());
-    SmartDashboard.putBoolean("Sensor enabled:", proximitySensor.isEnabled());
+    SmartDashboard.putNumber("Red: ", detectedColor.red);
+    SmartDashboard.putNumber("Green: ", detectedColor.green);
+    SmartDashboard.putNumber("Blue: ", detectedColor.blue);
+    SmartDashboard.putNumber("Confidence: ", match.confidence);
+    SmartDashboard.putString("Detected Color: ", colorString);
+    SmartDashboard.putNumber("Range: ", proximitySensor.getRangeMM());
+    SmartDashboard.putBoolean("Sensor enabled: ", proximitySensor.isEnabled());
 
     oi.xboxcontroller.setRumble(RumbleType.kLeftRumble, 1);
  }
@@ -136,15 +141,15 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
-    if (oi.getTrigger(PortMap.leftTriggerAxis) > 0.75) {
+    if (oi.getTrigger(PortMap.leftTriggerAxis) > 0.75 && limelight.getTv()) {
       Scheduler.getInstance().add(new TeleopAim());
     }
-    SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
+    /*SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
     if (oi.getButtonState(PortMap.flywheels)) {
       if (shooterTriggerHeld == false) {
         shooterTriggerHeld = true;
         timePressed = System.currentTimeMillis();
-      }else if (System.currentTimeMillis() - timePressed > 2000) {
+      } else if (System.currentTimeMillis() - timePressed > 2000) {
         counter = 0;
       }
         Scheduler.getInstance().add(new ConveyorOn());
@@ -159,7 +164,7 @@ public class Robot extends TimedRobot {
         conveyorOn = false;
       }
       Scheduler.getInstance().add(new ConveyorOff());
-    }
+    }*/
     SmartDashboard.putNumber("Counter: ", counter);
     /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
@@ -209,6 +214,7 @@ public class Robot extends TimedRobot {
       yellowDetected = true;
       greenDetected = false;
     }*/
+    limelight.lightOn();
   }
 
   @Override

@@ -13,15 +13,15 @@ public class PortMap {
 	public static int rightTriggerAxis = 3;
 	
 	//PWM
-	public static int left1 = 3;
+	public static int left1 = 0;
 	public static int left2 = 2;
-	public static int right1 = 4;
-	public static int right2 = 1;
-	public static int leftWheel = 5;
+	public static int right1 = 1;
+	public static int right2 = 3;
+	public static int leftWheel = 6;
 	public static int rightWheel = 7;
-	public static int intakeWheel = 6;
+	public static int intakeWheel = 8;
 	public static int conveyorWheel = 9;
-	public static int colorWheel = 0;
+	public static int colorWheel = 4;
 
 	//Joystick Buttons
 	public static int flywheels = 1;

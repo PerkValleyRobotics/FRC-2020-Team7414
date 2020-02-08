@@ -24,9 +24,12 @@ public class DriveTrain extends Subsystem {
 
 	final double k_FORWARD_DIFFERENCE = 0.015;
 	final double k_BACKWARD_DIFFERENCE = 0.01;
-	final double k_MINIMUM_THRESHOLD = 0.25;
+	final double k_MINIMUM_THRESHOLD = 0.07;
 	final double k_MAXIMUM_THRESHOLD_AIM = 0.5;
-	final double k_ANGLE_THRESHOLD = 0.3;
+	final double k_ANGLE_THRESHOLD = 0.6;
+
+	double sumErrorAim = 0;
+	double prevErrorAim = 0;
 
 	int degDist = 20;
 	double turn;
@@ -130,16 +133,28 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void aimButWithPID(double error) {
-		double kP = 0.1;
-		double speed = error*kP*-1;
+		double kP = 0.18;
+		double kI = 0.8;
+		double kD = 0.01;
+		double diffErrorAim = error - prevErrorAim;
+		sumErrorAim = error*.02;
+
+		double speed = error*kP + sumErrorAim*kI + diffErrorAim*kD;
 		if (Math.abs(speed) < k_MINIMUM_THRESHOLD) {
-			speed = k_MINIMUM_THRESHOLD;
+			speed = Math.copySign(1, speed) * k_MINIMUM_THRESHOLD;
 		} else if (Math.abs(speed) > k_MAXIMUM_THRESHOLD_AIM) {
-			speed = k_MAXIMUM_THRESHOLD_AIM;
-		} else if (Math.abs(error) < k_ANGLE_THRESHOLD) {
+			speed = Math.copySign(1, speed) * k_MAXIMUM_THRESHOLD_AIM;
+		} 
+		if (Math.abs(error) < k_ANGLE_THRESHOLD) {
 			speed = 0;
 		}
+		prevErrorAim = error;
 		standardTankDrive(speed, -speed);
+	}
+
+	public void resetError() {
+		sumErrorAim = 0;
+		prevErrorAim = 0;
 	}
 
 	public void setAdjust() {	

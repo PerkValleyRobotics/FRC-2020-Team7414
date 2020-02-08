@@ -9,6 +9,7 @@ public class TeleopAim extends Command {
     public TeleopAim() {
         requires(Robot.Gavin);
         setInterruptible(false);
+        Robot.Gavin.resetError();
         Robot.limelight.setPipeline(PortMap.targetingPipeline);
         Robot.limelight.lightOn();
     }
