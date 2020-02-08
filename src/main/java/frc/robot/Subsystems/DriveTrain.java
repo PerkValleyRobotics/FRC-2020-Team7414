@@ -18,12 +18,15 @@ public class DriveTrain extends Subsystem {
 	SpeedControllerGroup left;
 	SpeedControllerGroup right;
 
-	public DifferentialDrive diffDrive;
+	DifferentialDrive diffDrive;
 
 	boolean squaring = false;
 
-	final double K_FORWARD_DIFFERENCE = 0.015;
-	final double K_BACKWARD_DIFFERENCE = 0.01;
+	final double k_FORWARD_DIFFERENCE = 0.015;
+	final double k_BACKWARD_DIFFERENCE = 0.01;
+	final double k_MINIMUM_THRESHOLD = 0.25;
+	final double k_MAXIMUM_THRESHOLD_AIM = 0.5;
+	final double k_ANGLE_THRESHOLD = 0.3;
 
 	int degDist = 20;
 	double turn;
@@ -109,9 +112,9 @@ public class DriveTrain extends Subsystem {
 			}
 			move = 0; //temporary, might change if needed
 			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
-				drive(turn, move);
+				standardDrive(turn, move);
 			} else {
-				drive(0,0);
+				standardDrive(0,0);
 				}
 			} else {
 				turn = tx / 45;
@@ -121,24 +124,36 @@ public class DriveTrain extends Subsystem {
 				if (Math.abs(tx) < .5) {
 					turn = 0;
 				}
-				drive(turn, 0);
+				standardDrive(turn, 0);
 			}
 		}
 	}
 	
+	public void aimButWithPID(double error) {
+		double kP = 0.1;
+		double speed = error*kP*-1;
+		if (Math.abs(speed) < k_MINIMUM_THRESHOLD) {
+			speed = k_MINIMUM_THRESHOLD;
+		} else if (Math.abs(speed) > k_MAXIMUM_THRESHOLD_AIM) {
+			speed = k_MAXIMUM_THRESHOLD_AIM;
+		} else if (Math.abs(error) < k_ANGLE_THRESHOLD) {
+			speed = 0;
+		}
+		standardTankDrive(speed, -speed);
+	}
 
 	public void setAdjust() {	
-		drive(0.0, 0.5);
+		standardDrive(0.0, 0.5);
 	}
 
 	public void setBackwards() {
-		drive(0.0, -0.5);
+		standardDrive(0.0, -0.5);
 	}
 
 	public void slowDrive(double x, double y) {
 		x /= 2.0;
 		y /= 2.0;
-		drive(x, y);
+		standardDrive(x, y);
 	}
 
 	public void flipDirection(double x, double y) {
@@ -146,7 +161,7 @@ public class DriveTrain extends Subsystem {
 		y *= -1.0;
 	}
 
-	public void drive(double x, double y) {
+	public void standardDrive(double x, double y) {
 		
 		//deadzone for y
 		if (y <= 0.05 && y >= -0.05) {
@@ -188,11 +203,26 @@ public class DriveTrain extends Subsystem {
 			}
 		}
 		if (leftMotorOutput > 0) {
-			leftMotorOutput += K_FORWARD_DIFFERENCE;
+			leftMotorOutput += k_FORWARD_DIFFERENCE;
 		} else if (leftMotorOutput < 0) {
-			leftMotorOutput -= K_BACKWARD_DIFFERENCE;
+			leftMotorOutput -= k_BACKWARD_DIFFERENCE;
+		} else {
+
 		}
 		diffDrive.tankDrive(leftMotorOutput, rightMotorOutput);
+	}
+
+	public void standardTankDrive(double left, double right) {
+		double leftDrive;
+		if (left > 0) {
+			leftDrive = left + k_FORWARD_DIFFERENCE;
+		} else if (left < 0) {
+			leftDrive = left - k_FORWARD_DIFFERENCE;
+		} else {
+			leftDrive = 0;
+		}
+		double rightDrive = (Math.copySign(1, right)) * (Math.abs(right) - k_BACKWARD_DIFFERENCE);
+		diffDrive.tankDrive(leftDrive, rightDrive, false);
 	}
 
 	public void initDefaultCommand() {

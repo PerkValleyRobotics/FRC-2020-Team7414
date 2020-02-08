@@ -22,7 +22,7 @@ public class TeleopDrive extends Command {
 		} else if (Robot.oi.getButtonState(PortMap.flipDirection)) {
 			Robot.Gavin.flipDirection(x, y);
 		} else {
-			Robot.Gavin.drive(x,y);
+			Robot.Gavin.standardDrive(x,y);
 		}
 	} 
 

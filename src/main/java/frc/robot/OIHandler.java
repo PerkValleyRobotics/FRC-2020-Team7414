@@ -3,7 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Encoder;
-
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Commands.ColorWheelOn;
 import frc.robot.Commands.TeleopAim;
 import frc.robot.Commands.TeleopSpinUp;
@@ -16,12 +16,15 @@ public class OIHandler {
 	JoystickButton straightButton;
 	JoystickButton aimBotButton;
 	JoystickButton colorWheelButton;
+	XboxController xboxcontroller;
 	Encoder flywheelEncoder;
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
 
 	public OIHandler() {
 		joystick = new Joystick(PortMap.joystick);
+
+		xboxcontroller = new XboxController(PortMap.xboxController);
 
 		flywheelButton = new JoystickButton(joystick, PortMap.flywheels);
 		flywheelButton.whenPressed(new TeleopSpinUp());
@@ -52,6 +55,10 @@ public class OIHandler {
 
 	public boolean getButtonState(int button) {
 		return joystick.getRawButton(button);
+	}
+
+	public double getTrigger(int trigger) {
+		return xboxcontroller.getRawAxis(trigger);
 	}
 
 	public double getRPM() {

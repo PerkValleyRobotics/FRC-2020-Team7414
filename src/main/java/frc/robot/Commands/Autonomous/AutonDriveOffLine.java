@@ -18,7 +18,7 @@ public class AutonDriveOffLine extends Command {
     }
     
     public void execute() {
-        Robot.Gavin.drive(0, 0.5);
+        Robot.Gavin.standardDrive(0, 0.5);
     }
 
     //TODO: figure out a better way to track distance than relying on both sides to hit a certian distance

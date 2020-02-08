@@ -8,19 +8,19 @@ import com.revrobotics.ColorMatch;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Ultrasonic;
-
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
 import frc.robot.Commands.ConveyorOff;
 import frc.robot.Commands.ConveyorOn;
 import frc.robot.Commands.ConveyorOnUltra;
+import frc.robot.Commands.TeleopAim;
 import frc.robot.Subsystems.*;
 import frc.robot.Ultrasanic;
 import frc.robot.Vision;
@@ -128,13 +128,17 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("Detected Color", colorString);
     SmartDashboard.putNumber("Range:", proximitySensor.getRangeMM());
     SmartDashboard.putBoolean("Sensor enabled:", proximitySensor.isEnabled());
-    limelight.lightOff();
+
+    oi.xboxcontroller.setRumble(RumbleType.kLeftRumble, 1);
  }
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
+    if (oi.getTrigger(PortMap.leftTriggerAxis) > 0.75) {
+      Scheduler.getInstance().add(new TeleopAim());
+    }
     SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
     if (oi.getButtonState(PortMap.flywheels)) {
       if (shooterTriggerHeld == false) {
@@ -244,15 +248,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("RawMag_Z", ahrs.getRawMagZ());
     SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());*/
     if (System.currentTimeMillis() - startTime < 1000) {
-      Gavin.drive(0, 0.4);
+      Gavin.standardDrive(0, 0.4);
     } else if (System.currentTimeMillis() - startTime < 6000) {
       if (limelight.getTv()) {
         Gavin.autonAimbot(Robot.limelight.getTx(), Robot.limelight.getTy(), Robot.limelight.getTv(), Robot.limelight.getRange());
       } else {
-        Gavin.drive(0.4, 0);
+        Gavin.standardDrive(0.4, 0);
       }
     } else if (System.currentTimeMillis() - startTime > 6000) {
-      Gavin.drive(0,0);
+      Gavin.standardDrive(0,0);
     }
   }
 }

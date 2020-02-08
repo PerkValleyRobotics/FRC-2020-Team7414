@@ -8,6 +8,9 @@ public class PortMap {
 	
 	//Controller
 	public static int joystick = 0;
+	public static int xboxController = 1;
+	public static int leftTriggerAxis = 2;
+	public static int rightTriggerAxis = 3;
 	
 	//PWM
 	public static int left1 = 3;
@@ -41,6 +44,8 @@ public class PortMap {
 	//Limelight Network Table Values
 	public static int lightOff = 1;
 	public static int lightOn = 3;
+	public static int defaultPipeline = 0;
+	public static int targetingPipeline = 1;
 
 	//Analog
 	public static int ultrasonic = 3;

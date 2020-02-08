@@ -12,7 +12,7 @@ public class AutonDoNothing extends Command {
     }
 
     public void execute() {
-        Robot.Gavin.drive(0, 0);
+        Robot.Gavin.standardDrive(0, 0);
         Robot.shooter.stopSpin();
         Robot.intake.intakeOff();
     }

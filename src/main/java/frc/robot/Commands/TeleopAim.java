@@ -8,13 +8,21 @@ public class TeleopAim extends Command {
     
     public TeleopAim() {
         requires(Robot.Gavin);
+        setInterruptible(false);
+        Robot.limelight.setPipeline(PortMap.targetingPipeline);
+        Robot.limelight.lightOn();
     }
 
     public void execute() {
-        Robot.Gavin.aimbot(Robot.limelight.getTx(), Robot.limelight.getTy(), Robot.limelight.getTv(), Robot.limelight.getRange(), Robot.oi.getJoystickX());
+        Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
     }
 
     public boolean isFinished() {
-        return ! Robot.oi.getButtonState(PortMap.aimBot);
+        return Robot.oi.getTrigger(PortMap.leftTriggerAxis) < 0.1;
+    }
+
+    public void end() {
+        Robot.limelight.lightOff();
+        Robot.limelight.setPipeline(PortMap.defaultPipeline);
     }
 }

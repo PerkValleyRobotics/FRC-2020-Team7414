@@ -60,8 +60,8 @@ public void updateLimelight() {
     }
 
     public double getRange() {
-        double getRange = ta.getDouble(0.0);
-        return getRange;
+        double range = ta.getDouble(0.0);
+        return range;
     }
 
     public void lightOn() {
@@ -70,5 +70,9 @@ public void updateLimelight() {
 
     public void lightOff() {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(PortMap.lightOff);
+    }
+
+    public void setPipeline(int pipeline) {
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline);
     }
 }

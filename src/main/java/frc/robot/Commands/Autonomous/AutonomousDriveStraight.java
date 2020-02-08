@@ -18,7 +18,7 @@ public class AutonomousDriveStraight extends Command {
     }
 
     public void execute() {
-        Robot.Gavin.drive(0.0, 0.4);
+        Robot.Gavin.standardDrive(0.0, 0.4);
     }
     
     //TODO: figure out a better way to track this than forcing both sides of the encoder to reach a certain point
