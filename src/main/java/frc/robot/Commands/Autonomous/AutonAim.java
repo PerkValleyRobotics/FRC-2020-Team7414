@@ -11,7 +11,7 @@ public class AutonAim extends Command {
     }
 
     public void execute() {
-        Robot.limelight.setPipeline(PortMap.targetingPipeline);
+        Robot.limelight.setPipeline(PortMap.LIMELIGHT_targetingPipeline);
         Robot.Gavin.autonAimbot(Robot.limelight.getTx(), Robot.limelight.getTy(), Robot.limelight.getTv(), Robot.limelight.getRange());
     }
 
@@ -20,6 +20,6 @@ public class AutonAim extends Command {
     }
 
     public void end() {
-        Robot.limelight.setPipeline(PortMap.defaultPipeline);
+        Robot.limelight.setPipeline(PortMap.LIMELIGHT_defaultPipeline);
     }
 }

@@ -12,7 +12,7 @@ public class ColorWheelOn extends Command {
     }
     
     public boolean isFinished() {
-        return !Robot.oi.getButtonState(PortMap.colorWheelActivate);
+        return !Robot.oi.getButtonState(PortMap.JOYSTICK_colorWheelActivate);
     }
     
     public void execute() {

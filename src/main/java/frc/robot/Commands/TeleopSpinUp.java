@@ -23,6 +23,6 @@ public class TeleopSpinUp extends Command {
     }
     
     public boolean isFinished() {
-        return !Robot.oi.getButtonState(PortMap.flywheels);
+        return !Robot.oi.getButtonState(PortMap.JOYSTICK_flywheels);
     }
 }

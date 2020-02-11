@@ -15,7 +15,7 @@ public class Intake extends Subsystem {
     AnalogInput ultrasonic;
 
     public Intake() {
-        intakeWheel = new PWMVictorSPX(PortMap.intakeWheel);
+        intakeWheel = new PWMVictorSPX(PortMap.PWM_intakeWheel);
     }
 
     public void intakeOff() {

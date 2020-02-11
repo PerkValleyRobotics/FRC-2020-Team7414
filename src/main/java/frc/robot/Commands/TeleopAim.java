@@ -10,7 +10,7 @@ public class TeleopAim extends Command {
         requires(Robot.Gavin);
         setInterruptible(false);
         Robot.Gavin.resetError();
-        Robot.limelight.setPipeline(PortMap.targetingPipeline);
+        Robot.limelight.setPipeline(PortMap.LIMELIGHT_targetingPipeline);
         Robot.limelight.lightOn();
     }
 
@@ -19,11 +19,11 @@ public class TeleopAim extends Command {
     }
 
     public boolean isFinished() {
-        return Robot.oi.getTrigger(PortMap.leftTriggerAxis) < 0.1;
+        return Robot.oi.getTrigger(PortMap.XBOX_leftTriggerAxis) < 0.1;
     }
 
     public void end() {
         Robot.limelight.lightOff();
-        Robot.limelight.setPipeline(PortMap.defaultPipeline);
+        Robot.limelight.setPipeline(PortMap.LIMELIGHT_defaultPipeline);
     }
 }

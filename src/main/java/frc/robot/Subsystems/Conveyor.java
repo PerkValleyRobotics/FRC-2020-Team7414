@@ -10,7 +10,7 @@ public class Conveyor extends Subsystem {
     PWMVictorSPX conveyorWheel;
 
     public Conveyor() {
-        conveyorWheel = new PWMVictorSPX(PortMap.conveyorWheel);
+        conveyorWheel = new PWMVictorSPX(PortMap.PWM_conveyorWheel);
     }
 
     public void ConveyorOn() {

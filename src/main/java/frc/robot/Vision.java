@@ -65,11 +65,11 @@ public void updateLimelight() {
     }
 
     public void lightOn() {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(PortMap.lightOn);
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(PortMap.LIMELIGHT_lightOn);
     }
 
     public void lightOff() {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(PortMap.lightOff);
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(PortMap.LIMELIGHT_lightOff);
     }
 
     public void setPipeline(int pipeline) {

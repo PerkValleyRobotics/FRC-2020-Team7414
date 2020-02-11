@@ -11,7 +11,7 @@ public class WheelOfFortune extends Subsystem {
     PWMVictorSPX colorWheel;
 
     public WheelOfFortune() {
-        colorWheel = new PWMVictorSPX(PortMap.colorWheel);
+        colorWheel = new PWMVictorSPX(PortMap.PWM_colorWheel);
     }
 
     public void colorWheelSpin() {

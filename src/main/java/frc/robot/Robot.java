@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.AnalogInput;
 
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
@@ -66,6 +67,8 @@ public class Robot extends TimedRobot {
   public static boolean yellowDetected = false;
   public static double colorDetected = 0.0;
 
+  //public static AnalogInput ultrasanicDivided;
+
   @Override
   public void robotInit() {
     shooter = new Shooter();
@@ -73,7 +76,7 @@ public class Robot extends TimedRobot {
     intake = new Intake();
     limelight = new Vision();
     limelight.lightOff();
-    ultrasanicSensor = new Ultrasanic(PortMap.ultrasonic);
+    ultrasanicSensor = new Ultrasanic(PortMap.ANALOG_ultrasonic);
     proximitySensor = new Ultrasonic(9, 8);
     proximitySensor.setAutomaticMode(true);
     ahrs = new AHRS();
@@ -83,6 +86,7 @@ public class Robot extends TimedRobot {
     colorWheel = new WheelOfFortune();
     compressor = new Compressor(0);
     compressor.setClosedLoopControl(false);
+    //ultrasanicDivided = new AnalogInput(0);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
@@ -134,6 +138,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Range: ", proximitySensor.getRangeMM());
     SmartDashboard.putBoolean("Sensor enabled: ", proximitySensor.isEnabled());
 
+    //SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
+
     oi.xboxcontroller.setRumble(RumbleType.kLeftRumble, 1);
  }
 
@@ -141,7 +147,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
-    if (oi.getTrigger(PortMap.leftTriggerAxis) > 0.75 && limelight.getTv()) {
+    if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.75 && limelight.getTv()) {
       Scheduler.getInstance().add(new TeleopAim());
     }
     /*SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());

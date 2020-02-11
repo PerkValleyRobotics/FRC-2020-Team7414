@@ -36,10 +36,10 @@ public class DriveTrain extends Subsystem {
 	double move;
 
 	public DriveTrain() {
-		left1 = new PWMVictorSPX(PortMap.left1);
-		left2 = new PWMVictorSPX(PortMap.left2);
-		right1 = new PWMVictorSPX(PortMap.right1);
-		right2 = new PWMVictorSPX(PortMap.right2);
+		left1 = new PWMVictorSPX(PortMap.PWM_left1);
+		left2 = new PWMVictorSPX(PortMap.PWM_left2);
+		right1 = new PWMVictorSPX(PortMap.PWM_right1);
+		right2 = new PWMVictorSPX(PortMap.PWM_right2);
 
 		left = new SpeedControllerGroup(left1, left2);
 		right = new SpeedControllerGroup(right1, right2);

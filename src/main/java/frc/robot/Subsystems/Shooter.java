@@ -12,8 +12,8 @@ public class Shooter extends Subsystem {
     PWMVictorSPX rightWheel;
 
     public Shooter() {
-        leftWheel = new PWMVictorSPX(PortMap.leftWheel);
-        rightWheel = new PWMVictorSPX(PortMap.rightWheel);
+        leftWheel = new PWMVictorSPX(PortMap.PWM_leftWheel);
+        rightWheel = new PWMVictorSPX(PortMap.PWM_rightWheel);
     }
     
     public void spin() {

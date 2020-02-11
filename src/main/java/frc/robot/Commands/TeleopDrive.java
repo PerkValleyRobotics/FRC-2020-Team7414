@@ -13,13 +13,13 @@ public class TeleopDrive extends Command {
 	public void execute() {
 		double x = Robot.oi.getJoystickX();
 		double y = Robot.oi.getJoystickY();
-		if (Robot.oi.getButtonState(PortMap.AdjBut)) {
+		if (Robot.oi.getButtonState(PortMap.JOYSTICK_AdjBut)) {
 			Robot.Gavin.setAdjust();
-		} else if (Robot.oi.getButtonState(PortMap.backwards)) {
+		} else if (Robot.oi.getButtonState(PortMap.JOYSTICK_backwards)) {
 			Robot.Gavin.setBackwards();
-		} else if (Robot.oi.getButtonState(PortMap.slowMode)) {
+		} else if (Robot.oi.getButtonState(PortMap.JOYSTICK_slowMode)) {
 			Robot.Gavin.slowDrive(x, y);
-		} else if (Robot.oi.getButtonState(PortMap.flipDirection)) {
+		} else if (Robot.oi.getButtonState(PortMap.JOYSTICK_flipDirection)) {
 			Robot.Gavin.flipDirection(x, y);
 		} else {
 			Robot.Gavin.standardDrive(x,y);

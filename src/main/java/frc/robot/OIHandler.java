@@ -26,22 +26,22 @@ public class OIHandler {
 
 		xboxcontroller = new XboxController(PortMap.xboxController);
 
-		flywheelButton = new JoystickButton(joystick, PortMap.flywheels);
+		flywheelButton = new JoystickButton(joystick, PortMap.JOYSTICK_flywheels);
 		flywheelButton.whenPressed(new TeleopSpinUp());
 
-		intakeButton = new JoystickButton(joystick, PortMap.intake);
+		intakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intake);
 
-		aimBotButton = new JoystickButton(joystick, PortMap.aimBot);
+		aimBotButton = new JoystickButton(joystick, PortMap.JOYSTICK_aimBot);
 		aimBotButton.whenPressed(new TeleopAim());
 		
-		colorWheelButton = new JoystickButton(joystick, PortMap.colorWheelActivate);
+		colorWheelButton = new JoystickButton(joystick, PortMap.JOYSTICK_colorWheelActivate);
 		colorWheelButton.whenPressed(new ColorWheelOn());
 		
-		flywheelEncoder = new Encoder(PortMap.flywheelEncoder1, PortMap.flywheelEncoder2);
+		flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
 		flywheelEncoder.reset();
-		leftDriveEncoder = new Encoder(PortMap.leftDriveEncoder1, PortMap.leftDriveEncoder2);
+		leftDriveEncoder = new Encoder(PortMap.DIO_leftDriveEncoder1, PortMap.DIO_leftDriveEncoder2);
 		leftDriveEncoder.reset();
-		rightDriveEncoder = new Encoder(PortMap.rightDriveEncoder1, PortMap.rightDriveEncoder2);
+		rightDriveEncoder = new Encoder(PortMap.DIO_rightDriveEncoder1, PortMap.DIO_rightDriveEncoder2);
 		rightDriveEncoder.reset();
 	}
 
