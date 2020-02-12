@@ -24,6 +24,9 @@ import frc.robot.Commands.ConveyorOff;
 import frc.robot.Commands.ConveyorOn;
 import frc.robot.Commands.ConveyorOnUltra;
 import frc.robot.Commands.TeleopAim;
+import frc.robot.Commands.TeleopSpinUp;
+import frc.robot.Commands.SpinnerPistonToggle;
+import frc.robot.Commands.ColorWheelOn;
 import frc.robot.Subsystems.*;
 import frc.robot.Ultrasanic;
 import frc.robot.Vision;
@@ -57,10 +60,10 @@ public class Robot extends TimedRobot {
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
   private static ColorSensorV3 m_colorSensor;
   private static ColorMatch m_colorMatcher;
-  private final Color K_BLUE_TARGET = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color K_GREEN_TARGET = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color K_RED_TARGET = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color K_YELLOW_TARGET = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  private final Color k_BLUE_TARGET = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  private final Color k_GREEN_TARGET = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  private final Color k_RED_TARGET = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  private final Color k_YELLOW_TARGET = ColorMatch.makeColor(0.361, 0.524, 0.113);
   public static boolean redDetected = false;
   public static boolean blueDetected = false;
   public static boolean greenDetected = false;
@@ -101,10 +104,10 @@ public class Robot extends TimedRobot {
     positionChooser.addOption("Right", "Right");
     SmartDashboard.putData("Position", positionChooser);
 
-    m_colorMatcher.addColorMatch(K_BLUE_TARGET);
-    m_colorMatcher.addColorMatch(K_GREEN_TARGET);
-    m_colorMatcher.addColorMatch(K_RED_TARGET);
-    m_colorMatcher.addColorMatch(K_YELLOW_TARGET);
+    m_colorMatcher.addColorMatch(k_BLUE_TARGET);
+    m_colorMatcher.addColorMatch(k_GREEN_TARGET);
+    m_colorMatcher.addColorMatch(k_RED_TARGET);
+    m_colorMatcher.addColorMatch(k_YELLOW_TARGET);
   }
 
   @Override
@@ -113,16 +116,16 @@ public class Robot extends TimedRobot {
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
-    if (match.color == K_BLUE_TARGET) {
+    if (match.color == k_BLUE_TARGET) {
       colorString = "Blue";
       colorDetected = 0.25;
-    } else if (match.color == K_RED_TARGET) {
+    } else if (match.color == k_RED_TARGET) {
       colorString = "Red";
       colorDetected = 0.5;
-    } else if (match.color == K_GREEN_TARGET) {
+    } else if (match.color == k_GREEN_TARGET) {
       colorString = "Green";
       colorDetected = 0.75;
-    } else if (match.color == K_YELLOW_TARGET) {
+    } else if (match.color == k_YELLOW_TARGET) {
       colorString = "Yellow";
       colorDetected = 1.0;
     } else {
@@ -147,8 +150,23 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
-    if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.75 && limelight.getTv()) {
+    if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5 && limelight.getTv()) {
       Scheduler.getInstance().add(new TeleopAim());
+    }
+    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5) {
+      Scheduler.getInstance().add(new TeleopSpinUp());
+    }
+    if (oi.getButtonPressedXbox(PortMap.XBOX_colorWheelPiston)) {
+      Scheduler.getInstance().add(new SpinnerPistonToggle());
+    }
+    if (oi.getButtonPressedXbox(PortMap.XBOX_colorWheelSpin)) {
+      Scheduler.getInstance().add(new ColorWheelOn());
+    }
+    if (oi.getButtonPressedXbox(PortMap.XBOX_conveyorForwards)) {
+
+    }
+    if (oi.getButtonPressedXbox(PortMap.XBOX_conveyorBackwards)) {
+      
     }
     /*SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
     if (oi.getButtonState(PortMap.flywheels)) {
@@ -259,7 +277,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("RawMag_Y", ahrs.getRawMagY());
     SmartDashboard.putNumber("RawMag_Z", ahrs.getRawMagZ());
     SmartDashboard.putNumber("IMU_Temp_C", ahrs.getTempC());*/
-    if (System.currentTimeMillis() - startTime < 1000) {
+    /*if (System.currentTimeMillis() - startTime < 1000) {
       Gavin.standardDrive(0, 0.4);
     } else if (System.currentTimeMillis() - startTime < 6000) {
       if (limelight.getTv()) {
@@ -269,6 +287,6 @@ public class Robot extends TimedRobot {
       }
     } else if (System.currentTimeMillis() - startTime > 6000) {
       Gavin.standardDrive(0,0);
-    }
+    }*/
   }
 }

@@ -19,10 +19,10 @@ public class IntakeOn extends Command {
     }
 
     public void interrupted() {
-
+        Robot.intake.intakeOff();
     }
 
     public void end() {
-        
+        Robot.intake.intakeOff();
     }
 }

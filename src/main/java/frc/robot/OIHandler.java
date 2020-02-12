@@ -2,8 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+
 import frc.robot.Commands.ColorWheelOn;
 import frc.robot.Commands.TeleopAim;
 import frc.robot.Commands.TeleopSpinUp;
@@ -17,6 +20,10 @@ public class OIHandler {
 	JoystickButton aimBotButton;
 	JoystickButton colorWheelButton;
 	XboxController xboxcontroller;
+	Button aButton;
+	Button bButton;
+	Button xButton;
+	Button yButton;
 	Encoder flywheelEncoder;
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
@@ -26,13 +33,13 @@ public class OIHandler {
 
 		xboxcontroller = new XboxController(PortMap.xboxController);
 
-		flywheelButton = new JoystickButton(joystick, PortMap.JOYSTICK_flywheels);
-		flywheelButton.whenPressed(new TeleopSpinUp());
+		//flywheelButton = new JoystickButton(joystick, PortMap.JOYSTICK_flywheels);
+		//flywheelButton.whenPressed(new TeleopSpinUp());
 
 		intakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intake);
 
-		aimBotButton = new JoystickButton(joystick, PortMap.JOYSTICK_aimBot);
-		aimBotButton.whenPressed(new TeleopAim());
+		//aimBotButton = new JoystickButton(joystick, PortMap.JOYSTICK_aimBot);
+		//aimBotButton.whenPressed(new TeleopAim());
 		
 		colorWheelButton = new JoystickButton(joystick, PortMap.JOYSTICK_colorWheelActivate);
 		colorWheelButton.whenPressed(new ColorWheelOn());
@@ -53,12 +60,20 @@ public class OIHandler {
 		return -1 * joystick.getY();
 	}
 
-	public boolean getButtonState(int button) {
+	public boolean getButtonStateJoystick(int button) {
 		return joystick.getRawButton(button);
 	}
 
 	public double getTrigger(int trigger) {
 		return xboxcontroller.getRawAxis(trigger);
+	}
+
+	public boolean getButtonPressedXbox(int button) {
+		return xboxcontroller.getRawButtonPressed(button);
+	}
+
+	public boolean getButtonStateXbox(int button) {
+		return xboxcontroller.getRawButton(button);
 	}
 
 	public double getRPM() {

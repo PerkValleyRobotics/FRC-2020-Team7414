@@ -13,12 +13,16 @@ public class Conveyor extends Subsystem {
         conveyorWheel = new PWMVictorSPX(PortMap.PWM_conveyorWheel);
     }
 
-    public void ConveyorOn() {
+    public void conveyorForwards() {
         conveyorWheel.set(0.3);
     }
 
-    public void ConveyorOff() {
+    public void conveyorOff() {
         conveyorWheel.set(0);
+    }
+
+    public void conveyorBackwards() {
+        conveyorWheel.set(-0.3);
     }
     
     public void initDefaultCommand() {

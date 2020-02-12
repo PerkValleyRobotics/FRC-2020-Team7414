@@ -15,7 +15,7 @@ public class ConveyorOff extends Command {
     }
     
     public void execute() {
-        Robot.conveyor.ConveyorOff();
+        Robot.conveyor.conveyorOff();
     }
 
     public void interrupted() {

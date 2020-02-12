@@ -23,7 +23,7 @@ public class ConveyorOnUltra extends Command {
     }
     
     public void execute() {
-        Robot.conveyor.ConveyorOn();
+        Robot.conveyor.conveyorForwards();
         if (Robot.ultrasanicSensor.read() > PortMap.k_ULTRA && !flag) {
             flag = true;
             flagTime = System.currentTimeMillis();
@@ -38,6 +38,6 @@ public class ConveyorOnUltra extends Command {
     }
 
     public void end() {
-        Robot.conveyor.ConveyorOff();
+        Robot.conveyor.conveyorOff();
     }
 }
