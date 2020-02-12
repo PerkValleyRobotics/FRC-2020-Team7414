@@ -57,6 +57,9 @@ public class PortMap {
 	//Analog
 	public static int ANALOG_ultrasonic = 3;
 
+	//CAN
+	public static int CAN_compressor = 0;
+
 	//PCM
 	public static int PCM_thruster1 = 0;
 	public static int PCM_thruster2 = 1;

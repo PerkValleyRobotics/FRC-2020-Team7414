@@ -2,10 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.*;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 
 import frc.robot.Commands.ColorWheelOn;
 import frc.robot.Commands.TeleopAim;
@@ -20,10 +18,6 @@ public class OIHandler {
 	JoystickButton aimBotButton;
 	JoystickButton colorWheelButton;
 	XboxController xboxcontroller;
-	Button aButton;
-	Button bButton;
-	Button xButton;
-	Button yButton;
 	Encoder flywheelEncoder;
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
