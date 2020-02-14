@@ -29,6 +29,7 @@ import frc.robot.Commands.TeleopAim;
 import frc.robot.Commands.TeleopSpinUp;
 import frc.robot.Commands.SpinnerPistonToggle;
 import frc.robot.Commands.ColorWheelOn;
+import frc.robot.Commands.ConveyorBackwards;
 import frc.robot.Subsystems.*;
 import frc.robot.Ultrasanic;
 import frc.robot.Vision;
@@ -78,7 +79,7 @@ public class Robot extends TimedRobot {
   public static DigitalInput green;
   public static Encoder enc1;
 
-  //public static AnalogInput ultrasanicDivided;
+  public static AnalogInput ultrasanicDivided;
 
   @Override
   public void robotInit() {
@@ -97,7 +98,7 @@ public class Robot extends TimedRobot {
     colorWheel = new WheelOfFortune();
     compressor = new Compressor(PortMap.CAN_compressor);
     compressor.setClosedLoopControl(false);
-    //ultrasanicDivided = new AnalogInput(0);
+    ultrasanicDivided = new AnalogInput(PortMap.ANALOG_divdedUltrasanic);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
@@ -152,7 +153,7 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Range: ", proximitySensor.getRangeMM());
     //SmartDashboard.putBoolean("Sensor enabled: ", proximitySensor.isEnabled());
 
-    //SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
+    SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
 
     oi.xboxcontroller.setRumble(RumbleType.kLeftRumble, 1);
  }
@@ -174,10 +175,10 @@ public class Robot extends TimedRobot {
       Scheduler.getInstance().add(new ColorWheelOn());
     }
     if (oi.getButtonPressedXbox(PortMap.XBOX_conveyorForwards)) {
-
+      Scheduler.getInstance().add(new ConveyorOn());
     }
     if (oi.getButtonPressedXbox(PortMap.XBOX_conveyorBackwards)) {
-      
+      Scheduler.getInstance().add(new ConveyorBackwards());
     }
     /*SmartDashboard.putNumber("White Encoder: ", white.readFallingTimestamp());
     SmartDashboard.putNumber("Blue Encoder: ", blue.readFallingTimestamp());

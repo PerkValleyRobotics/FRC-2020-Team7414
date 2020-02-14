@@ -11,20 +11,21 @@ public class PortMap {
 	public static int xboxController = 1;
 	
 	//PWM
-	public static int PWM_left1 = 0;
-	public static int PWM_left2 = 2;
-	public static int PWM_right1 = 1;
+	public static int PWM_left1 = 10;
+	public static int PWM_left2 = 11;
+	public static int PWM_right1 = 8;
 	public static int PWM_right2 = 3;
 	public static int PWM_leftWheel = 6;
 	public static int PWM_rightWheel = 7;
-	public static int PWM_intakeWheel = 8;
-	public static int PWM_conveyorWheel = 9;
+	public static int PWM_intakeWheel = 1;
 	public static int PWM_colorWheel = 4;
+	public static int PWM_conveyor1 = 0;
+	public static int PWM_conveyor2 = 2;
 
 	//Joystick Buttons
-	public static int JOYSTICK_flywheels = 1;
+	public static int JOYSTICK_flywheels = 4;
 	public static int JOYSTICK_AdjBut = 2;
-	public static int JOYSTICK_intake = 4;
+	public static int JOYSTICK_intake = 1;
 	public static int JOYSTICK_slowMode = 12;
 	public static int JOYSTICK_backwards = 3;
 	public static int JOYSTICK_aimBot = 6;
@@ -34,11 +35,11 @@ public class PortMap {
 	//Xbox Controller Buttons
 	public static int XBOX_leftTriggerAxis = 2;
 	public static int XBOX_rightTriggerAxis = 3;
-	public static int XBOX_colorWheelPiston = 0;
-	public static int XBOX_colorWheelColor = 1;
-	public static int XBOX_colorWheelSpin = 2;
-	public static int XBOX_conveyorForwards = 5;
-	public static int XBOX_conveyorBackwards = 4;
+	public static int XBOX_colorWheelPiston = 1;
+	public static int XBOX_colorWheelColor = 2;
+	public static int XBOX_colorWheelSpin = 3;
+	public static int XBOX_conveyorForwards = 6;
+	public static int XBOX_conveyorBackwards = 5;
 	
 	//DIO
 	public static int DIO_flywheelEncoder1 = 0;
@@ -56,6 +57,7 @@ public class PortMap {
 
 	//Analog
 	public static int ANALOG_ultrasonic = 3;
+	public static int ANALOG_divdedUltrasanic = 0;
 
 	//CAN
 	public static int CAN_compressor = 0;

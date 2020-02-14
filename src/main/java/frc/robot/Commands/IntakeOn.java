@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import frc.robot.PortMap;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,7 +12,7 @@ public class IntakeOn extends Command {
     }
     
     public boolean isFinished() {
-        return false;
+        return !Robot.oi.getButtonStateJoystick(PortMap.JOYSTICK_intake);
     }
     
     public void execute() {

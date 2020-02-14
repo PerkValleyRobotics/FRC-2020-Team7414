@@ -23,7 +23,7 @@ public class Intake extends Subsystem {
     }
 
     public void intakeOn() {
-        intakeWheel.set(0.3);
+        intakeWheel.set(0.12);
     }
 
     protected void initDefaultCommand() {

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.Commands.ColorWheelOn;
+import frc.robot.Commands.IntakeOn;
 import frc.robot.Commands.TeleopAim;
 import frc.robot.Commands.TeleopSpinUp;
 
@@ -31,6 +32,7 @@ public class OIHandler {
 		//flywheelButton.whenPressed(new TeleopSpinUp());
 
 		intakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intake);
+		intakeButton.whenPressed(new IntakeOn());
 
 		//aimBotButton = new JoystickButton(joystick, PortMap.JOYSTICK_aimBot);
 		//aimBotButton.whenPressed(new TeleopAim());
