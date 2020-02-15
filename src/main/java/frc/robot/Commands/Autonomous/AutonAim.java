@@ -1,25 +1,29 @@
 package frc.robot.Commands.Autonomous;
 
-import frc.robot.PortMap;
-import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+
+import frc.robot.Robot;
 
 public class AutonAim extends Command {
     
     public AutonAim() {
         requires(Robot.Gavin);
+        Robot.limelight.targetingSight();
     }
 
     public void execute() {
-        Robot.limelight.setPipeline(PortMap.LIMELIGHT_targetingPipeline);
-        Robot.Gavin.autonAimbot(Robot.limelight.getTx(), Robot.limelight.getTy(), Robot.limelight.getTv(), Robot.limelight.getRange());
+        Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
     }
 
     public boolean isFinished() {
-        return false;
+        return Robot.limelight.getTx() < 2 && Robot.Gavin.getSumError() < 2;
+    }
+
+    protected void interrupt() {
+        Robot.limelight.driverSight();
     }
 
     public void end() {
-        Robot.limelight.setPipeline(PortMap.LIMELIGHT_defaultPipeline);
+        Robot.limelight.driverSight();
     }
 }

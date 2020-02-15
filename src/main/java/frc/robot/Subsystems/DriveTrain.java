@@ -157,6 +157,9 @@ public class DriveTrain extends Subsystem {
 		prevErrorAim = 0;
 	}
 
+	public double getSumError() {
+		return sumErrorAim;
+	}
 	public void setAdjust() {	
 		standardDrive(0.0, 0.5);
 	}

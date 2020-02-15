@@ -11,13 +11,13 @@ import frc.robot.Commands.ColorWheelOff;
 public class WheelOfFortune extends Subsystem {
 
     PWMVictorSPX colorWheel;
-    DoubleSolenoid thruster;
+    //DoubleSolenoid thruster;
 
     boolean retracted;
 
     public WheelOfFortune() {
         colorWheel = new PWMVictorSPX(PortMap.PWM_colorWheel);
-        thruster = new DoubleSolenoid(PortMap.PCM_thruster1, PortMap.PCM_thruster2);
+        //thruster = new DoubleSolenoid(PortMap.PCM_thruster1, PortMap.PCM_thruster2);
         retracted = true;
     }
 
@@ -30,12 +30,12 @@ public class WheelOfFortune extends Subsystem {
     }
 
     public void deploy() {
-        thruster.set(Value.kForward);
+        //thruster.set(Value.kForward);
         retracted = false;
     }
 
     public void retract() {
-        thruster.set(Value.kReverse);
+        //thruster.set(Value.kReverse);
         retracted = true;
     }
 

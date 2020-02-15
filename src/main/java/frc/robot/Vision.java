@@ -64,6 +64,16 @@ public void updateLimelight() {
         return range;
     }
 
+    public void targetingSight() {
+        lightOn();
+        setPipeline(PortMap.LIMELIGHT_targetingPipeline);
+    }
+
+    public void driverSight() {
+        lightOff();
+        setPipeline(PortMap.LIMELIGHT_defaultPipeline);
+    }
+
     public void lightOn() {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(PortMap.LIMELIGHT_lightOn);
     }

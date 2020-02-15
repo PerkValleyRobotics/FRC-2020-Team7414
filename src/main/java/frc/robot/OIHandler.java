@@ -3,12 +3,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.Commands.ColorWheelOn;
 import frc.robot.Commands.IntakeOn;
 import frc.robot.Commands.TeleopAim;
 import frc.robot.Commands.TeleopSpinUp;
+import frc.robot.Commands.SpinnerPistonToggle;
+import frc.robot.Commands.ConveyorOn;
+import frc.robot.Commands.ConveyorBackwards;
 
 public class OIHandler {
 	
@@ -16,29 +20,37 @@ public class OIHandler {
 	JoystickButton flywheelButton;
 	JoystickButton intakeButton;
 	JoystickButton straightButton;
-	JoystickButton aimBotButton;
-	JoystickButton colorWheelButton;
 	XboxController xboxcontroller;
+	Button pistonButton;
+	Button rotationControlButton;
+	Button positionControlButton;
+	Button conveyorForwardsButton;
+	Button conveyorBackwardsButton;
 	Encoder flywheelEncoder;
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
 
 	public OIHandler() {
-		joystick = new Joystick(PortMap.joystick);
-
-		xboxcontroller = new XboxController(PortMap.xboxController);
-
-		//flywheelButton = new JoystickButton(joystick, PortMap.JOYSTICK_flywheels);
-		//flywheelButton.whenPressed(new TeleopSpinUp());
+		joystick = new Joystick(PortMap.CONTROLLER_joystick);
+		xboxcontroller = new XboxController(PortMap.CONTROLLER_xboxController);
 
 		intakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intake);
 		intakeButton.whenPressed(new IntakeOn());
 
-		//aimBotButton = new JoystickButton(joystick, PortMap.JOYSTICK_aimBot);
-		//aimBotButton.whenPressed(new TeleopAim());
+		pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
+		pistonButton.whenPressed(new SpinnerPistonToggle());
 		
-		colorWheelButton = new JoystickButton(joystick, PortMap.JOYSTICK_colorWheelActivate);
-		colorWheelButton.whenPressed(new ColorWheelOn());
+		rotationControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelSpin);
+		rotationControlButton.whenPressed(new ColorWheelOn());
+
+		positionControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelColor);
+		//TODO: position control command
+
+		conveyorForwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorForwards);
+		conveyorForwardsButton.whenPressed(new ConveyorOn());
+
+		conveyorBackwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorBackwards);
+		conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
 		
 		flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
 		flywheelEncoder.reset();

@@ -20,10 +20,10 @@ public class ConveyorOn extends Command {
     }
 
     public void interrupted() {
-        Robot.conveyor.conveyorOff();
+        //Robot.conveyor.conveyorOff();
     }
 
     public void end() {
-        Robot.conveyor.conveyorOff();
+        //Robot.conveyor.conveyorOff();
     }
 }

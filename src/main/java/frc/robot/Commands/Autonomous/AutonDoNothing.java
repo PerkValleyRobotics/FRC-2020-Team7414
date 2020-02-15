@@ -9,12 +9,14 @@ public class AutonDoNothing extends Command {
         requires(Robot.Gavin);
         requires(Robot.shooter);
         requires(Robot.intake);
+        requires(Robot.conveyor);
     }
 
     public void execute() {
         Robot.Gavin.standardDrive(0, 0);
         Robot.shooter.stopSpin();
         Robot.intake.intakeOff();
+        Robot.conveyor.conveyorOff();
     }
 
     public boolean isFinished() {

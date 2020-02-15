@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 
 import frc.robot.PortMap;
+import frc.robot.Commands.ConveyorOff;
 
 public class Conveyor extends Subsystem {
 
@@ -16,8 +17,8 @@ public class Conveyor extends Subsystem {
     }
 
     public void conveyorForwards() {
-        conveyorWheel.set(0.8);
-        conveyorWheel2.set(-0.8);
+        conveyorWheel.set(0.35);
+        conveyorWheel2.set(0.35);
     }
 
     public void conveyorOff() {
@@ -26,11 +27,11 @@ public class Conveyor extends Subsystem {
     }
 
     public void conveyorBackwards() {
-        conveyorWheel.set(-0.8);
-        conveyorWheel2.set(0.8);
+        conveyorWheel.set(-0.35);
+        conveyorWheel2.set(-0.35);
     }
     
     public void initDefaultCommand() {
-
+        setDefaultCommand(new ConveyorOff());
     }
 }

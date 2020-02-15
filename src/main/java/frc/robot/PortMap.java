@@ -1,14 +1,10 @@
 package frc.robot;
 
-enum StartingPosition {
-    LEFT, CENTER, RIGHT
-}
-
-public class PortMap {
+public abstract class PortMap {
 	
 	//Controller
-	public static int joystick = 0;
-	public static int xboxController = 1;
+	public static int CONTROLLER_joystick = 0;
+	public static int CONTROLLER_xboxController = 1;
 	
 	//PWM
 	public static int PWM_left1 = 10;
@@ -17,10 +13,10 @@ public class PortMap {
 	public static int PWM_right2 = 3;
 	public static int PWM_leftWheel = 6;
 	public static int PWM_rightWheel = 7;
-	public static int PWM_intakeWheel = 1;
+	public static int PWM_intakeWheel = 2;
 	public static int PWM_colorWheel = 4;
 	public static int PWM_conveyor1 = 0;
-	public static int PWM_conveyor2 = 2;
+	public static int PWM_conveyor2 = 1;
 
 	//Joystick Buttons
 	public static int JOYSTICK_flywheels = 4;

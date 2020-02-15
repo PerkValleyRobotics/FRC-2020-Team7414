@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
 
-public class AutonomousDriveStraight extends Command {
+public class AutonDriveStraight extends Command {
     
     double leftEncoderStart;
     double rightEncoderStart;
     double length;
 
-    public AutonomousDriveStraight(double degreesForward) {
+    public AutonDriveStraight(double degreesForward) {
         requires(Robot.Gavin);
         leftEncoderStart = Robot.oi.getLeftDegrees();
         rightEncoderStart = Robot.oi.getRightDegrees();

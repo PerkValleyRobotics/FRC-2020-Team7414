@@ -16,11 +16,11 @@ public class ConveyorBackwards extends Command {
     }
 
     protected void interrupted() {
-        Robot.conveyor.conveyorOff();
+        //Robot.conveyor.conveyorOff();
     }
 
     protected void end() {
-        Robot.conveyor.conveyorOff();
+        //Robot.conveyor.conveyorOff();
     }
 
     public boolean isFinished() {

@@ -17,19 +17,12 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
-import frc.robot.Commands.ConveyorOff;
-import frc.robot.Commands.ConveyorOn;
-import frc.robot.Commands.ConveyorOnUltra;
 import frc.robot.Commands.TeleopAim;
 import frc.robot.Commands.TeleopSpinUp;
-import frc.robot.Commands.SpinnerPistonToggle;
-import frc.robot.Commands.ColorWheelOn;
-import frc.robot.Commands.ConveyorBackwards;
 import frc.robot.Subsystems.*;
 import frc.robot.Ultrasanic;
 import frc.robot.Vision;
@@ -47,7 +40,6 @@ public class Robot extends TimedRobot {
   public static WheelOfFortune colorWheel;
   public static Conveyor conveyor;
   public static Ultrasanic ultrasanicSensor;
-  public static Ultrasonic proximitySensor;
   public static Compressor compressor;
 
   public static boolean conveyorOn;
@@ -77,7 +69,6 @@ public class Robot extends TimedRobot {
   public static DigitalInput blue;
   public static DigitalInput yellow;
   public static DigitalInput green;
-  public static Encoder enc1;
 
   public static AnalogInput ultrasanicDivided;
 
@@ -89,23 +80,21 @@ public class Robot extends TimedRobot {
     limelight = new Vision();
     limelight.lightOff();
     ultrasanicSensor = new Ultrasanic(PortMap.ANALOG_ultrasonic);
-   // proximitySensor = new Ultrasonic(9, 8);
-    //proximitySensor.setAutomaticMode(true);
     ahrs = new AHRS();
     conveyor = new Conveyor();
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
     colorWheel = new WheelOfFortune();
-    compressor = new Compressor(PortMap.CAN_compressor);
-    compressor.setClosedLoopControl(false);
+    //compressor = new Compressor(PortMap.CAN_compressor);
+    //compressor.setClosedLoopControl(false);
     ultrasanicDivided = new AnalogInput(PortMap.ANALOG_divdedUltrasanic);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
-    enc1 = new Encoder(8, 7);
     autoChooser = new SendableChooser<Command>();
     autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
-    autoChooser.addOption("Drive Forward", new AutonDriveOffLine());
+    autoChooser.addOption("Drive Off Line", new AutonDriveOffLine());
+
     SmartDashboard.putData("Autonomous", autoChooser);
 
     positionChooser = new SendableChooser<String>();
@@ -143,19 +132,12 @@ public class Robot extends TimedRobot {
       colorDetected = 0.0;
     }
 
-    SmartDashboard.putNumber("Encoder: ", enc1.getDistance() / 1024 * Math.PI);
-    SmartDashboard.putNumber("Encoder Degrees: ", enc1.getDistance() / 1024 * 180);
     SmartDashboard.putNumber("Red: ", detectedColor.red);
     SmartDashboard.putNumber("Green: ", detectedColor.green);
     SmartDashboard.putNumber("Blue: ", detectedColor.blue);
     SmartDashboard.putNumber("Confidence: ", match.confidence);
     SmartDashboard.putString("Detected Color: ", colorString);
-    //SmartDashboard.putNumber("Range: ", proximitySensor.getRangeMM());
-    //SmartDashboard.putBoolean("Sensor enabled: ", proximitySensor.isEnabled());
-
-    SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
-
-    oi.xboxcontroller.setRumble(RumbleType.kLeftRumble, 1);
+    // SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
  }
 
   @Override
@@ -167,18 +149,6 @@ public class Robot extends TimedRobot {
     }
     if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5) {
       Scheduler.getInstance().add(new TeleopSpinUp());
-    }
-    if (oi.getButtonPressedXbox(PortMap.XBOX_colorWheelPiston)) {
-      Scheduler.getInstance().add(new SpinnerPistonToggle());
-    }
-    if (oi.getButtonPressedXbox(PortMap.XBOX_colorWheelSpin)) {
-      Scheduler.getInstance().add(new ColorWheelOn());
-    }
-    if (oi.getButtonPressedXbox(PortMap.XBOX_conveyorForwards)) {
-      Scheduler.getInstance().add(new ConveyorOn());
-    }
-    if (oi.getButtonPressedXbox(PortMap.XBOX_conveyorBackwards)) {
-      Scheduler.getInstance().add(new ConveyorBackwards());
     }
     /*SmartDashboard.putNumber("White Encoder: ", white.readFallingTimestamp());
     SmartDashboard.putNumber("Blue Encoder: ", blue.readFallingTimestamp());
@@ -255,7 +225,6 @@ public class Robot extends TimedRobot {
       Scheduler.getInstance().add(new ConveyorOff());
     }*/
     SmartDashboard.putNumber("Counter: ", counter);
-    limelight.lightOn();
   }
 
   @Override
