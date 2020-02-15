@@ -6,19 +6,14 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.XboxController;
 
-import frc.robot.Commands.ColorWheelOn;
-import frc.robot.Commands.IntakeOn;
-import frc.robot.Commands.TeleopAim;
-import frc.robot.Commands.TeleopSpinUp;
-import frc.robot.Commands.SpinnerPistonToggle;
-import frc.robot.Commands.ConveyorOn;
-import frc.robot.Commands.ConveyorBackwards;
+import frc.robot.Commands.*;
 
 public class OIHandler {
 	
 	Joystick joystick;
 	JoystickButton flywheelButton;
 	JoystickButton intakeButton;
+	JoystickButton reverseIntakeButton;
 	JoystickButton straightButton;
 	XboxController xboxcontroller;
 	Button pistonButton;
@@ -36,6 +31,9 @@ public class OIHandler {
 
 		intakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intake);
 		intakeButton.whenPressed(new IntakeOn());
+
+		reverseIntakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intakeReverse);
+		reverseIntakeButton.whenPressed(new IntakeReverse());
 
 		pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
 		pistonButton.whenPressed(new SpinnerPistonToggle());

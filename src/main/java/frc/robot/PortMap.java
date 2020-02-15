@@ -10,13 +10,13 @@ public abstract class PortMap {
 	public static int PWM_left1 = 10;
 	public static int PWM_left2 = 11;
 	public static int PWM_right1 = 8;
-	public static int PWM_right2 = 3;
+	public static int PWM_right2 = 1;
 	public static int PWM_leftWheel = 6;
 	public static int PWM_rightWheel = 7;
-	public static int PWM_intakeWheel = 2;
 	public static int PWM_colorWheel = 4;
+	public static int PWM_intakeWheel = 2;
 	public static int PWM_conveyor1 = 0;
-	public static int PWM_conveyor2 = 1;
+	public static int PWM_conveyor2 = 3;
 
 	//Joystick Buttons
 	public static int JOYSTICK_flywheels = 4;
@@ -27,6 +27,7 @@ public abstract class PortMap {
 	public static int JOYSTICK_aimBot = 6;
 	public static int JOYSTICK_flipDirection = 5;
 	public static int JOYSTICK_colorWheelActivate = 7;
+	public static int JOYSTICK_intakeReverse = 8;
 
 	//Xbox Controller Buttons
 	public static int XBOX_leftTriggerAxis = 2;

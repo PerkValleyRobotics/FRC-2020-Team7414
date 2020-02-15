@@ -11,6 +11,7 @@ import frc.robot.Commands.IntakeOff;
 public class Intake extends Subsystem {
 
     PWMVictorSPX intakeWheel;
+    public static final double SPEED = -0.25;
     
     AnalogInput ultrasonic;
 
@@ -23,7 +24,11 @@ public class Intake extends Subsystem {
     }
 
     public void intakeOn() {
-        intakeWheel.set(-0.2);
+        intakeWheel.set(SPEED); //VARY THIS VALUE FOR INTAKE SPEED
+    }
+
+    public void intakeReverse() {
+        intakeWheel.set(-SPEED);
     }
 
     protected void initDefaultCommand() {
