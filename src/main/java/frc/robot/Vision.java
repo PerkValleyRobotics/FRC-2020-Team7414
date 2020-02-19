@@ -16,12 +16,12 @@ NetworkTableEntry ty;
 boolean inRange;
 
 public Vision() {
-    
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
     tv = table.getEntry("tv");
+    lightOff();
 }
 
 public void updateLimelight() {

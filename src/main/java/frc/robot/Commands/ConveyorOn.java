@@ -12,7 +12,7 @@ public class ConveyorOn extends Command {
     }
     
     public boolean isFinished() {
-        return !Robot.oi.getButtonStateJoystick(PortMap.JOYSTICK_conveyorForwards);
+        return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards);
     }
     
     public void execute() {
@@ -20,10 +20,10 @@ public class ConveyorOn extends Command {
     }
 
     public void interrupted() {
-        //Robot.conveyor.conveyorOff();
+        Robot.conveyor.conveyorOff();
     }
 
     public void end() {
-        //Robot.conveyor.conveyorOff();
+        Robot.conveyor.conveyorOff();
     }
 }

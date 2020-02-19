@@ -20,11 +20,10 @@ public class ConveyorBackwards extends Command {
     }
 
     protected void end() {
-        //Robot.conveyor.conveyorOff();
+        Robot.conveyor.conveyorOff();
     }
 
     public boolean isFinished() {
-        //return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards);
-        return false;
+        return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards);
     }
 }

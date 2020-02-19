@@ -28,7 +28,7 @@ public class ConveyorOnUltra extends Command {
             flag = true;
             flagTime = System.currentTimeMillis();
         }
-        if (Robot.ultrasanicSensor.read() > PortMap.k_ULTRA && (flagTime + 2000) < System.currentTimeMillis()) {
+        if (Robot.ultrasanicSensor.read() > PortMap.k_ULTRA && (flagTime + PortMap.k_CONVEYORTIME) < System.currentTimeMillis()) {
             finished = true;
         }
     }

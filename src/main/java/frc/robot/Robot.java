@@ -12,11 +12,10 @@ import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.Ultrasonic;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.robot.Commands.*;
 
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
@@ -107,6 +106,8 @@ public class Robot extends TimedRobot {
     m_colorMatcher.addColorMatch(k_GREEN_TARGET);
     m_colorMatcher.addColorMatch(k_RED_TARGET);
     m_colorMatcher.addColorMatch(k_YELLOW_TARGET);
+
+    limelight.driverSight();
   }
 
   @Override
@@ -147,15 +148,12 @@ public class Robot extends TimedRobot {
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5 && limelight.getTv()) {
       Scheduler.getInstance().add(new TeleopAim());
     }
-    if (oi.rightAxis > 0.5) {
-      Scheduler.getInstance().add(new TeleopSpinUp());
-    }
+
     /*SmartDashboard.putNumber("White Encoder: ", white.readFallingTimestamp());
     SmartDashboard.putNumber("Blue Encoder: ", blue.readFallingTimestamp());
     SmartDashboard.putNumber("Yellow Encoder: ", yellow.readFallingTimestamp());
-    SmartDashboard.putNumber("Green Encoder: ", green.readFallingTimestamp());*/
-
-    /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
+    SmartDashboard.putNumber("Green Encoder: ", green.readFallingTimestamp());
+    SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());
     SmartDashboard.putNumber("Pitch: ", ahrs.getPitch());
@@ -203,22 +201,24 @@ public class Robot extends TimedRobot {
       yellowDetected = true;
       greenDetected = false;
     }*/
-    /*SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
-    if (oi.getButtonState(PortMap.flywheels)) {
-      if (shooterTriggerHeld == false) {
+    
+    SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
+    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > .5) {
+      Scheduler.getInstance().add(new TeleopSpinUp());
+      if (!shooterTriggerHeld) {
         shooterTriggerHeld = true;
         timePressed = System.currentTimeMillis();
       } else if (System.currentTimeMillis() - timePressed > 2000) {
         counter = 0;
       }
-        Scheduler.getInstance().add(new ConveyorOn());
-    } else if (ultrasanicSensor.read() < PortMap.k_ULTRA) {
+      Scheduler.getInstance().add(new ConveyorOn());
+    } /*else if (ultrasanicSensor.read() < PortMap.k_ULTRA) {
       shooterTriggerHeld = false;
       Scheduler.getInstance().add(new ConveyorOnUltra());
       conveyorOn = true;
-    } else if (shooterTriggerHeld == true) {
+    } else if (shooterTriggerHeld) {
       shooterTriggerHeld = false;
-      if (conveyorOn == true) {
+      if (conveyorOn) {
         counter +=1;
         conveyorOn = false;
       }
