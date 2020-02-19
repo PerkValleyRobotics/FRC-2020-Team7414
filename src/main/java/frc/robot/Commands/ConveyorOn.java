@@ -8,11 +8,11 @@ public class ConveyorOn extends Command {
 
     public ConveyorOn() {
         requires(Robot.conveyor);
-        setInterruptible(true);
+        setInterruptible(false);
     }
     
     public boolean isFinished() {
-        return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards);
+        return !Robot.oi.getButtonStateJoystick(PortMap.JOYSTICK_conveyorForwards);
     }
     
     public void execute() {

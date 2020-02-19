@@ -2,20 +2,21 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.XboxController;
+//import edu.wpi.first.wpilibj.XboxController;
 
 import frc.robot.Commands.*;
 
 public class OIHandler {
 	
 	Joystick joystick;
-	JoystickButton flywheelButton;
+	JoystickButton flywheelTrigger;
 	JoystickButton intakeButton;
 	JoystickButton reverseIntakeButton;
 	JoystickButton straightButton;
-	XboxController xboxcontroller;
+	public Joystick xboxcontroller;
 	Button pistonButton;
 	Button rotationControlButton;
 	Button positionControlButton;
@@ -24,10 +25,11 @@ public class OIHandler {
 	Encoder flywheelEncoder;
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
+	double rightAxis;
 
 	public OIHandler() {
 		joystick = new Joystick(PortMap.CONTROLLER_joystick);
-		xboxcontroller = new XboxController(PortMap.CONTROLLER_xboxController);
+		xboxcontroller = new Joystick(PortMap.CONTROLLER_xboxController);
 
 		intakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intake);
 		intakeButton.whenPressed(new IntakeOn());
@@ -42,13 +44,20 @@ public class OIHandler {
 		rotationControlButton.whenPressed(new ColorWheelOn());
 
 		positionControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelColor);
+
+		//flywheelButton = xboxcontroller.getRawAxis(3);
+		//rightAxis = xboxcontroller.getRawAxis(3);
+
+		flywheelTrigger = new JoystickButton(joystick, PortMap.JOYSTICK_shoot);
+		flywheelTrigger.whenPressed(new TeleopSpinUp());
+
 		//TODO: position control command
 
-		conveyorForwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorForwards);
+		conveyorForwardsButton = new JoystickButton(joystick, PortMap.JOYSTICK_conveyorForwards);
 		conveyorForwardsButton.whenPressed(new ConveyorOn());
 
-		conveyorBackwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorBackwards);
-		conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
+		//conveyorBackwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorBackwards);
+		//conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
 		
 		flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
 		flywheelEncoder.reset();

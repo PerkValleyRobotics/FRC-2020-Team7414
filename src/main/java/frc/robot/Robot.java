@@ -147,7 +147,7 @@ public class Robot extends TimedRobot {
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5 && limelight.getTv()) {
       Scheduler.getInstance().add(new TeleopAim());
     }
-    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5) {
+    if (oi.rightAxis > 0.5) {
       Scheduler.getInstance().add(new TeleopSpinUp());
     }
     /*SmartDashboard.putNumber("White Encoder: ", white.readFallingTimestamp());

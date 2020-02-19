@@ -24,6 +24,7 @@ public class ConveyorBackwards extends Command {
     }
 
     public boolean isFinished() {
-        return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards);
+        //return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards);
+        return false;
     }
 }
