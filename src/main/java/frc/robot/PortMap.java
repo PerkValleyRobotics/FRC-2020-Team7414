@@ -57,7 +57,7 @@ public abstract class PortMap {
 
 	//Analog
 	public static int ANALOG_ultrasonic = 3;
-	public static int ANALOG_divdedUltrasanic = 0;
+	public static int ANALOG_dividedUltrasanic = 0;
 
 	//CAN
 	public static int CAN_compressor = 0;
@@ -67,6 +67,6 @@ public abstract class PortMap {
 	public static int PCM_thruster2 = 1;
 
 	//constants
-	public static final double k_ULTRA = 2;
-	public static final double k_CONVEYORTIME = 500;
+	public static final double k_ULTRA = .25;
+	public static final double k_CONVEYORTIME = 0;
 }

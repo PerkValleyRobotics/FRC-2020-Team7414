@@ -20,10 +20,7 @@ import frc.robot.Commands.*;
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
-import frc.robot.Commands.TeleopAim;
-import frc.robot.Commands.TeleopSpinUp;
 import frc.robot.Subsystems.*;
-import frc.robot.Ultrasanic;
 import frc.robot.Vision;
 
 public class Robot extends TimedRobot {
@@ -38,7 +35,6 @@ public class Robot extends TimedRobot {
   public static double startTime;
   public static WheelOfFortune colorWheel;
   public static Conveyor conveyor;
-  public static Ultrasanic ultrasanicSensor;
   public static Compressor compressor;
 
   public static boolean conveyorOn;
@@ -78,7 +74,6 @@ public class Robot extends TimedRobot {
     intake = new Intake();
     limelight = new Vision();
     limelight.lightOff();
-    ultrasanicSensor = new Ultrasanic(PortMap.ANALOG_ultrasonic);
     ahrs = new AHRS();
     conveyor = new Conveyor();
     m_colorSensor = new ColorSensorV3(i2cPort);
@@ -86,7 +81,7 @@ public class Robot extends TimedRobot {
     colorWheel = new WheelOfFortune();
     //compressor = new Compressor(PortMap.CAN_compressor);
     //compressor.setClosedLoopControl(false);
-    ultrasanicDivided = new AnalogInput(PortMap.ANALOG_divdedUltrasanic);
+    ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
@@ -138,13 +133,14 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Blue: ", detectedColor.blue);
     SmartDashboard.putNumber("Confidence: ", match.confidence);
     SmartDashboard.putString("Detected Color: ", colorString);
-    // SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
+    SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
  }
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
+    limelight.driverSight();
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5 && limelight.getTv()) {
       Scheduler.getInstance().add(new TeleopAim());
     }
@@ -202,17 +198,22 @@ public class Robot extends TimedRobot {
       greenDetected = false;
     }*/
     
-    SmartDashboard.putNumber("Distance: ", ultrasanicSensor.read());
-    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > .5) {
+    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > .5){
       Scheduler.getInstance().add(new TeleopSpinUp());
+      Scheduler.getInstance().add(new ConveyorOn());
+    }
+    if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
+
       if (!shooterTriggerHeld) {
         shooterTriggerHeld = true;
         timePressed = System.currentTimeMillis();
       } else if (System.currentTimeMillis() - timePressed > 2000) {
         counter = 0;
       }
-      Scheduler.getInstance().add(new ConveyorOn());
-    } /*else if (ultrasanicSensor.read() < PortMap.k_ULTRA) {
+      if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA) {
+        Scheduler.getInstance().add(new ConveyorOnUltra());
+      }
+    } else if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA) {
       shooterTriggerHeld = false;
       Scheduler.getInstance().add(new ConveyorOnUltra());
       conveyorOn = true;
@@ -223,7 +224,7 @@ public class Robot extends TimedRobot {
         conveyorOn = false;
       }
       Scheduler.getInstance().add(new ConveyorOff());
-    }*/
+    }
     SmartDashboard.putNumber("Counter: ", counter);
   }
 

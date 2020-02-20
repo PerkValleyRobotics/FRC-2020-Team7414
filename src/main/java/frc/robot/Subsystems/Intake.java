@@ -24,11 +24,11 @@ public class Intake extends Subsystem {
     }
 
     public void intakeOn() {
-        intakeWheel.set(-SPEED); //VARY THIS VALUE FOR INTAKE SPEED
+        intakeWheel.set(SPEED); //VARY THIS VALUE FOR INTAKE SPEED
     }
 
     public void intakeReverse() {
-        intakeWheel.set(SPEED);
+        intakeWheel.set(-SPEED);
     }
 
     protected void initDefaultCommand() {
