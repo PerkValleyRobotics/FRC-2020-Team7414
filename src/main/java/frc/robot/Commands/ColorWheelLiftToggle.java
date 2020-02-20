@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
 
-public class SpinnerPistonToggle extends Command {
+public class ColorWheelLiftToggle extends Command {
 
     boolean flag = false;
 
-    public SpinnerPistonToggle() {
+    public ColorWheelLiftToggle() {
         requires(Robot.colorWheel);
     }
 

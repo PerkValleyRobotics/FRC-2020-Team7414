@@ -199,11 +199,10 @@ public class Robot extends TimedRobot {
     }*/
     
     if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > .5){
-      Scheduler.getInstance().add(new TeleopSpinUp());
+      Scheduler.getInstance().add(new ShooterSpinUp());
       Scheduler.getInstance().add(new ConveyorOn());
     }
     if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
-
       if (!shooterTriggerHeld) {
         shooterTriggerHeld = true;
         timePressed = System.currentTimeMillis();

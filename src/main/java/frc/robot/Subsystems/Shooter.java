@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 
 import frc.robot.PortMap;
-import frc.robot.Commands.TeleopSpinStop;
+import frc.robot.Commands.ShooterSpinStop;
 
 public class Shooter extends Subsystem {
 
@@ -33,6 +33,6 @@ public class Shooter extends Subsystem {
     }
 
     protected void initDefaultCommand() {
-        setDefaultCommand(new TeleopSpinStop());
+        setDefaultCommand(new ShooterSpinStop());
     }
 }

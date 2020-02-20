@@ -17,6 +17,9 @@ public abstract class PortMap {
 	public static int PWM_intakeWheel = 1;
 	public static int PWM_conveyorTop = 5;
 	public static int PWM_conveyorBottom = 4;
+	public static int PWM_climberHook = 10;
+	public static int PWM_climberLeft = 12;
+	public static int PWM_climberRight = 13;
 
 	//Joystick Buttons
 	public static int JOYSTICK_flywheels = 4;

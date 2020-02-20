@@ -3,9 +3,9 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class TeleopSpinUp extends Command {
+public class ShooterSpinUp extends Command {
 
-    public TeleopSpinUp() {
+    public ShooterSpinUp() {
         requires(Robot.shooter);
         setInterruptible(false);
     }

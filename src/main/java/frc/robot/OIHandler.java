@@ -11,8 +11,7 @@ import frc.robot.Commands.ColorWheelOn;
 import frc.robot.Commands.ConveyorOn;
 import frc.robot.Commands.IntakeOn;
 import frc.robot.Commands.IntakeReverse;
-import frc.robot.Commands.SpinnerPistonToggle;
-import frc.robot.Commands.TeleopSpinUp;
+import frc.robot.Commands.ColorWheelLiftToggle;
 import frc.robot.Commands.ConveyorBackwards;
 
 public class OIHandler {
@@ -46,16 +45,12 @@ public class OIHandler {
 		reverseIntakeButton.whenPressed(new IntakeReverse());
 
 		pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
-		pistonButton.whenPressed(new SpinnerPistonToggle());
+		pistonButton.whenPressed(new ColorWheelLiftToggle());
 		
 		rotationControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelSpin);
 		rotationControlButton.whenPressed(new ColorWheelOn());
 
 		positionControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelColor);
-
-		//flywheelTrigger = new JoystickButton(joystick, PortMap.JOYSTICK_shoot);
-		//flywheelTrigger.whenPressed(new TeleopSpinUp());
-
 		//TODO: position control command
 
 		conveyorForwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorForwards);
