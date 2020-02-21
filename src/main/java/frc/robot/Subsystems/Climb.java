@@ -17,6 +17,37 @@ public class Climb extends Subsystem {
         liftRight = new PWMVictorSPX(PortMap.PWM_climberRight);
     }
 
+    public void deployHook() {
+
+    }
+
+    public void climbLeft() {
+
+    }
+
+    public void climbRight() {
+
+    }
+
+    public void climbLeftStop() {
+
+    }
+
+    public void climbRightStop() {
+
+    }
+    
+    public void climb() {
+        climbLeft();
+        climbRight();
+    }
+
+    public void stopClimb() {
+        liftLeft.set(0);
+        liftRight.set(0);
+        hookDeploy.set(0);
+    }
+
     protected void initDefaultCommand() {
         
     }

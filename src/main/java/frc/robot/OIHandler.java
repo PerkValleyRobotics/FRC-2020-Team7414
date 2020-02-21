@@ -5,14 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.buttons.Trigger;
-
-import frc.robot.Commands.ColorWheelOn;
-import frc.robot.Commands.ConveyorOn;
-import frc.robot.Commands.IntakeOn;
-import frc.robot.Commands.IntakeReverse;
-import frc.robot.Commands.ColorWheelLiftToggle;
-import frc.robot.Commands.ConveyorBackwards;
+import frc.robot.Commands.*;
 
 public class OIHandler {
 	
@@ -24,6 +17,8 @@ public class OIHandler {
 	JoystickButton reverseIntakeButton;
 	JoystickButton straightButton;
 	double flywheelButton;
+	Button climbLeftButton;
+	Button climbRightButton;
 	Button pistonButton;
 	Button rotationControlButton;
 	Button positionControlButton;
@@ -58,6 +53,10 @@ public class OIHandler {
 
 		conveyorBackwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorBackwards);
 		conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
+
+		//climbLeftButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbLeft);
+		//climbLeftButton.whenPressed(new ClimberLiftOneSide());
+		
 		
 		flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
 		flywheelEncoder.reset();
@@ -90,6 +89,10 @@ public class OIHandler {
 
 	public boolean getButtonStateXbox(int button) {
 		return xboxcontroller.getRawButton(button);
+	}
+
+	public int getPOVXbox() {
+		return xboxcontroller.getPOV();
 	}
 
 	public double getRPM() {

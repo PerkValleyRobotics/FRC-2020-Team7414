@@ -20,6 +20,6 @@ public class ConveyorOnShoot extends Command {
     }
 
     public void end() {
-        
+        Robot.shooter.stopSpin();
     }
 }

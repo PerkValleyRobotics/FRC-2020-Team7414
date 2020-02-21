@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import frc.robot.Commands.*;
 
+import frc.robot.Commands.*;
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
   public static WheelOfFortune colorWheel;
   public static Conveyor conveyor;
   public static Compressor compressor;
+  public static Climb climber;
 
   public static boolean conveyorOn;
   public static int counter = 0;
@@ -79,6 +80,7 @@ public class Robot extends TimedRobot {
     m_colorSensor = new ColorSensorV3(i2cPort);
     m_colorMatcher = new ColorMatch();
     colorWheel = new WheelOfFortune();
+    climber = new Climb();
     //compressor = new Compressor(PortMap.CAN_compressor);
     //compressor.setClosedLoopControl(false);
     ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
@@ -103,6 +105,8 @@ public class Robot extends TimedRobot {
     m_colorMatcher.addColorMatch(k_YELLOW_TARGET);
 
     limelight.driverSight();
+
+    SmartDashboard.putString("Intake", "Joystick Trigger");
   }
 
   @Override
@@ -140,8 +144,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
-    limelight.driverSight();
-    if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5 && limelight.getTv()) {
+    //limelight.driverSight();
+    if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
       Scheduler.getInstance().add(new TeleopAim());
     }
 
@@ -200,8 +204,9 @@ public class Robot extends TimedRobot {
     
     if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > .5){
       Scheduler.getInstance().add(new ShooterSpinUp());
-      Scheduler.getInstance().add(new ConveyorOn());
+      Scheduler.getInstance().add(new ConveyorOnShoot());
     }
+
     if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
       if (!shooterTriggerHeld) {
         shooterTriggerHeld = true;
@@ -209,10 +214,10 @@ public class Robot extends TimedRobot {
       } else if (System.currentTimeMillis() - timePressed > 2000) {
         counter = 0;
       }
-      if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA) {
+      /*if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA) {
         Scheduler.getInstance().add(new ConveyorOnUltra());
-      }
-    } else if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA) {
+      }*
+    } else if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA && !oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards)) {
       shooterTriggerHeld = false;
       Scheduler.getInstance().add(new ConveyorOnUltra());
       conveyorOn = true;
@@ -224,7 +229,9 @@ public class Robot extends TimedRobot {
       }
       Scheduler.getInstance().add(new ConveyorOff());
     }
-    SmartDashboard.putNumber("Counter: ", counter);
+    SmartDashboard.putNumber("Counter: ", counter);*/
+
+  }
   }
 
   @Override

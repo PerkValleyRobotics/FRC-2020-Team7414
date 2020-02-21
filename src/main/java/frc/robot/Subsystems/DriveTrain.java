@@ -133,9 +133,9 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void aimButWithPID(double error) {
-		double kP = 0.18;
-		double kI = 0.8;
-		double kD = 0.01;
+		double kP = 0.09;
+		double kI = 0.4;
+		double kD = 0.005;
 		double diffErrorAim = error - prevErrorAim;
 		sumErrorAim = error*.02;
 

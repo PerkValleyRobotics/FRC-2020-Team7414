@@ -12,11 +12,11 @@ public abstract class PortMap {
 	public static int PWM_right1 = 7;
 	public static int PWM_right2 = 9;
 	public static int PWM_leftWheel = 3;
-	public static int PWM_rightWheel = 2;
+	public static int PWM_rightWheel = 5;
 	public static int PWM_colorWheel = 11;
 	public static int PWM_intakeWheel = 1;
-	public static int PWM_conveyorTop = 5;
-	public static int PWM_conveyorBottom = 4;
+	public static int PWM_conveyorTop = 6;
+	public static int PWM_conveyorBottom = 2;
 	public static int PWM_climberHook = 10;
 	public static int PWM_climberLeft = 12;
 	public static int PWM_climberRight = 13;
@@ -43,7 +43,11 @@ public abstract class PortMap {
 	public static int XBOX_conveyorForwards = 6;
 	public static int XBOX_conveyorBackwards = 5;
 	public static int XBOX_shoot = 4;
-	
+	public static int XBOX_climbLeft = 5;
+	public static int XBOX_climbRight = 6;
+	public static int XBOX_POV_conveyorForwards = 90;
+	public static int XBOX_POV_conveyorBackwards = 270;
+
 	//DIO
 	public static int DIO_flywheelEncoder1 = 0;
 	public static int DIO_flywheelEncoder2 = 1;

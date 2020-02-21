@@ -10,7 +10,8 @@ public class TeleopAim extends Command {
         requires(Robot.Gavin);
         setInterruptible(false);
         Robot.Gavin.resetError();
-        Robot.limelight.setPipeline(PortMap.LIMELIGHT_targetingPipeline);
+        //Robot.limelight.setPipeline(PortMap.LIMELIGHT_targetingPipeline);
+        Robot.limelight.targetingSight();
         Robot.limelight.lightOn();
     }
 
@@ -24,6 +25,7 @@ public class TeleopAim extends Command {
 
     public void end() {
         Robot.limelight.lightOff();
-        Robot.limelight.setPipeline(PortMap.LIMELIGHT_defaultPipeline);
+        Robot.limelight.driverSight();
+        //Robot.limelight.setPipeline(PortMap.LIMELIGHT_defaultPipeline);
     }
 }

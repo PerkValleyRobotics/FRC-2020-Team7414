@@ -5,13 +5,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 
 import frc.robot.PortMap;
+import frc.robot.Robot;
 import frc.robot.Commands.ShooterSpinStop;
 
 public class Shooter extends Subsystem {
 
     PWMTalonSRX leftWheel;
     PWMTalonSRX rightWheel;
-    
+    double speed;
+    double angle;
+
     SpeedControllerGroup bothWheel;
 
     public Shooter() {
@@ -21,8 +24,14 @@ public class Shooter extends Subsystem {
     }
     
     public void spin() {
-        leftWheel.set(0.65); 
-        rightWheel.set(0.65);
+        //Regression model code
+        angle = Robot.limelight.getTy();
+        speed = (angle + 0) / 30; // plug in actual values, 0 should be required to get lowest value to positive, and then regress.
+        if (speed < .5) {
+            speed = .5;
+        }
+        leftWheel.set(-speed); 
+        rightWheel.set(speed);
         //bothWheel.set(.35);
     }
 

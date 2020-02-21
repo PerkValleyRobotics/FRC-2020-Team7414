@@ -10,7 +10,7 @@ public class Conveyor extends Subsystem {
 
     PWMVictorSPX conveyorTop;
     PWMVictorSPX conveyorBottom;
-    public static final double SPEED = -0.3; //VARY THIS VALUE FOR CONVEYOR
+    public static final double SPEED = -0.35; //VARY THIS VALUE FOR CONVEYOR
 
     public Conveyor() {
         conveyorTop = new PWMVictorSPX(PortMap.PWM_conveyorTop);
@@ -18,8 +18,8 @@ public class Conveyor extends Subsystem {
     }
 
     public void conveyorForwards() {
-        conveyorTop.set(-SPEED);
-        conveyorBottom.set(-SPEED);
+        conveyorTop.set(SPEED);
+        conveyorBottom.set(SPEED);
     }
 
     public void conveyorOff() {
@@ -28,8 +28,8 @@ public class Conveyor extends Subsystem {
     }
 
     public void conveyorBackwards() {
-        conveyorTop.set(SPEED);
-        conveyorBottom.set(SPEED);
+        conveyorTop.set(-SPEED);
+        conveyorBottom.set(-SPEED);
     }
     
     public void initDefaultCommand() {
