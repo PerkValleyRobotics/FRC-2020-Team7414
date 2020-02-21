@@ -12,11 +12,13 @@ public class OIHandler {
 	Joystick joystick;
 	XboxController xboxcontroller;
 
-	JoystickButton flywheelTrigger;
+	//JoystickButton flywheelTrigger;
 	JoystickButton intakeButton;
 	JoystickButton reverseIntakeButton;
 	JoystickButton straightButton;
-	double flywheelButton;
+	JoystickButton turnLeftButton;
+	JoystickButton turnRightButton;
+	JoystickButton intakePistonButton;
 	Button climbLeftButton;
 	Button climbRightButton;
 	Button pistonButton;
@@ -33,31 +35,38 @@ public class OIHandler {
 		joystick = new Joystick(PortMap.CONTROLLER_joystick);
 		xboxcontroller = new XboxController(PortMap.CONTROLLER_xboxController);
 
+		//drivetrain
+		turnLeftButton = new JoystickButton(joystick, PortMap.JOYSTICK_turnLeft);
+		turnLeftButton.whenPressed(new TeleopTurnLeft());
+		turnRightButton = new JoystickButton(joystick, PortMap.JOYSTICK_turnRight);
+		turnRightButton.whenPressed(new TeleopTurnRight());
+
+		//intake
 		intakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intake);
 		intakeButton.whenPressed(new IntakeOn());
-
 		reverseIntakeButton = new JoystickButton(joystick, PortMap.JOYSTICK_intakeReverse);
 		reverseIntakeButton.whenPressed(new IntakeReverse());
+		intakePistonButton = new JoystickButton(joystick, PortMap.JOYSTICK_intakePiston);
+		intakePistonButton.whenPressed(new IntakePistonToggle());
 
-		pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
-		pistonButton.whenPressed(new ColorWheelLiftToggle());
-		
-		rotationControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelSpin);
-		rotationControlButton.whenPressed(new ColorWheelOn());
-
-		positionControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelColor);
-		//TODO: position control command
-
+		//conveyor
 		conveyorForwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorForwards);
 		conveyorForwardsButton.whenPressed(new ConveyorOn());
-
 		conveyorBackwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorBackwards);
 		conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
 
+		//climb
 		//climbLeftButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbLeft);
 		//climbLeftButton.whenPressed(new ClimberLiftOneSide());
 		
-		
+		//colorwheel
+		pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
+		pistonButton.whenPressed(new ColorWheelLiftToggle());
+		rotationControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelSpin);
+		rotationControlButton.whenPressed(new ColorWheelOn());
+		positionControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelColor);
+		//TODO: position control command
+
 		flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
 		flywheelEncoder.reset();
 		leftDriveEncoder = new Encoder(PortMap.DIO_leftDriveEncoder1, PortMap.DIO_leftDriveEncoder2);

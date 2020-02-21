@@ -22,17 +22,21 @@ public abstract class PortMap {
 	public static int PWM_climberRight = 13;
 
 	//Joystick Buttons
-	public static int JOYSTICK_flywheels = 4;
-	public static int JOYSTICK_AdjBut = 8;
+	public static int JOYSTICK_straightForwards = 8;
+	public static int JOYSTICK_straightBackwards = 3;
 	public static int JOYSTICK_intake = 1;
-	public static int JOYSTICK_slowMode = 12;
-	public static int JOYSTICK_backwards = 3;
-	public static int JOYSTICK_aimBot = 6;
-	public static int JOYSTICK_flipDirection = 5;
-	public static int JOYSTICK_colorWheelActivate = 7;
 	public static int JOYSTICK_intakeReverse = 2;
-	public static int JOYSTICK_shoot = 10;
-	public static int JOYSTICK_conveyorForwards = 9;
+	public static int JOYSTICK_slowMode = 12;
+	public static int JOYSTICK_turnLeft = 9;
+	public static int JOYSTICK_turnRight = 10;
+	public static int JOYSTICK_intakePiston = 5;
+	//public static int JOYSTICK_aimBot = 6;
+	//public static int JOYSTICK_flipDirection = 5;
+	//public static int JOYSTICK_colorWheelActivate = 7;
+	//public static int JOYSTICK_shoot = 10;
+	//public static int JOYSTICK_conveyorForwards = 9;
+	//public static int JOYSTICK_flywheels = 4;
+	
 
 	//Xbox Controller Buttons
 	public static int XBOX_leftTriggerAxis = 2;
@@ -72,6 +76,8 @@ public abstract class PortMap {
 	//PCM
 	public static int PCM_thruster1 = 0;
 	public static int PCM_thruster2 = 1;
+	public static int PCM_intake1 = 2;
+	public static int PCM_intake2 = 3;
 
 	//constants
 	public static final double k_ULTRA = .25;

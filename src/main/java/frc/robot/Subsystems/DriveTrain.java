@@ -160,12 +160,21 @@ public class DriveTrain extends Subsystem {
 	public double getSumError() {
 		return sumErrorAim;
 	}
-	public void setAdjust() {	
+
+	public void straightDrive() {	
 		standardDrive(0.0, 0.5);
 	}
 
-	public void setBackwards() {
+	public void straightBackwards() {
 		standardDrive(0.0, -0.5);
+	}
+
+	public void turnLeft() {
+		standardTankDrive(-0.3, 0.3);
+	}
+	//TODO: check whether these directions are correct
+	public void turnRight() {
+		standardTankDrive(0.3, -0.3);
 	}
 
 	public void slowDrive(double x, double y) {
@@ -177,6 +186,7 @@ public class DriveTrain extends Subsystem {
 	public void flipDirection(double x, double y) {
 		x *= -1.0;
 		y *= -1.0;
+		standardDrive(x, y);
 	}
 
 	public void standardDrive(double x, double y) {

@@ -16,6 +16,6 @@ public class TeleopStraightDrive extends Command {
     }
 
     protected boolean isFinished() {
-        return Robot.oi.getButtonStateJoystick(PortMap.JOYSTICK_AdjBut);
+        return Robot.oi.getButtonStateJoystick(PortMap.JOYSTICK_straightForwards);
     }
 }
