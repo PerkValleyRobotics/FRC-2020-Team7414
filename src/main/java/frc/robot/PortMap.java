@@ -7,19 +7,19 @@ public abstract class PortMap {
 	public static int CONTROLLER_xboxController = 1;
 	
 	//PWM
-	public static int PWM_left1 = 8;
-	public static int PWM_left2 = 0;
-	public static int PWM_right1 = 7;
-	public static int PWM_right2 = 9;
-	public static int PWM_leftWheel = 3;
-	public static int PWM_rightWheel = 5;
+	public static int PWM_left1 = 1;
+	public static int PWM_left2 = 3;
+	public static int PWM_right1 = 6;
+	public static int PWM_right2 = 7;
+	public static int PWM_leftWheel = 8;
+	public static int PWM_rightWheel = 6;
 	public static int PWM_colorWheel = 11;
-	public static int PWM_intakeWheel = 1;
-	public static int PWM_conveyorTop = 6;
-	public static int PWM_conveyorBottom = 2;
-	public static int PWM_climberHook = 10;
-	public static int PWM_climberLeft = 12;
-	public static int PWM_climberRight = 13;
+	public static int PWM_intakeWheel = 4;
+	public static int PWM_conveyorTop = 5;
+	public static int PWM_conveyorBottom = 8;
+	public static int PWM_climberHook = 9;
+	public static int PWM_climberLeft = 2;
+	public static int PWM_climberRight = 0;
 
 	//Joystick Buttons
 	public static int JOYSTICK_straightForwards = 8;
@@ -41,16 +41,18 @@ public abstract class PortMap {
 	//Xbox Controller Buttons
 	public static int XBOX_leftTriggerAxis = 2;
 	public static int XBOX_rightTriggerAxis = 3;
+	public static int XBOX_leftStickYAxis = 1;
 	public static int XBOX_colorWheelPiston = 1;
 	public static int XBOX_colorWheelColor = 2;
 	public static int XBOX_colorWheelSpin = 7;
 	public static int XBOX_conveyorForwards = 6;
 	public static int XBOX_conveyorBackwards = 5;
 	public static int XBOX_shoot = 4;
-	public static int XBOX_climbLeft = 5;
-	public static int XBOX_climbRight = 6;
-	public static int XBOX_POV_conveyorForwards = 90;
-	public static int XBOX_POV_conveyorBackwards = 270;
+	public static int XBOX_climbLeft = 7;
+	public static int XBOX_climbRight = 8;
+	public static int XBOX_POV_climbBoth = 0;
+	//public static int XBOX_POV_conveyorForwards = 90;
+	//public static int XBOX_POV_conveyorBackwards = 270;
 
 	//DIO
 	public static int DIO_flywheelEncoder1 = 0;
@@ -71,13 +73,17 @@ public abstract class PortMap {
 	public static int ANALOG_dividedUltrasanic = 0;
 
 	//CAN
-	public static int CAN_compressor = 0;
+	public static int CAN_pcm = 2;
+	public static int CAN_shooterLeft = 0;
+	public static int CAN_shooterRight = 1;
 
 	//PCM
 	public static int PCM_thruster1 = 0;
 	public static int PCM_thruster2 = 1;
-	public static int PCM_intake1 = 2;
-	public static int PCM_intake2 = 3;
+	public static int PCM_intake1 = 4;
+	public static int PCM_intake2 = 5;
+	public static int PCM_climbLock1 = 6;
+	public static int PCM_climbLock2 = 7;
 
 	//constants
 	public static final double k_ULTRA = .25;

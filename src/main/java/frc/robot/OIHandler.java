@@ -19,6 +19,7 @@ public class OIHandler {
 	JoystickButton turnLeftButton;
 	JoystickButton turnRightButton;
 	JoystickButton intakePistonButton;
+	JoystickButton climbPistonButton;
 	Button climbLeftButton;
 	Button climbRightButton;
 	Button pistonButton;
@@ -26,6 +27,7 @@ public class OIHandler {
 	Button positionControlButton;
 	Button conveyorForwardsButton;
 	Button conveyorBackwardsButton;
+	Button hookDeployButton;
 	Encoder flywheelEncoder;
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
@@ -56,8 +58,12 @@ public class OIHandler {
 		conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
 
 		//climb
-		//climbLeftButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbLeft);
-		//climbLeftButton.whenPressed(new ClimberLiftOneSide());
+		climbLeftButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbLeft);
+		climbLeftButton.whenPressed(new ClimberLiftOneSide());
+		climbRightButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbRight);
+		climbRightButton.whenPressed(new ClimberLiftOneSide());
+		climbPistonButton = new JoystickButton(xboxcontroller, 1);
+		climbPistonButton.whenPressed(new ClimbLockToggle());
 		
 		//colorwheel
 		pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
@@ -90,6 +96,10 @@ public class OIHandler {
 
 	public double getTrigger(int trigger) {
 		return xboxcontroller.getRawAxis(trigger);
+	}
+
+	public double getXboxAxis(int axis) {
+		return xboxcontroller.getRawAxis(axis);
 	}
 
 	public boolean getButtonPressedXbox(int button) {

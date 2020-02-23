@@ -19,7 +19,7 @@ public class Conveyor extends Subsystem {
 
     public void conveyorForwards() {
         conveyorTop.set(SPEED);
-        conveyorBottom.set(SPEED);
+        conveyorBottom.set(-SPEED);
     }
 
     public void conveyorOff() {
@@ -29,7 +29,7 @@ public class Conveyor extends Subsystem {
 
     public void conveyorBackwards() {
         conveyorTop.set(-SPEED);
-        conveyorBottom.set(-SPEED);
+        conveyorBottom.set(SPEED);
     }
     
     public void initDefaultCommand() {

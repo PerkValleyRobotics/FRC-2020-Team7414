@@ -22,10 +22,10 @@ public class DriveTrain extends Subsystem {
 
 	boolean squaring = false;
 
-	final double k_FORWARD_DIFFERENCE = 0.015;
-	final double k_BACKWARD_DIFFERENCE = 0.01;
-	final double k_MINIMUM_THRESHOLD = 0.07;
-	final double k_MAXIMUM_THRESHOLD_AIM = 0.5;
+	final double k_FORWARD_DIFFERENCE = 0.023;
+	final double k_BACKWARD_DIFFERENCE = 0.03;
+	final double k_MINIMUM_THRESHOLD = 0.1;
+	final double k_MAXIMUM_THRESHOLD_AIM = 0.3;
 	final double k_ANGLE_THRESHOLD = 0.6;
 
 	double sumErrorAim = 0;
@@ -133,9 +133,9 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void aimButWithPID(double error) {
-		double kP = 0.09;
-		double kI = 0.4;
-		double kD = 0.005;
+		double kP = 0.017;
+		double kI = 0.038;
+		double kD = 0.000;
 		double diffErrorAim = error - prevErrorAim;
 		sumErrorAim = error*.02;
 
@@ -230,10 +230,10 @@ public class DriveTrain extends Subsystem {
 				rightMotorOutput = y - x;
 			}
 		}
-		if (leftMotorOutput > 0) {
-			leftMotorOutput += k_FORWARD_DIFFERENCE;
-		} else if (leftMotorOutput < 0) {
-			leftMotorOutput -= k_BACKWARD_DIFFERENCE;
+		if (rightMotorOutput > 0) {
+			rightMotorOutput += k_FORWARD_DIFFERENCE;
+		} else if (rightMotorOutput < 0) {
+			rightMotorOutput -= k_BACKWARD_DIFFERENCE;
 		} else {
 
 		}
@@ -241,15 +241,15 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void standardTankDrive(double left, double right) {
-		double leftDrive;
-		if (left > 0) {
-			leftDrive = left + k_FORWARD_DIFFERENCE;
-		} else if (left < 0) {
-			leftDrive = left - k_FORWARD_DIFFERENCE;
+		double rightDrive;
+		if (right > 0) {
+			rightDrive = right + k_FORWARD_DIFFERENCE;
+		} else if (right < 0) {
+			rightDrive = right - k_FORWARD_DIFFERENCE;
 		} else {
-			leftDrive = 0;
+			rightDrive = 0;
 		}
-		double rightDrive = (Math.copySign(1, right)) * (Math.abs(right) - k_BACKWARD_DIFFERENCE);
+		double leftDrive = (Math.copySign(1, left)) * (Math.abs(left) - k_BACKWARD_DIFFERENCE);
 		diffDrive.tankDrive(leftDrive, rightDrive, false);
 	}
 

@@ -81,8 +81,8 @@ public class Robot extends TimedRobot {
     m_colorMatcher = new ColorMatch();
     colorWheel = new WheelOfFortune();
     climber = new Climb();
-    //compressor = new Compressor(PortMap.CAN_compressor);
-    //compressor.setClosedLoopControl(false);
+    compressor = new Compressor(PortMap.CAN_pcm);
+    compressor.setClosedLoopControl(true);
     ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
@@ -202,9 +202,13 @@ public class Robot extends TimedRobot {
       greenDetected = false;
     }*/
     
-    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > .5){
+    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5){
       Scheduler.getInstance().add(new ShooterSpinUp());
       Scheduler.getInstance().add(new ConveyorOnShoot());
+    }
+
+    if (oi.getXboxAxis(PortMap.XBOX_leftStickYAxis) < -0.5) {
+      Scheduler.getInstance().add(new ClimberLift());
     }
 
     if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
