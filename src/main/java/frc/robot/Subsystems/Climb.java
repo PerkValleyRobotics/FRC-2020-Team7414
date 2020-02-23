@@ -4,20 +4,21 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Spark;
 
 import frc.robot.PortMap;
 import frc.robot.StateTrackers.ClimbPistonState;
 
 public class Climb extends Subsystem {
 
-    PWMVictorSPX hookDeploy;
+    Spark hookDeploy;
     PWMVictorSPX liftLeft;
     PWMVictorSPX liftRight;
     DoubleSolenoid climbLock;
     public ClimbPistonState pistonState;
 
     public Climb() {
-        hookDeploy = new PWMVictorSPX(PortMap.PWM_climberHook);
+        hookDeploy = new Spark(PortMap.PWM_climberHook);
         liftLeft = new PWMVictorSPX(PortMap.PWM_climberLeft);
         liftRight = new PWMVictorSPX(PortMap.PWM_climberRight);
         climbLock = new DoubleSolenoid(PortMap.PCM_climbLock1, PortMap.PCM_climbLock2);
