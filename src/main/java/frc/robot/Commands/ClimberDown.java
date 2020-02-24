@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.PortMap;
 import frc.robot.Robot;
 
-public class ClimberLift extends Command {
+public class ClimberDown extends Command {
 
-    public ClimberLift() {
+    public ClimberDown() {
         requires(Robot.climber);
         setInterruptible(false);
     }
 
     public void execute() {
-        Robot.climber.climb();
+        Robot.climber.reverseClimb();
     }
     
     public void end() {
@@ -20,6 +20,6 @@ public class ClimberLift extends Command {
     }
 
     protected boolean isFinished() {
-        return !Robot.oi.getButtonStateXbox(PortMap.XBOX_climbBoth);
+        return !Robot.oi.getButtonStateXbox(PortMap.XBOX_climbDown);
     }
 }

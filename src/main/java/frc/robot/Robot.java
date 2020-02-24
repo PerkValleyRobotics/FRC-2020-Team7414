@@ -6,6 +6,11 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.Port;
+import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
@@ -20,11 +25,14 @@ import frc.robot.Commands.*;
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
+import frc.robot.Commands.Autonomous.DriveAimGroup;
+import frc.robot.StateTrackers.StartingState;
 import frc.robot.Subsystems.*;
 import frc.robot.Vision;
 
 public class Robot extends TimedRobot {
 
+  public static Rev2mDistanceSensor distanceSensor;
   public static AHRS ahrs;
   public static OIHandler oi;
   public static DriveTrain Gavin;
@@ -48,25 +56,29 @@ public class Robot extends TimedRobot {
   public static SendableChooser<Command> autoChooser;
   public static SendableChooser<String> positionChooser;
 
-  private final I2C.Port i2cPort = I2C.Port.kOnboard;
-  private static ColorSensorV3 m_colorSensor;
-  private static ColorMatch m_colorMatcher;
-  private final Color k_BLUE_TARGET = ColorMatch.makeColor(0.143, 0.427, 0.429);
-  private final Color k_GREEN_TARGET = ColorMatch.makeColor(0.197, 0.561, 0.240);
-  private final Color k_RED_TARGET = ColorMatch.makeColor(0.561, 0.232, 0.114);
-  private final Color k_YELLOW_TARGET = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  public static I2C.Port indexerPort = I2C.Port.kOnboard;
+
+  //private final I2C.Port i2cPort = I2C.Port.kOnboard;
+  //private static ColorSensorV3 m_colorSensor;
+  //private static ColorMatch m_colorMatcher;
+  //private final Color k_BLUE_TARGET = ColorMatch.makeColor(0.143, 0.427, 0.429);
+  //private final Color k_GREEN_TARGET = ColorMatch.makeColor(0.197, 0.561, 0.240);
+  //private final Color k_RED_TARGET = ColorMatch.makeColor(0.561, 0.232, 0.114);
+  //private final Color k_YELLOW_TARGET = ColorMatch.makeColor(0.361, 0.524, 0.113);
   public static boolean redDetected = false;
   public static boolean blueDetected = false;
   public static boolean greenDetected = false;
   public static boolean yellowDetected = false;
   public static double colorDetected = 0.0;
 
-  public static DigitalInput white;
-  public static DigitalInput blue;
-  public static DigitalInput yellow;
-  public static DigitalInput green;
+  //public static DigitalInput white;
+  //public static DigitalInput blue;
+  //public static DigitalInput yellow;
+  //public static DigitalInput green;
 
-  public static AnalogInput ultrasanicDivided;
+  public static String startingState;
+
+  //public static AnalogInput ultrasanicDivided;
 
   @Override
   public void robotInit() {
@@ -77,19 +89,23 @@ public class Robot extends TimedRobot {
     limelight.lightOff();
     ahrs = new AHRS();
     conveyor = new Conveyor();
-    m_colorSensor = new ColorSensorV3(i2cPort);
-    m_colorMatcher = new ColorMatch();
+    //m_colorSensor = new ColorSensorV3(i2cPort);
+    //m_colorMatcher = new ColorMatch();
     colorWheel = new WheelOfFortune();
     climber = new Climb();
-    compressor = new Compressor(PortMap.CAN_pcm);
+    distanceSensor = new Rev2mDistanceSensor(Port.kOnboard, Unit.kMillimeters, RangeProfile.kHighAccuracy);
+    distanceSensor.setEnabled(true);
+    distanceSensor.setAutomaticMode(true);
+    compressor = new Compressor();
     compressor.setClosedLoopControl(true);
-    ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
+    //ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
     autoChooser = new SendableChooser<Command>();
     autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
     autoChooser.addOption("Drive Off Line", new AutonDriveOffLine());
+    autoChooser.addOption("Drive and Shoot", new DriveAimGroup(startingState));
 
     SmartDashboard.putData("Autonomous", autoChooser);
 
@@ -99,10 +115,10 @@ public class Robot extends TimedRobot {
     positionChooser.addOption("Right", "Right");
     SmartDashboard.putData("Position", positionChooser);
 
-    m_colorMatcher.addColorMatch(k_BLUE_TARGET);
-    m_colorMatcher.addColorMatch(k_GREEN_TARGET);
-    m_colorMatcher.addColorMatch(k_RED_TARGET);
-    m_colorMatcher.addColorMatch(k_YELLOW_TARGET);
+    //m_colorMatcher.addColorMatch(k_BLUE_TARGET);
+    //m_colorMatcher.addColorMatch(k_GREEN_TARGET);
+    //m_colorMatcher.addColorMatch(k_RED_TARGET);
+    //m_colorMatcher.addColorMatch(k_YELLOW_TARGET);
 
     limelight.driverSight();
 
@@ -111,7 +127,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    Color detectedColor = m_colorSensor.getColor();
+    /*Color detectedColor = m_colorSensor.getColor();
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
@@ -137,17 +153,21 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Blue: ", detectedColor.blue);
     SmartDashboard.putNumber("Confidence: ", match.confidence);
     SmartDashboard.putString("Detected Color: ", colorString);
-    SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());
+    SmartDashboard.putNumber("ULTRASANIC :", ultrasanicDivided.getVoltage());*/
  }
 
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
+    //compressor.setClosedLoopControl(true);
     //limelight.driverSight();
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
       Scheduler.getInstance().add(new TeleopAim());
     }
+    SmartDashboard.putBoolean("compressor: ", compressor.enabled());
+    SmartDashboard.putNumber("Left Encoder", oi.getLeftDegrees());
+    SmartDashboard.putNumber("Right Encoder", oi.getRightDegrees());
 
     /*SmartDashboard.putNumber("White Encoder: ", white.readFallingTimestamp());
     SmartDashboard.putNumber("Blue Encoder: ", blue.readFallingTimestamp());
@@ -204,7 +224,7 @@ public class Robot extends TimedRobot {
     
     if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5){
       Scheduler.getInstance().add(new ShooterSpinUp());
-      Scheduler.getInstance().add(new ConveyorOnShoot());
+      //Scheduler.getInstance().add(new ConveyorOnShoot());
     }
 
     if (oi.getXboxAxis(PortMap.XBOX_leftStickYAxis) < -0.5) {
@@ -246,12 +266,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    if (timerFlag == false) {
-      startTime = System.currentTimeMillis();
-      timerFlag = true;
-    }
-    limelight.updateLimelight();
-    Scheduler.getInstance().run();
+    //if (timerFlag == false) {
+    //  startTime = System.currentTimeMillis();
+    //  timerFlag = true;
+    //}
+    SmartDashboard.putNumber("Left Encoder", oi.getLeftDegrees());
+    SmartDashboard.putNumber("Right Encoder", oi.getRightDegrees());
+    compressor.setClosedLoopControl(true);
+    //limelight.updateLimelight();
+    //Scheduler.getInstance().run();
     /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());

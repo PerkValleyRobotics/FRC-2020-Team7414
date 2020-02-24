@@ -19,7 +19,8 @@ public class Intake extends Subsystem {
     public Intake() {
         intakeWheel = new PWMVictorSPX(PortMap.PWM_intakeWheel);
         clawDeploy = new DoubleSolenoid(PortMap.PCM_intake1, PortMap.PCM_intake2);
-        positionState = IntakePositionState.UP;
+        positionState = IntakePositionState.DOWN;
+        clawDeploy.set(Value.kForward);
     }
 
     public void intakeOff() {

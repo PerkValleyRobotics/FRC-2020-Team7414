@@ -11,25 +11,27 @@ public abstract class PortMap {
 	public static int PWM_left2 = 3;
 	public static int PWM_right1 = 6;
 	public static int PWM_right2 = 7;
-	public static int PWM_leftWheel = 8;
-	public static int PWM_rightWheel = 6;
+	public static int PWM_leftWheel = 15;
+	public static int PWM_rightWheel = 14;
 	public static int PWM_colorWheel = 11;
 	public static int PWM_intakeWheel = 4;
 	public static int PWM_conveyorTop = 5;
 	public static int PWM_conveyorBottom = 8;
 	public static int PWM_climberHook = 9;
-	public static int PWM_climberLeft = 2;
-	public static int PWM_climberRight = 0;
+	public static int PWM_climberLeft = 0;
+	public static int PWM_climberRight = 2;
 
 	//Joystick Buttons
 	public static int JOYSTICK_straightForwards = 8;
 	public static int JOYSTICK_straightBackwards = 3;
 	public static int JOYSTICK_intake = 1;
 	public static int JOYSTICK_intakeReverse = 2;
-	public static int JOYSTICK_slowMode = 12;
+	public static int JOYSTICK_slowMode = 7;
 	public static int JOYSTICK_turnLeft = 9;
 	public static int JOYSTICK_turnRight = 10;
 	public static int JOYSTICK_intakePiston = 5;
+	public static int JOYSTICK_testAutonTurn = 11;
+	public static int JOYSTICK_testAutonStraight = 12;
 	//public static int JOYSTICK_aimBot = 6;
 	//public static int JOYSTICK_flipDirection = 5;
 	//public static int JOYSTICK_colorWheelActivate = 7;
@@ -42,25 +44,28 @@ public abstract class PortMap {
 	public static int XBOX_leftTriggerAxis = 2;
 	public static int XBOX_rightTriggerAxis = 3;
 	public static int XBOX_leftStickYAxis = 1;
-	public static int XBOX_colorWheelPiston = 1;
-	public static int XBOX_colorWheelColor = 2;
-	public static int XBOX_colorWheelSpin = 7;
+	public static int XBOX_colorWheelPiston = 10; //change soon
+	public static int XBOX_colorWheelColor = 13; //change soon
+	public static int XBOX_colorWheelSpin = 12; //change soon
 	public static int XBOX_conveyorForwards = 6;
 	public static int XBOX_conveyorBackwards = 5;
-	public static int XBOX_shoot = 4;
 	public static int XBOX_climbLeft = 7;
 	public static int XBOX_climbRight = 8;
-	public static int XBOX_POV_climbBoth = 0;
+	public static int XBOX_climbPiston = 2;
+	public static int XBOX_POV_climbBoth = 9;
+	public static int XBOX_climbDown = 3;
+	public static int XBOX_climbHook = 4;
+	public static int XBOX_climbBoth = 1;
 	//public static int XBOX_POV_conveyorForwards = 90;
 	//public static int XBOX_POV_conveyorBackwards = 270;
 
 	//DIO
-	public static int DIO_flywheelEncoder1 = 0;
-	public static int DIO_flywheelEncoder2 = 1;
-	public static int DIO_leftDriveEncoder1 = 2;
-	public static int DIO_leftDriveEncoder2 = 3;
-	public static int DIO_rightDriveEncoder1 = 4;
-	public static int DIO_rightDriveEncoder2 = 5;
+	public static int DIO_flywheelEncoder1 = 9;
+	public static int DIO_flywheelEncoder2 = 8;
+	public static int DIO_leftDriveEncoder1 = 5;
+	public static int DIO_leftDriveEncoder2 = 6;
+	public static int DIO_rightDriveEncoder1 = 1;
+	public static int DIO_rightDriveEncoder2 = 2;
 
 	//Limelight Network Table Values
 	public static int LIMELIGHT_lightOff = 1;

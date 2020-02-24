@@ -172,9 +172,13 @@ public class DriveTrain extends Subsystem {
 	public void turnLeft() {
 		standardTankDrive(-0.3, 0.3);
 	}
-	//TODO: check whether these directions are correct
+
 	public void turnRight() {
 		standardTankDrive(0.3, -0.3);
+	}
+
+	public void stop() {
+		diffDrive.tankDrive(0, 0);
 	}
 
 	public void slowDrive(double x, double y) {

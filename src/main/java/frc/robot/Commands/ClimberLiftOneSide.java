@@ -9,6 +9,7 @@ public class ClimberLiftOneSide extends Command {
 
     public ClimberLiftOneSide() {
         requires(Robot.climber);
+        setInterruptible(false);
     }
 
     public void execute() {
@@ -25,6 +26,10 @@ public class ClimberLiftOneSide extends Command {
     }
 
     public boolean isFinished() {
-        return false;
+        return !(Robot.oi.getButtonStateXbox(PortMap.PWM_climberLeft) || Robot.oi.getButtonStateXbox(PortMap.PWM_climberRight));
+    }
+
+    public void end() {
+        Robot.climber.stopClimb();
     }
 }

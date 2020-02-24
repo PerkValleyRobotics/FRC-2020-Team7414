@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Commands.*;
+import frc.robot.Commands.Autonomous.*;
 
 public class OIHandler {
 	
@@ -20,6 +21,11 @@ public class OIHandler {
 	JoystickButton turnRightButton;
 	JoystickButton intakePistonButton;
 	JoystickButton climbPistonButton;
+	JoystickButton climbHookButton;
+	JoystickButton climbBothButton;
+	JoystickButton testAutonTurn;
+	JoystickButton testAutonStraight;
+	JoystickButton climbDown;
 	Button climbLeftButton;
 	Button climbRightButton;
 	Button pistonButton;
@@ -29,8 +35,10 @@ public class OIHandler {
 	Button conveyorBackwardsButton;
 	Button hookDeployButton;
 	Encoder flywheelEncoder;
+
 	Encoder leftDriveEncoder;
 	Encoder rightDriveEncoder;
+	
 	double rightAxis;
 
 	public OIHandler() {
@@ -62,23 +70,36 @@ public class OIHandler {
 		climbLeftButton.whenPressed(new ClimberLiftOneSide());
 		climbRightButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbRight);
 		climbRightButton.whenPressed(new ClimberLiftOneSide());
-		climbPistonButton = new JoystickButton(xboxcontroller, 1);
+		climbPistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbPiston);
 		climbPistonButton.whenPressed(new ClimbLockToggle());
+		climbHookButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbHook);
+		climbHookButton.whenPressed(new ClimberHookDeploy());
+		climbBothButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbBoth);
+		climbBothButton.whenPressed(new ClimberLift());
+		climbDown = new JoystickButton(xboxcontroller, PortMap.XBOX_climbDown);
+		climbDown.whenPressed(new ClimberDown());
+		
 		
 		//colorwheel
-		pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
-		pistonButton.whenPressed(new ColorWheelLiftToggle());
-		rotationControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelSpin);
-		rotationControlButton.whenPressed(new ColorWheelOn());
-		positionControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelColor);
+		//pistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelPiston);
+		//pistonButton.whenPressed(new ColorWheelLiftToggle());
+		//rotationControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelSpin);
+		//rotationControlButton.whenPressed(new ColorWheelOn());
+		//positionControlButton = new JoystickButton(xboxcontroller, PortMap.XBOX_colorWheelColor);
 		//TODO: position control command
 
-		flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
-		flywheelEncoder.reset();
+		//flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
+		//flywheelEncoder.reset();
 		leftDriveEncoder = new Encoder(PortMap.DIO_leftDriveEncoder1, PortMap.DIO_leftDriveEncoder2);
 		leftDriveEncoder.reset();
 		rightDriveEncoder = new Encoder(PortMap.DIO_rightDriveEncoder1, PortMap.DIO_rightDriveEncoder2);
 		rightDriveEncoder.reset();
+
+		//auton test
+		//testAutonTurn = new JoystickButton(joystick, PortMap.JOYSTICK_testAutonTurn);
+		//testAutonTurn.whenPressed(new AutonTurn(100));
+		//testAutonStraight = new JoystickButton(joystick, PortMap.JOYSTICK_testAutonStraight);
+		//testAutonStraight.whenPressed(new AutonDriveStraight(100));
 	}
 
 

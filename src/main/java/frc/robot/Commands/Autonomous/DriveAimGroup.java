@@ -3,21 +3,21 @@ package frc.robot.Commands.Autonomous;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 import frc.robot.Commands.Autonomous.AutonDriveStraight;
-import frc.robot.StateTrackers.StartingState;
 import frc.robot.AutonConstants;
 
 public class DriveAimGroup extends CommandGroup {
 
-    public DriveAimGroup(StartingState state) {
-        if (state == StartingState.CENTER) {
+    public DriveAimGroup(String state) {
+        /*if (state.equalsIgnoreCase("Left")) {
             addSequential(new AutonDriveStraight(AutonConstants.driveCenter));
-            addSequential(new AutonAim());
-        } else if (state == StartingState.LEFT) {
+            addSequential(new AutonTurn(200)); //spin 180ish degrees
+        } else if (state.equalsIgnoreCase("Right")) {
             addSequential(new AutonDriveStraight(AutonConstants.driveleft));
-            addSequential(new AutonAim());
-        } else if (state == StartingState.RIGHT) {
+            addSequential(new AutonTurn(170)); //spin 150ish degrees
+        } else if (state.equalsIgnoreCase("Center")) {
             addSequential(new AutonDriveStraight(AutonConstants.driveRight));
-            addSequential(new AutonAim());
+            addSequential(new AutonTurn(140)); //spin 120ish degrees
         }
+        addSequential(new AutonAim());*/
     }
 }

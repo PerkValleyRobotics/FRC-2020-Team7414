@@ -11,18 +11,23 @@ public class AutonDriveOffLine extends Command {
     double length;
 
     public AutonDriveOffLine() {
-        requires(Robot.Gavin);
+        /*requires(Robot.Gavin);
         leftStart = Robot.oi.getLeftDegrees();
         rightStart = Robot.oi.getRightDegrees();
-        length = 1000; //TODO: figure out the actual length
+        length = 1000; //TODO: figure out the actual length*/
     }
     
     public void execute() {
-        Robot.Gavin.standardDrive(0, 0.5);
+        //Robot.Gavin.standardDrive(0, 0.5);
     }
 
-    //TODO: figure out a better way to track distance than relying on both sides to hit a certian distance
+    //TODO: figure out a better way to track distance than relying on both sides to hit a certain distance
     public boolean isFinished() {
-        return (Robot.oi.getLeftDegrees()>leftStart+length && Robot.oi.getRightDegrees()>rightStart+length);
+        //return (Robot.oi.getLeftDegrees()>leftStart+length && Robot.oi.getRightDegrees()>rightStart+length);
+        return false;
+    }
+
+    public void end() {
+        Robot.Gavin.stop();
     }
 }

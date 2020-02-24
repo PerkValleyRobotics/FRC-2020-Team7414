@@ -24,13 +24,13 @@ public class ConveyorOnUltra extends Command {
     
     public void execute() {
         Robot.conveyor.conveyorForwards();
-        if (Robot.ultrasanicDivided.getVoltage() > PortMap.k_ULTRA && !flag) {
+        /*if (Robot.ultrasanicDivided.getVoltage() > PortMap.k_ULTRA && !flag) {
             flag = true;
             flagTime = System.currentTimeMillis();
         }
         if (Robot.ultrasanicDivided.getVoltage() > PortMap.k_ULTRA && (flagTime + PortMap.k_CONVEYORTIME) < System.currentTimeMillis()) {
             finished = true;
-        }
+        }*/
     }
 
     public void interrupted() {
