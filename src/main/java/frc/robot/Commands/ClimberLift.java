@@ -12,7 +12,11 @@ public class ClimberLift extends Command {
     }
 
     public void execute() {
-        Robot.climber.climb();
+        if (Robot.oi.getReverse()) {
+            Robot.climber.reverseClimb();
+        } else {
+            Robot.climber.climb();
+        }
     }
     
     public void end() {

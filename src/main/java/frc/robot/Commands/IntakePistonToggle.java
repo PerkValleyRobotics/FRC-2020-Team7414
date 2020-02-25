@@ -3,7 +3,6 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
-import frc.robot.StateTrackers.IntakePositionState;
 
 public class IntakePistonToggle extends Command {
 
@@ -11,14 +10,11 @@ public class IntakePistonToggle extends Command {
 
     public IntakePistonToggle() {
         requires(Robot.intake);
+        setInterruptible(false);
     }
 
     public void execute() {
-        if (Robot.intake.positionState == IntakePositionState.UP) {
-            Robot.intake.deployClaw();
-        } else {
-            Robot.intake.retractClaw();
-        }
+        Robot.intake.actuateClawPiston();
         flag = true;
     }
 

@@ -14,12 +14,20 @@ public class ClimberLiftOneSide extends Command {
 
     public void execute() {
         if (Robot.oi.getButtonStateXbox(PortMap.XBOX_climbLeft)) {
-            Robot.climber.climbLeft();
+            if (Robot.oi.getReverse()) {
+                Robot.climber.reverseClimbLeft();
+            } else {
+                Robot.climber.climbLeft();
+            }
         } else {
             Robot.climber.climbLeftStop();
         }
         if (Robot.oi.getButtonStateXbox(PortMap.XBOX_climbRight)) {
-            Robot.climber.climbRight();
+            if (Robot.oi.getReverse()) {
+                Robot.climber.reverseClimbRight();
+            } else {
+                Robot.climber.climbRight();
+            }
         } else {
             Robot.climber.climbRightStop();
         }

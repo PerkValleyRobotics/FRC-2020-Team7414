@@ -13,8 +13,9 @@ public class Intake extends Subsystem {
 
     DoubleSolenoid clawDeploy;
     PWMVictorSPX intakeWheel;
-    final double SPEED = -0.25;
     public IntakePositionState positionState;
+
+    final double k_SPEED = -0.25;
 
     public Intake() {
         intakeWheel = new PWMVictorSPX(PortMap.PWM_intakeWheel);
@@ -28,11 +29,19 @@ public class Intake extends Subsystem {
     }
 
     public void intakeOn() {
-        intakeWheel.set(-SPEED); //VARY THIS VALUE FOR INTAKE SPEED
+        intakeWheel.set(-k_SPEED); //VARY THIS VALUE FOR INTAKE SPEED
     }
 
     public void intakeReverse() {
-        intakeWheel.set(SPEED);
+        intakeWheel.set(k_SPEED);
+    }
+
+    public void actuateClawPiston() {
+        if (positionState.equals(IntakePositionState.UP)) {
+            deployClaw();
+        } else {
+            retractClaw();
+        }
     }
 
     public void deployClaw() {

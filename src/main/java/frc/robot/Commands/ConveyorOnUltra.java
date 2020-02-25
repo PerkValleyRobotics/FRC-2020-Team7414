@@ -1,7 +1,6 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.PortMap;
 import frc.robot.Robot;
 
 public class ConveyorOnUltra extends Command {
@@ -13,13 +12,10 @@ public class ConveyorOnUltra extends Command {
     public ConveyorOnUltra() {
         requires(Robot.conveyor);
         setInterruptible(false);
+        setName("Ultrasanic");
         flag = false;
         flagTime = 0;
         finished = false;
-    }
-    
-    public boolean isFinished() {
-        return finished;
     }
     
     public void execute() {
@@ -31,6 +27,10 @@ public class ConveyorOnUltra extends Command {
         if (Robot.ultrasanicDivided.getVoltage() > PortMap.k_ULTRA && (flagTime + PortMap.k_CONVEYORTIME) < System.currentTimeMillis()) {
             finished = true;
         }*/
+    }
+
+    public boolean isFinished() {
+        return Robot.distanceSensor.getRange() > 250;
     }
 
     public void interrupted() {

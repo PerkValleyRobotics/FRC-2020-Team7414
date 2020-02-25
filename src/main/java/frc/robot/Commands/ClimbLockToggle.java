@@ -3,7 +3,6 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import frc.robot.Robot;
-import frc.robot.StateTrackers.ClimbPistonState;
 
 public class ClimbLockToggle extends Command {
 
@@ -15,11 +14,7 @@ public class ClimbLockToggle extends Command {
     }
 
     public void execute() {
-        if (Robot.climber.pistonState == ClimbPistonState.LOCKED) {
-            Robot.climber.ReleasePiston();
-        } else if (Robot.climber.pistonState == ClimbPistonState.UNLOCKED) {
-            Robot.climber.LockPiston();
-        }
+        Robot.climber.actuateLocks();
         flag = true;
     }
 

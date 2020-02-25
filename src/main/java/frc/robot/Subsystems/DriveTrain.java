@@ -51,87 +51,6 @@ public class DriveTrain extends Subsystem {
 		diffDrive.arcadeDrive(0.3, 0.0);
 	}
 	
-	//TODO: what is the fucntional difference supposed to be between this and autonAimbot?
-	public void aimbot(double tx, double ty, boolean inRange, double getRange, double y) {
-		if (inRange == true){
-			if (getRange < 18.0) {
-			turn = tx / 45;
-			move = (degDist - ty) / 5;
-			if (move > .5) {
-				move = .5 * move / Math.abs(move);
-			}
-			if (move < .3) {
-				move = .3 * move / Math.abs(move);
-			}
-			if (Math.abs(turn) < .3) {
-				turn = .3 * turn / Math.abs(turn);
-			}
-			if (Math.abs(tx) < .5) {
-				turn = 0;
-			}
-			if (Math.abs(degDist - ty) < .5) {
-				move = 0;
-			}
-			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
-				diffDrive.arcadeDrive(move, turn);
-			} else {
-				diffDrive.arcadeDrive(0,0);
-				}
-			} else {
-				turn = tx / 45;
-				if (Math.abs(turn) < .3) {
-					turn = .3 * turn / Math.abs(turn);
-				}
-				if (Math.abs(tx) < .5) {
-					turn = 0;
-				}
-				diffDrive.arcadeDrive(0, turn);
-			}
-		} else {
-			diffDrive.arcadeDrive(0.0, y);
-		}
-	}
-
-	//turn to center on limelight
-	public void autonAimbot(double tx, double ty, boolean inRange, double getRange) {
-		if (inRange == true){
-			if (getRange < 18.0) {
-			turn = tx / 45;
-			move = (degDist - ty) / 5;
-			if (move > .5) {
-				move = .5 * move / Math.abs(move);
-			}
-			if (move < .3) {
-				move = .3 * move / Math.abs(move);
-			}
-			if (Math.abs(turn) < .3) {
-				turn = .3 * turn / Math.abs(turn);
-			}
-			if (Math.abs(tx) < .5) {
-				turn = 0;
-			}
-			if (Math.abs(degDist - ty) < .5) {
-				move = 0;
-			}
-			move = 0; //temporary, might change if needed
-			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
-				standardDrive(turn, move);
-			} else {
-				standardDrive(0,0);
-				}
-			} else {
-				turn = tx / 45;
-				if (Math.abs(turn) < .3) {
-					turn = .3 * turn / Math.abs(turn);
-				}
-				if (Math.abs(tx) < .5) {
-					turn = 0;
-				}
-				standardDrive(turn, 0);
-			}
-		}
-	}
-	
 	public void aimButWithPID(double error) {
 		double kP = 0.017;
 		double kI = 0.038;
@@ -260,4 +179,85 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		setDefaultCommand(new TeleopDrive());
 	}
+
+	//TODO: what is the fucntional difference supposed to be between this and autonAimbot?
+	/*public void aimbot(double tx, double ty, boolean inRange, double getRange, double y) {
+		if (inRange == true){
+			if (getRange < 18.0) {
+			turn = tx / 45;
+			move = (degDist - ty) / 5;
+			if (move > .5) {
+				move = .5 * move / Math.abs(move);
+			}
+			if (move < .3) {
+				move = .3 * move / Math.abs(move);
+			}
+			if (Math.abs(turn) < .3) {
+				turn = .3 * turn / Math.abs(turn);
+			}
+			if (Math.abs(tx) < .5) {
+				turn = 0;
+			}
+			if (Math.abs(degDist - ty) < .5) {
+				move = 0;
+			}
+			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
+				diffDrive.arcadeDrive(move, turn);
+			} else {
+				diffDrive.arcadeDrive(0,0);
+				}
+			} else {
+				turn = tx / 45;
+				if (Math.abs(turn) < .3) {
+					turn = .3 * turn / Math.abs(turn);
+				}
+				if (Math.abs(tx) < .5) {
+					turn = 0;
+				}
+				diffDrive.arcadeDrive(0, turn);
+			}
+		} else {
+			diffDrive.arcadeDrive(0.0, y);
+		}
+	}*/
+
+	//turn to center on limelight
+	/*public void autonAimbot(double tx, double ty, boolean inRange, double getRange) {
+		if (inRange == true){
+			if (getRange < 18.0) {
+			turn = tx / 45;
+			move = (degDist - ty) / 5;
+			if (move > .5) {
+				move = .5 * move / Math.abs(move);
+			}
+			if (move < .3) {
+				move = .3 * move / Math.abs(move);
+			}
+			if (Math.abs(turn) < .3) {
+				turn = .3 * turn / Math.abs(turn);
+			}
+			if (Math.abs(tx) < .5) {
+				turn = 0;
+			}
+			if (Math.abs(degDist - ty) < .5) {
+				move = 0;
+			}
+			move = 0; //temporary, might change if needed
+			if (Math.abs(tx) > .5 || Math.abs(degDist - ty) > .5) {
+				standardDrive(turn, move);
+			} else {
+				standardDrive(0,0);
+				}
+			} else {
+				turn = tx / 45;
+				if (Math.abs(turn) < .3) {
+					turn = .3 * turn / Math.abs(turn);
+				}
+				if (Math.abs(tx) < .5) {
+					turn = 0;
+				}
+				standardDrive(turn, 0);
+			}
+		}
+	}*/
 }

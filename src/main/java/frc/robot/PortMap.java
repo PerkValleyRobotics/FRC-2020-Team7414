@@ -44,18 +44,19 @@ public abstract class PortMap {
 	public static int XBOX_leftTriggerAxis = 2;
 	public static int XBOX_rightTriggerAxis = 3;
 	public static int XBOX_leftStickYAxis = 1;
-	public static int XBOX_colorWheelPiston = 10; //change soon
-	public static int XBOX_colorWheelColor = 13; //change soon
-	public static int XBOX_colorWheelSpin = 12; //change soon
+	public static int XBOX_colorWheelPiston = 11; //unused
+	public static int XBOX_colorWheelColor = 13; //unused
+	public static int XBOX_colorWheelSpin = 12; //unused
 	public static int XBOX_conveyorForwards = 6;
-	public static int XBOX_conveyorBackwards = 5;
-	public static int XBOX_climbLeft = 7;
-	public static int XBOX_climbRight = 8;
+	public static int XBOX_conveyorBackwards = 5; //unused
+	public static int XBOX_climbLeft = 9;
+	public static int XBOX_climbRight = 10;
 	public static int XBOX_climbPiston = 2;
-	public static int XBOX_POV_climbBoth = 9;
-	public static int XBOX_climbDown = 3;
+	public static int XBOX_climbDown = 3; //unused
 	public static int XBOX_climbHook = 4;
 	public static int XBOX_climbBoth = 1;
+	public static int XBOX_reverseDirection = 7;
+	//public static int XBOX_POV_climbBoth = 9;
 	//public static int XBOX_POV_conveyorForwards = 90;
 	//public static int XBOX_POV_conveyorBackwards = 270;
 

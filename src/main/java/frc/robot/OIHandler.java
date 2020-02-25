@@ -13,7 +13,6 @@ public class OIHandler {
 	Joystick joystick;
 	XboxController xboxcontroller;
 
-	//JoystickButton flywheelTrigger;
 	JoystickButton intakeButton;
 	JoystickButton reverseIntakeButton;
 	JoystickButton straightButton;
@@ -62,8 +61,8 @@ public class OIHandler {
 		//conveyor
 		conveyorForwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorForwards);
 		conveyorForwardsButton.whenPressed(new ConveyorOn());
-		conveyorBackwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorBackwards);
-		conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
+		//conveyorBackwardsButton = new JoystickButton(xboxcontroller, PortMap.XBOX_conveyorBackwards);
+		//conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
 
 		//climb
 		climbLeftButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbLeft);
@@ -76,8 +75,8 @@ public class OIHandler {
 		climbHookButton.whenPressed(new ClimberHookDeploy());
 		climbBothButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbBoth);
 		climbBothButton.whenPressed(new ClimberLift());
-		climbDown = new JoystickButton(xboxcontroller, PortMap.XBOX_climbDown);
-		climbDown.whenPressed(new ClimberDown());
+		//climbDown = new JoystickButton(xboxcontroller, PortMap.XBOX_climbDown);
+		//climbDown.whenPressed(new ClimberDown());
 		
 		
 		//colorwheel
@@ -101,7 +100,6 @@ public class OIHandler {
 		//testAutonStraight = new JoystickButton(joystick, PortMap.JOYSTICK_testAutonStraight);
 		//testAutonStraight.whenPressed(new AutonDriveStraight(100));
 	}
-
 
 	public double getJoystickX() {
 		return joystick.getX();
@@ -135,10 +133,14 @@ public class OIHandler {
 		return xboxcontroller.getPOV();
 	}
 
+	public boolean getReverse() {
+		return xboxcontroller.getRawButton(PortMap.XBOX_reverseDirection);
+	}
+
 	public double getRPM() {
 		double rate = flywheelEncoder.getRate(); //Units are distance per second as scaled by the value from setDistancePerPulse()
-		rate = rate*(1.0/flywheelEncoder.getDistancePerPulse());//find pulses per revolution
-		rate = rate*4.0; //counts per pulse
+		rate = rate * (1.0 / flywheelEncoder.getDistancePerPulse());//find pulses per revolution
+		rate = rate * 4.0; //counts per pulse
 		rate = rate * 1.0/1024.0; //revolutions per count
 		rate = rate * 60; //seconds per minute
 		return rate;
@@ -146,7 +148,7 @@ public class OIHandler {
 
 	public double getRightDegrees() {
 		double position = rightDriveEncoder.get(); //in counts
-		position = position/4.0;  //1 pulse per 4 counts
+		position = position / 4.0;  //1 pulse per 4 counts
 		position = position * rightDriveEncoder.getDistancePerPulse(); //revolutions per pulse
 		position = position * 360; //360 degrees per revolution
 		return position;
@@ -154,7 +156,7 @@ public class OIHandler {
 
 	public double getLeftDegrees() {
 		double position = leftDriveEncoder.get();
-		position = position/4.0;
+		position = position / 4.0;
 		position  = position * leftDriveEncoder.getDistancePerPulse();
 		position = position * 360;
 		return position;

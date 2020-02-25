@@ -11,7 +11,11 @@ public class ShooterSpinUp extends Command {
     }
 
     public void execute() {
-        Robot.shooter.spin();
+        if (Robot.oi.getReverse()) {
+            Robot.shooter.spinBackwards();
+        } else {
+            Robot.shooter.spin();
+        }
     }
 
     public void interrupted() {

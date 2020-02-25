@@ -15,7 +15,11 @@ public class ClimberHookDeploy extends Command {
     }
 
     public void execute() {
-        Robot.climber.deployHook();
+        if (Robot.oi.getReverse()) {
+            Robot.climber.retractHook();
+        } else {
+            Robot.climber.deployHook();
+        }
     }
 
     public void end() {

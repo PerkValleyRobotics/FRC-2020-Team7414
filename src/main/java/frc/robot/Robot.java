@@ -2,9 +2,9 @@ package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import com.revrobotics.ColorSensorV3;
-import com.revrobotics.ColorMatchResult;
-import com.revrobotics.ColorMatch;
+//import com.revrobotics.ColorSensorV3;
+//import com.revrobotics.ColorMatchResult;
+//import com.revrobotics.ColorMatch;
 
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
@@ -15,11 +15,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.util.Color;
+//import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
+//import edu.wpi.first.wpilibj.AnalogInput;
+//import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.robot.Commands.*;
 import frc.robot.OIHandler;
@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
     distanceSensor.setEnabled(true);
     distanceSensor.setAutomaticMode(true);
     compressor = new Compressor();
-    compressor.setClosedLoopControl(true);
+    compressor.setClosedLoopControl(false);
     //ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
@@ -106,7 +106,6 @@ public class Robot extends TimedRobot {
     autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
     autoChooser.addOption("Drive Off Line", new AutonDriveOffLine());
     autoChooser.addOption("Drive and Shoot", new DriveAimGroup(startingState));
-
     SmartDashboard.putData("Autonomous", autoChooser);
 
     positionChooser = new SendableChooser<String>();
@@ -121,12 +120,11 @@ public class Robot extends TimedRobot {
     //m_colorMatcher.addColorMatch(k_YELLOW_TARGET);
 
     limelight.driverSight();
-
-    SmartDashboard.putString("Intake", "Joystick Trigger");
   }
 
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Index Distance (mm): ", distanceSensor.getRange());
     /*Color detectedColor = m_colorSensor.getColor();
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
@@ -165,9 +163,47 @@ public class Robot extends TimedRobot {
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
       Scheduler.getInstance().add(new TeleopAim());
     }
-    SmartDashboard.putBoolean("compressor: ", compressor.enabled());
-    SmartDashboard.putNumber("Left Encoder", oi.getLeftDegrees());
-    SmartDashboard.putNumber("Right Encoder", oi.getRightDegrees());
+    SmartDashboard.putBoolean("Compressor Enabled: ", compressor.enabled());
+    SmartDashboard.putNumber("Left Encoder: ", oi.getLeftDegrees());
+    SmartDashboard.putNumber("Right Encoder: ", oi.getRightDegrees());
+    
+    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5){
+      Scheduler.getInstance().add(new ShooterSpinUp());
+      //Scheduler.getInstance().add(new ConveyorOnShoot());
+    }
+
+    /*if (distanceSensor.getRange() < 150 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards) || oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards))) {
+      Scheduler.getInstance().add(new ConveyorOnUltra());
+    }*/
+
+    if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
+      if (!shooterTriggerHeld) {
+        shooterTriggerHeld = true;
+        timePressed = System.currentTimeMillis();
+      } else if (System.currentTimeMillis() - timePressed > 2000) {
+        counter = 0;
+      }
+      /*if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA) {
+        Scheduler.getInstance().add(new ConveyorOnUltra());
+      }*
+    } else if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA && !oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards)) {
+      shooterTriggerHeld = false;
+      Scheduler.getInstance().add(new ConveyorOnUltra());
+      conveyorOn = true;
+    } else if (shooterTriggerHeld) {
+      shooterTriggerHeld = false;
+      if (conveyorOn) {
+        counter +=1;
+        conveyorOn = false;
+      }
+      Scheduler.getInstance().add(new ConveyorOff());
+    }
+    SmartDashboard.putNumber("Counter: ", counter);*/
+  }
+
+    /*if (oi.getXboxAxis(PortMap.XBOX_leftStickYAxis) < -0.5) {
+      Scheduler.getInstance().add(new ClimberLift());
+    }*/
 
     /*SmartDashboard.putNumber("White Encoder: ", white.readFallingTimestamp());
     SmartDashboard.putNumber("Blue Encoder: ", blue.readFallingTimestamp());
@@ -221,41 +257,6 @@ public class Robot extends TimedRobot {
       yellowDetected = true;
       greenDetected = false;
     }*/
-    
-    if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5){
-      Scheduler.getInstance().add(new ShooterSpinUp());
-      //Scheduler.getInstance().add(new ConveyorOnShoot());
-    }
-
-    if (oi.getXboxAxis(PortMap.XBOX_leftStickYAxis) < -0.5) {
-      Scheduler.getInstance().add(new ClimberLift());
-    }
-
-    if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
-      if (!shooterTriggerHeld) {
-        shooterTriggerHeld = true;
-        timePressed = System.currentTimeMillis();
-      } else if (System.currentTimeMillis() - timePressed > 2000) {
-        counter = 0;
-      }
-      /*if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA) {
-        Scheduler.getInstance().add(new ConveyorOnUltra());
-      }*
-    } else if (ultrasanicDivided.getVoltage() < PortMap.k_ULTRA && !oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards)) {
-      shooterTriggerHeld = false;
-      Scheduler.getInstance().add(new ConveyorOnUltra());
-      conveyorOn = true;
-    } else if (shooterTriggerHeld) {
-      shooterTriggerHeld = false;
-      if (conveyorOn) {
-        counter +=1;
-        conveyorOn = false;
-      }
-      Scheduler.getInstance().add(new ConveyorOff());
-    }
-    SmartDashboard.putNumber("Counter: ", counter);*/
-
-  }
   }
 
   @Override
@@ -272,7 +273,6 @@ public class Robot extends TimedRobot {
     //}
     SmartDashboard.putNumber("Left Encoder", oi.getLeftDegrees());
     SmartDashboard.putNumber("Right Encoder", oi.getRightDegrees());
-    compressor.setClosedLoopControl(true);
     //limelight.updateLimelight();
     //Scheduler.getInstance().run();
     /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());

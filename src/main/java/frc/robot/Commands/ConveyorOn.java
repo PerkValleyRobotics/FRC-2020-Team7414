@@ -11,12 +11,16 @@ public class ConveyorOn extends Command {
         setInterruptible(false);
     }
     
+    public void execute() {
+        if (Robot.oi.getReverse()) {
+            Robot.conveyor.conveyorBackwards();
+        } else {
+            Robot.conveyor.conveyorForwards();
+        }
+    }
+
     public boolean isFinished() {
         return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards);
-    }
-    
-    public void execute() {
-        Robot.conveyor.conveyorForwards();
     }
 
     public void interrupted() {

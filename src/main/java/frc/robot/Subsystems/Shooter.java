@@ -51,6 +51,12 @@ public class Shooter extends Subsystem {
         //rightShooter.set(ControlMode.PercentOutput, -0.5);
     }
 
+    public void spinBackwards() {
+        speed = 0.1;
+        leftWheel.set(-speed);
+        rightWheel.set(-speed);
+    }
+
     /*public void spin(int rpm) {
         //velocity setpoint is in units/100ms
         leftShooter.set(ControlMode.Velocity, rpm);
