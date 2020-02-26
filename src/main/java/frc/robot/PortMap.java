@@ -79,9 +79,9 @@ public abstract class PortMap {
 	public static int ANALOG_dividedUltrasanic = 0;
 
 	//CAN
-	public static int CAN_pcm = 2;
-	public static int CAN_shooterLeft = 0;
-	public static int CAN_shooterRight = 1;
+	public static int CAN_pcm = 0;
+	public static int CAN_shooterLeft = 1;
+	public static int CAN_shooterRight = 2;
 
 	//PCM
 	public static int PCM_thruster1 = 0;

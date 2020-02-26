@@ -32,42 +32,43 @@ public class Shooter extends Subsystem {
     public Shooter() {
         //leftWheel = new PWMTalonSRX(PortMap.PWM_leftWheel);
         //rightWheel = new PWMTalonSRX(PortMap.PWM_rightWheel);
-        //leftShooter = new TalonSRX(PortMap.CAN_shooterLeft);
-        //leftShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-        //rightShooter = new TalonSRX(PortMap.CAN_shooterRight);
-        //rightShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        leftShooter = new TalonSRX(PortMap.CAN_shooterLeft);
+        leftShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        rightShooter = new TalonSRX(PortMap.CAN_shooterRight);
+        rightShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
     }
     
     public void spin() {
         //Regression model code
-        angle = Robot.limelight.getTy();
+        /*angle = Robot.limelight.getTy();
         speed = (angle + 0) / 30; // plug in actual values, 0 should be required to get lowest value to positive, and then regress.
         if (speed < .5) {
             speed = .5;
-        }
+        }*/
         //leftWheel.set(-speed); 
         //rightWheel.set(-speed);
-        //leftShooter.set(ControlMode.PercentOutput, 0.5);
-        //rightShooter.set(ControlMode.PercentOutput, -0.5);
+        leftShooter.set(ControlMode.PercentOutput, 0.37);
+        rightShooter.set(ControlMode.PercentOutput, 0.37);
+        
     }
 
     public void spinBackwards() {
         speed = 0.1;
-        leftWheel.set(-speed);
-        rightWheel.set(-speed);
+        leftShooter.set(ControlMode.PercentOutput, -speed);
+        rightShooter.set(ControlMode.PercentOutput, -speed);
     }
 
-    /*public void spin(int rpm) {
+    public void spin(int rpm) {
         //velocity setpoint is in units/100ms
         leftShooter.set(ControlMode.Velocity, rpm);
         rightShooter.set(ControlMode.Velocity, rpm);
-    }*/
+    }
 
     public void stopSpin() {
         //leftWheel.set(0);
         //rightWheel.set(0);
-        //leftShooter.set(ControlMode.PercentOutput, 0);
-        //rightShooter.set(ControlMode.PercentOutput, 0);
+        leftShooter.set(ControlMode.PercentOutput, 0);
+        rightShooter.set(ControlMode.PercentOutput, 0);
     }
 
     protected void initDefaultCommand() {

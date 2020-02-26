@@ -15,13 +15,13 @@ public class Intake extends Subsystem {
     PWMVictorSPX intakeWheel;
     public IntakePositionState positionState;
 
-    final double k_SPEED = -0.25;
+    final double k_SPEED = 0.25;
 
     public Intake() {
         intakeWheel = new PWMVictorSPX(PortMap.PWM_intakeWheel);
         clawDeploy = new DoubleSolenoid(PortMap.PCM_intake1, PortMap.PCM_intake2);
-        positionState = IntakePositionState.DOWN;
-        clawDeploy.set(Value.kForward);
+        positionState = IntakePositionState.UP;
+        clawDeploy.set(Value.kReverse);
     }
 
     public void intakeOff() {

@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.Compressor;
 //import edu.wpi.first.wpilibj.AnalogInput;
 //import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.cameraserver.CameraServer;
 
 import frc.robot.Commands.*;
 import frc.robot.OIHandler;
@@ -79,6 +80,7 @@ public class Robot extends TimedRobot {
   public static String startingState;
 
   //public static AnalogInput ultrasanicDivided;
+  public static CameraServer server;
 
   @Override
   public void robotInit() {
@@ -98,7 +100,10 @@ public class Robot extends TimedRobot {
     distanceSensor.setAutomaticMode(true);
     compressor = new Compressor();
     compressor.setClosedLoopControl(false);
+    
     //ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
+    server = CameraServer.getInstance();
+		server.startAutomaticCapture(0);
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
@@ -163,6 +168,7 @@ public class Robot extends TimedRobot {
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
       Scheduler.getInstance().add(new TeleopAim());
     }
+    
     SmartDashboard.putBoolean("Compressor Enabled: ", compressor.enabled());
     SmartDashboard.putNumber("Left Encoder: ", oi.getLeftDegrees());
     SmartDashboard.putNumber("Right Encoder: ", oi.getRightDegrees());
@@ -172,9 +178,13 @@ public class Robot extends TimedRobot {
       //Scheduler.getInstance().add(new ConveyorOnShoot());
     }
 
-    /*if (distanceSensor.getRange() < 150 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards) || oi.getButtonStateXbox(PortMap.XBOX_conveyorBackwards))) {
-      Scheduler.getInstance().add(new ConveyorOnUltra());
+    /*if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
+      Scheduler.getInstance().add(new TeleopIntakeAim());
     }*/
+
+    if (distanceSensor.getRange() < 125 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards))) {
+      Scheduler.getInstance().add(new ConveyorOnUltra());
+    }
 
     if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
       if (!shooterTriggerHeld) {
@@ -271,8 +281,8 @@ public class Robot extends TimedRobot {
     //  startTime = System.currentTimeMillis();
     //  timerFlag = true;
     //}
-    SmartDashboard.putNumber("Left Encoder", oi.getLeftDegrees());
-    SmartDashboard.putNumber("Right Encoder", oi.getRightDegrees());
+    //SmartDashboard.putNumber("Left Encoder", oi.getLeftDegrees());
+    //SmartDashboard.putNumber("Right Encoder", oi.getRightDegrees());
     //limelight.updateLimelight();
     //Scheduler.getInstance().run();
     /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());

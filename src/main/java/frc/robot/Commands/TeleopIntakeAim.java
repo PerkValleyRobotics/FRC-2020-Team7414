@@ -4,9 +4,9 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.PortMap;
 
-public class TeleopAim extends Command {
+public class TeleopIntakeAim extends Command {
     
-    public TeleopAim() {
+    public TeleopIntakeAim() {
         requires(Robot.Gavin);
         setInterruptible(false);
         Robot.Gavin.resetError();
@@ -16,11 +16,11 @@ public class TeleopAim extends Command {
     }
 
     public void execute() {
-        Robot.Gavin.aimButWithPID(Robot.limelight.getTx()-1);
+        Robot.Gavin.intakeAim(Robot.limelight.getTx(), Robot.oi.getJoystickX(), Robot.oi.getJoystickY());
     }
 
     public boolean isFinished() {
-        return Robot.oi.getTrigger(PortMap.XBOX_leftTriggerAxis) < 0.1;
+        return !Robot.oi.getButtonStateJoystick(PortMap.JOYSTICK_intake);
     }
 
     public void end() {

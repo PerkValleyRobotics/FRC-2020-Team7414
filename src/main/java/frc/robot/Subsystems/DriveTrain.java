@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import org.opencv.core.Mat;
+
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -69,6 +71,26 @@ public class DriveTrain extends Subsystem {
 		}
 		prevErrorAim = error;
 		standardTankDrive(speed, -speed);
+	}
+
+	public void intakeAim(double error, double x, double y) {
+		double kP = 0.017;
+		double kI = 0.038;
+		double kD = 0.000;
+		double diffErrorAim = error - prevErrorAim;
+		sumErrorAim = error * 0.02;
+
+		double speed = error*kP + sumErrorAim*kI + diffErrorAim*kD;
+		if (Math.abs(speed) < k_MINIMUM_THRESHOLD) {
+			speed = Math.copySign(1, speed);
+		} else if (Math.abs(speed) > k_MAXIMUM_THRESHOLD_AIM) {
+			speed = Math.copySign(1, speed) * k_MAXIMUM_THRESHOLD_AIM;
+		}
+		if (Math.abs(error) < k_ANGLE_THRESHOLD) {
+			speed = 0;
+		}
+		prevErrorAim = error;
+		standardDrive(speed, y);
 	}
 
 	public void resetError() {

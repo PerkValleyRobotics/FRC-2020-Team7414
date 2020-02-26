@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Commands.*;
 import frc.robot.Commands.Autonomous.*;
+import frc.robot.Subsystems.Shooter;
 
 public class OIHandler {
 	
@@ -25,6 +26,7 @@ public class OIHandler {
 	JoystickButton testAutonTurn;
 	JoystickButton testAutonStraight;
 	JoystickButton climbDown;
+	JoystickButton testShooterButton;
 	Button climbLeftButton;
 	Button climbRightButton;
 	Button pistonButton;
@@ -99,6 +101,9 @@ public class OIHandler {
 		//testAutonTurn.whenPressed(new AutonTurn(100));
 		//testAutonStraight = new JoystickButton(joystick, PortMap.JOYSTICK_testAutonStraight);
 		//testAutonStraight.whenPressed(new AutonDriveStraight(100));
+
+		testShooterButton = new JoystickButton(xboxcontroller, 5);
+		testShooterButton.whenPressed(new ShooterConveyor());
 	}
 
 	public double getJoystickX() {
