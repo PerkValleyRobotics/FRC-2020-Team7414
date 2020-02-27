@@ -11,6 +11,7 @@ public class ClimberHookDeploy extends Command {
 
     public ClimberHookDeploy() {
         requires(Robot.climber);
+        setInterruptible(true);
         startTime = System.currentTimeMillis();
     }
 

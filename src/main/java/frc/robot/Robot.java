@@ -82,6 +82,8 @@ public class Robot extends TimedRobot {
   //public static AnalogInput ultrasanicDivided;
   public static CameraServer server;
 
+  boolean speedFlag = true;
+
   @Override
   public void robotInit() {
     shooter = new Shooter();
@@ -103,11 +105,14 @@ public class Robot extends TimedRobot {
     
     //ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     server = CameraServer.getInstance();
-		server.startAutomaticCapture(0);
+    server.startAutomaticCapture(0);
+    
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
     startingState = "Center";
+
+    
 
     positionChooser = new SendableChooser<String>();
     positionChooser.setDefaultOption("Left", "Left");
@@ -184,12 +189,19 @@ public class Robot extends TimedRobot {
     }
 
     if (oi.getPOVXbox() == 0) {
-      shooter.changePower(0.05);
+      if (speedFlag) {
+        shooter.changePower(0.005);
+        speedFlag = false;
+      }
+    } else if (oi.getPOVXbox() == 180) {
+      if (speedFlag) {
+        shooter.changePower(-0.005);
+        speedFlag = false;
+      }
+    } else {
+      speedFlag = true;
     }
-    if (oi.getPOVXbox() == 180) {
-      shooter.changePower(-0.05);
-    }
-
+    
     /*if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
       Scheduler.getInstance().add(new TeleopIntakeAim());
     }*/

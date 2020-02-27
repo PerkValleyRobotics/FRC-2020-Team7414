@@ -13,7 +13,7 @@ public class ColorWheelOff extends Command {
     public boolean isFinished() {
         return false;
     }
-    
+
     public void execute() {
         Robot.colorWheel.colorWheelStop();
     }

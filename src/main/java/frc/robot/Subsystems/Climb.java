@@ -49,13 +49,13 @@ public class Climb extends Subsystem {
     }
 
     public void lockPiston() {
-        climbLock.set(Value.kReverse);
-        pistonState = ClimbPistonState.UNLOCKED;
+        climbLock.set(Value.kForward);
+        pistonState = ClimbPistonState.LOCKED;
     }
 
     public void releasePiston() {
-        climbLock.set(Value.kForward);
-        pistonState = ClimbPistonState.LOCKED;
+        climbLock.set(Value.kReverse);
+        pistonState = ClimbPistonState.UNLOCKED;
     }
 
     public void deployHook() {
