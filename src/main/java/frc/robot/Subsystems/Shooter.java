@@ -1,33 +1,28 @@
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
-import edu.wpi.first.wpilibj.CAN;
  
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import frc.robot.PortMap;
-import frc.robot.Robot;
 import frc.robot.Commands.ShooterSpinStop;
 
 public class Shooter extends Subsystem {
 
-    PWMTalonSRX leftWheel;
-    PWMTalonSRX rightWheel;
+    //PWMTalonSRX leftWheel;
+    //PWMTalonSRX rightWheel;
     TalonSRX leftShooter;
     TalonSRX rightShooter;
 
-    double speed;
+    double speed = 0.37;
     double angle;
 
     double kFLeft = 0.012476;
     double kRight = 0.012630;
-
-    SpeedControllerGroup bothWheel;
 
     public Shooter() {
         //leftWheel = new PWMTalonSRX(PortMap.PWM_leftWheel);
@@ -38,8 +33,13 @@ public class Shooter extends Subsystem {
         rightShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
     }
     
+    public void putSpeed() {
+        SmartDashboard.putNumber("Shooter Speed: ", speed);
+    }
+
     public void spin() {
-        //Regression model code
+        leftShooter.set(ControlMode.PercentOutput, speed);
+        rightShooter.set(ControlMode.PercentOutput, speed);
         /*angle = Robot.limelight.getTy();
         speed = (angle + 0) / 30; // plug in actual values, 0 should be required to get lowest value to positive, and then regress.
         if (speed < .5) {
@@ -47,9 +47,13 @@ public class Shooter extends Subsystem {
         }*/
         //leftWheel.set(-speed); 
         //rightWheel.set(-speed);
-        leftShooter.set(ControlMode.PercentOutput, 0.37);
-        rightShooter.set(ControlMode.PercentOutput, 0.37);
-        
+    }
+
+    public void changePower(double amount) {
+        speed += amount;
+        if (speed > 0.6) {
+            speed = 0.6;
+        }
     }
 
     public void spinBackwards() {

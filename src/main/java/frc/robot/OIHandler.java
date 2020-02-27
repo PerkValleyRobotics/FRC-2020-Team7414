@@ -67,10 +67,10 @@ public class OIHandler {
 		//conveyorBackwardsButton.whenPressed(new ConveyorBackwards());
 
 		//climb
-		climbLeftButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbLeft);
-		climbLeftButton.whenPressed(new ClimberLiftOneSide());
-		climbRightButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbRight);
-		climbRightButton.whenPressed(new ClimberLiftOneSide());
+		//climbLeftButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbLeft);
+		//climbLeftButton.whenPressed(new ClimberLiftOneSide());
+		//climbRightButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbRight);
+		//climbRightButton.whenPressed(new ClimberLiftOneSide());
 		climbPistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbPiston);
 		climbPistonButton.whenPressed(new ClimbLockToggle());
 		climbHookButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbHook);

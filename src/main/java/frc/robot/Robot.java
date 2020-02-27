@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
     distanceSensor.setEnabled(true);
     distanceSensor.setAutomaticMode(true);
     compressor = new Compressor();
-    compressor.setClosedLoopControl(false);
+    compressor.setClosedLoopControl(true);
     
     //ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     server = CameraServer.getInstance();
@@ -107,17 +107,19 @@ public class Robot extends TimedRobot {
     oi = new OIHandler();
     //ahrs.enableLogging(true);
 
-    autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
-    autoChooser.addOption("Drive Off Line", new AutonDriveOffLine());
-    autoChooser.addOption("Drive and Shoot", new DriveAimGroup(startingState));
-    SmartDashboard.putData("Autonomous", autoChooser);
+    startingState = "Center";
 
     positionChooser = new SendableChooser<String>();
     positionChooser.setDefaultOption("Left", "Left");
     positionChooser.addOption("Center", "Center");
     positionChooser.addOption("Right", "Right");
     SmartDashboard.putData("Position", positionChooser);
+
+    autoChooser = new SendableChooser<Command>();
+    autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
+    autoChooser.addOption("Drive Off Line", new AutonDriveOffLine());
+    autoChooser.addOption("Drive and Shoot", new DriveAimGroup(startingState));
+    SmartDashboard.putData("Autonomous", autoChooser);
 
     //m_colorMatcher.addColorMatch(k_BLUE_TARGET);
     //m_colorMatcher.addColorMatch(k_GREEN_TARGET);
@@ -172,19 +174,29 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Compressor Enabled: ", compressor.enabled());
     SmartDashboard.putNumber("Left Encoder: ", oi.getLeftDegrees());
     SmartDashboard.putNumber("Right Encoder: ", oi.getRightDegrees());
+    intake.putIntake();
+    climber.putLock();
+    shooter.putSpeed();
     
     if (oi.getTrigger(PortMap.XBOX_rightTriggerAxis) > 0.5){
       Scheduler.getInstance().add(new ShooterSpinUp());
       //Scheduler.getInstance().add(new ConveyorOnShoot());
     }
 
+    if (oi.getPOVXbox() == 0) {
+      shooter.changePower(0.05);
+    }
+    if (oi.getPOVXbox() == 180) {
+      shooter.changePower(-0.05);
+    }
+
     /*if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
       Scheduler.getInstance().add(new TeleopIntakeAim());
     }*/
 
-    if (distanceSensor.getRange() < 125 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards))) {
-      Scheduler.getInstance().add(new ConveyorOnUltra());
-    }
+    //if (distanceSensor.getRange() < 125 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards))) {
+    // Scheduler.getInstance().add(new ConveyorOnUltra());
+    //}
 
     if (oi.getButtonStateJoystick(PortMap.JOYSTICK_intake)) {
       if (!shooterTriggerHeld) {
@@ -272,6 +284,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     super.autonomousInit();
+    startingState = positionChooser.getSelected();
     Scheduler.getInstance().add(autoChooser.getSelected());
   }
 

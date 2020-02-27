@@ -8,7 +8,7 @@ import frc.robot.AutonConstants;
 public class DriveAimGroup extends CommandGroup {
 
     public DriveAimGroup(String state) {
-        /*if (state.equalsIgnoreCase("Left")) {
+        if (state.equalsIgnoreCase("Left")) {
             addSequential(new AutonDriveStraight(AutonConstants.driveCenter));
             addSequential(new AutonTurn(200)); //spin 180ish degrees
         } else if (state.equalsIgnoreCase("Right")) {
@@ -18,6 +18,6 @@ public class DriveAimGroup extends CommandGroup {
             addSequential(new AutonDriveStraight(AutonConstants.driveRight));
             addSequential(new AutonTurn(140)); //spin 120ish degrees
         }
-        addSequential(new AutonAim());*/
+        addSequential(new AutonAim());
     }
 }

@@ -6,11 +6,11 @@ import frc.robot.Robot;
 
 public class ClimbLockToggle extends Command {
 
-    boolean flag;
+    boolean flag = false;
 
     public ClimbLockToggle() {
         requires(Robot.climber);
-        flag = false;
+        setInterruptible(false);
     }
 
     public void execute() {

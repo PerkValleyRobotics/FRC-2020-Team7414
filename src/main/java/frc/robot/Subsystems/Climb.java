@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.PortMap;
 import frc.robot.StateTrackers.ClimbPistonState;
@@ -11,25 +15,29 @@ import frc.robot.StateTrackers.ClimbPistonState;
 public class Climb extends Subsystem {
 
     PWMVictorSPX hookDeploy;
-    PWMVictorSPX liftLeft;
-    PWMVictorSPX liftRight;
+    CANSparkMax liftLeft;
+    CANSparkMax liftRight;
     DoubleSolenoid climbLock;
     public ClimbPistonState pistonState;
 
-    final double k_LEFT_SPEED = -0.5;
-    final double k_RIGHT_SPEED = 0.5;
+    final double k_LEFT_SPEED = -0.3;
+    final double k_RIGHT_SPEED = 0.3;
     final double k_HOOK_SPEED = 0.4;
 
     public Climb() {
         hookDeploy = new PWMVictorSPX(PortMap.PWM_climberHook);
-        liftLeft = new PWMVictorSPX(PortMap.PWM_climberLeft);
-        liftRight = new PWMVictorSPX(PortMap.PWM_climberRight);
+        liftLeft = new CANSparkMax(PortMap.CAN_climbLeft, MotorType.kBrushless);
+        liftRight = new CANSparkMax(PortMap.CAN_climbRight, MotorType.kBrushless);
         climbLock = new DoubleSolenoid(PortMap.PCM_climbLock1, PortMap.PCM_climbLock2);
-        pistonState = ClimbPistonState.UNLOCKED;
-        climbLock.set(Value.kForward);
         hookDeploy.set(0);
         liftLeft.set(0);
         liftRight.set(0);
+        pistonState = ClimbPistonState.UNLOCKED;
+        climbLock.set(Value.kReverse);
+    }
+
+    public void putLock() {
+        SmartDashboard.putString("Lock Solenoid: ", pistonState.toString());
     }
 
     public void actuateLocks() {
@@ -41,12 +49,12 @@ public class Climb extends Subsystem {
     }
 
     public void lockPiston() {
-        climbLock.set(Value.kForward);
+        climbLock.set(Value.kReverse);
         pistonState = ClimbPistonState.UNLOCKED;
     }
 
     public void releasePiston() {
-        climbLock.set(Value.kReverse);
+        climbLock.set(Value.kForward);
         pistonState = ClimbPistonState.LOCKED;
     }
 

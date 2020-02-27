@@ -11,15 +11,15 @@ public abstract class PortMap {
 	public static int PWM_left2 = 3;
 	public static int PWM_right1 = 6;
 	public static int PWM_right2 = 7;
-	public static int PWM_leftWheel = 15;
-	public static int PWM_rightWheel = 14;
+	//public static int PWM_leftWheel = 15; //unused
+	//public static int PWM_rightWheel = 14; //unused
 	public static int PWM_colorWheel = 11;
 	public static int PWM_intakeWheel = 4;
 	public static int PWM_conveyorTop = 5;
 	public static int PWM_conveyorBottom = 8;
 	public static int PWM_climberHook = 9;
-	public static int PWM_climberLeft = 0;
-	public static int PWM_climberRight = 2;
+	//public static int PWM_climberLeft = 0; //unused
+	//public static int PWM_climberRight = 2; //unused
 
 	//Joystick Buttons
 	public static int JOYSTICK_straightForwards = 8;
@@ -82,6 +82,8 @@ public abstract class PortMap {
 	public static int CAN_pcm = 0;
 	public static int CAN_shooterLeft = 1;
 	public static int CAN_shooterRight = 2;
+	public static int CAN_climbLeft = 5;
+	public static int CAN_climbRight = 4;
 
 	//PCM
 	public static int PCM_thruster1 = 0;

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import frc.robot.PortMap;
 import frc.robot.Commands.IntakeOff;
@@ -24,12 +25,16 @@ public class Intake extends Subsystem {
         clawDeploy.set(Value.kReverse);
     }
 
+    public void putIntake() {
+        SmartDashboard.putString("Intake Solenoid: ", positionState.toString());
+    }
+
     public void intakeOff() {
         intakeWheel.set(0);
     }
 
     public void intakeOn() {
-        intakeWheel.set(-k_SPEED); //VARY THIS VALUE FOR INTAKE SPEED
+        intakeWheel.set(-k_SPEED);
     }
 
     public void intakeReverse() {

@@ -8,7 +8,7 @@ public class ClimberLift extends Command {
 
     public ClimberLift() {
         requires(Robot.climber);
-        setInterruptible(false);
+        setInterruptible(true);
     }
 
     public void execute() {
