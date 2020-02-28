@@ -11,10 +11,10 @@ public class AutonDriveStraight extends Command {
     double length;
 
     public AutonDriveStraight(double degreesForward) {
-        /*requires(Robot.Gavin);
-        leftEncoderStart = Robot.oi.getLeftDegrees();
-        rightEncoderStart = Robot.oi.getRightDegrees();
-        length = degreesForward;*/
+        //requires(Robot.Gavin);
+        //leftEncoderStart = Robot.oi.getLeftDegrees();
+        //rightEncoderStart = Robot.oi.getRightDegrees();
+        //length = degreesForward;
     }
 
     public void execute() {
@@ -23,11 +23,11 @@ public class AutonDriveStraight extends Command {
     
     //TODO: figure out a better way to track this than forcing both sides of the encoder to reach a certain point
     public boolean isFinished() {
-        //return Robot.oi.getLeftDegrees()>leftEncoderStart+length && Robot.oi.getRightDegrees()>rightEncoderStart+length;
+        //return Robot.oi.getLeftDegrees()>leftEncoderStart+length && Robot.oi.getRightDegrees()>rightEncoderStart+length;    
         return false;
     }
 
     public void end() {
-        //Robot.Gavin.stop();
+        Robot.Gavin.stop();
     }
 }

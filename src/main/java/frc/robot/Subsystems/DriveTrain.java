@@ -28,7 +28,7 @@ public class DriveTrain extends Subsystem {
 	final double k_BACKWARD_DIFFERENCE = 0.03;
 	final double k_MINIMUM_THRESHOLD = 0.1;
 	final double k_MAXIMUM_THRESHOLD_AIM = 0.3;
-	final double k_ANGLE_THRESHOLD = 0.6;
+	final double k_ANGLE_THRESHOLD = 0.45;
 
 	double sumErrorAim = 0;
 	double prevErrorAim = 0;
@@ -202,7 +202,7 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new TeleopDrive());
 	}
 
-	//TODO: what is the fucntional difference supposed to be between this and autonAimbot?
+	//TODO: what is the functional difference supposed to be between this and autonAimbot?
 	/*public void aimbot(double tx, double ty, boolean inRange, double getRange, double y) {
 		if (inRange == true){
 			if (getRange < 18.0) {

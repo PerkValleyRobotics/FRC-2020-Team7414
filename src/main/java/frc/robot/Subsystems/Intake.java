@@ -43,9 +43,11 @@ public class Intake extends Subsystem {
 
     public void actuateClawPiston() {
         if (positionState.equals(IntakePositionState.UP)) {
-            deployClaw();
-        } else {
-            retractClaw();
+            clawDeploy.set(Value.kForward);
+            positionState = IntakePositionState.DOWN;
+        } else if (positionState.equals(IntakePositionState.DOWN)) {
+            clawDeploy.set(Value.kReverse);
+            positionState = IntakePositionState.UP;
         }
     }
 

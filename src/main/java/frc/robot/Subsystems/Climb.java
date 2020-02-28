@@ -22,7 +22,7 @@ public class Climb extends Subsystem {
 
     final double k_LEFT_SPEED = -0.3;
     final double k_RIGHT_SPEED = 0.3;
-    final double k_HOOK_SPEED = 0.4;
+    final double k_HOOK_SPEED = 0.3;
 
     public Climb() {
         hookDeploy = new PWMVictorSPX(PortMap.PWM_climberHook);

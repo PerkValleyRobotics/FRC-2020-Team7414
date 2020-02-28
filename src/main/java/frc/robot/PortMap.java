@@ -86,14 +86,14 @@ public abstract class PortMap {
 	public static int CAN_climbRight = 4;
 
 	//PCM
-	public static int PCM_thruster1 = 0;
-	public static int PCM_thruster2 = 1;
+	public static int PCM_thruster2 = 0; // unused
+	public static int PCM_thruster1 = 1; // unused
 	public static int PCM_intake1 = 4;
 	public static int PCM_intake2 = 5;
 	public static int PCM_climbLock1 = 6;
 	public static int PCM_climbLock2 = 7;
 
 	//constants
-	public static final double k_ULTRA = .25;
-	public static final double k_CONVEYORTIME = 0;
+	public static final double k_ULTRA = 0.25;
+	public static final double k_CONVEYORTIME = 0.0;
 }

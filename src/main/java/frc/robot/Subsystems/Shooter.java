@@ -18,7 +18,7 @@ public class Shooter extends Subsystem {
     TalonSRX leftShooter;
     TalonSRX rightShooter;
 
-    double speed = 0.37;
+    double speed = 0.30;
     double angle;
 
     double kFLeft = 0.012476;
@@ -37,6 +37,10 @@ public class Shooter extends Subsystem {
         SmartDashboard.putNumber("Shooter Speed: ", speed);
     }
 
+    public void resetSpeed() {
+        speed = 0.30;
+    }
+
     public void spin() {
         leftShooter.set(ControlMode.PercentOutput, speed);
         rightShooter.set(ControlMode.PercentOutput, speed);
@@ -50,7 +54,7 @@ public class Shooter extends Subsystem {
     }
 
     public void changePower(double amount) {
-        speed += amount;
+        speed = amount;
         if (speed > 0.6) {
             speed = 0.6;
         }

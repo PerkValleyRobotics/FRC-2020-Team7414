@@ -11,7 +11,8 @@ public class Conveyor extends Subsystem {
 
     PWMVictorSPX conveyorTop;
     PWMVictorSPX conveyorBottom;
-    public static final double k_SPEED = -0.3;
+    public static final double k_SPEED_TOP = -0.3;
+    public static final double k_SPEED_BOTTOM = -0.45;
 
     public Conveyor() {
         conveyorTop = new PWMVictorSPX(PortMap.PWM_conveyorTop);
@@ -19,8 +20,8 @@ public class Conveyor extends Subsystem {
     }
 
     public void conveyorForwards() {
-        conveyorTop.set(-k_SPEED);
-        conveyorBottom.set(-k_SPEED);
+        conveyorTop.set(-k_SPEED_TOP);
+        conveyorBottom.set(-k_SPEED_BOTTOM);
         SmartDashboard.putBoolean("DID CONVEYOR RUN: ", true);
     }
 
@@ -30,8 +31,8 @@ public class Conveyor extends Subsystem {
     }
 
     public void conveyorBackwards() {
-        conveyorTop.set(k_SPEED);
-        conveyorBottom.set(k_SPEED);
+        conveyorTop.set(k_SPEED_TOP);
+        conveyorBottom.set(k_SPEED_BOTTOM);
     }
     
     public void initDefaultCommand() {

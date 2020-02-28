@@ -16,7 +16,7 @@ public class TeleopAim extends Command {
     }
 
     public void execute() {
-        Robot.Gavin.aimButWithPID(Robot.limelight.getTx()-1);
+        Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
     }
 
     public boolean isFinished() {

@@ -10,7 +10,7 @@ public class IntakePistonToggle extends Command {
 
     public IntakePistonToggle() {
         requires(Robot.intake);
-        setInterruptible(false);
+        setInterruptible(true);
     }
 
     public void execute() {
@@ -18,7 +18,15 @@ public class IntakePistonToggle extends Command {
         flag = true;
     }
 
+    public void interrupted() {
+        end();
+    }
+
     public boolean isFinished() {
         return flag;
+    }
+
+    protected void end() {
+
     }
 }
