@@ -1,6 +1,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.PortMap;
 import frc.robot.Robot;
 
 public class ShooterSpinUp extends Command {
@@ -27,7 +28,7 @@ public class ShooterSpinUp extends Command {
     }
     
     public boolean isFinished() {
-        return Robot.oi.getTrigger(3) < 0.5;
+        return Robot.oi.getTrigger(PortMap.XBOX_rightTriggerAxis) < 0.5;
         //return !Robot.oi.getButtonStateJoystick(PortMap.JOYSTICK_shoot);
     }
 }

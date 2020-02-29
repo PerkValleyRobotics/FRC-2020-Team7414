@@ -6,26 +6,40 @@ import frc.robot.Robot;
 
 public class AutonAim extends Command {
     
+    boolean flag;
+    long startTime;
+
     public AutonAim() {
-        //requires(Robot.Gavin);
-        //Robot.limelight.targetingSight();
+        flag = true;
+        requires(Robot.Gavin);
+        Robot.limelight.targetingSight();
     }
 
     public void execute() {
-        //Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
+        if (flag) {
+            startTime = System.currentTimeMillis();
+            flag = false;
+        }
+
+        if (Robot.limelight.getTv()) {
+            Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
+        }
     }
 
     public boolean isFinished() {
-        //return Robot.limelight.getTx() < 1 && Robot.Gavin.getSumError() < 2;
-        return false;
+        if (System.currentTimeMillis() > startTime + 10000) {
+            return true;
+        }
+        return Robot.limelight.getTv() && Robot.limelight.getTx() < 1 && Robot.Gavin.getSumError() < 2;
+        //return false;
     }
 
     protected void interrupt() {
-        //Robot.limelight.driverSight();
+        Robot.limelight.driverSight();
     }
 
     public void end() {
-        //Robot.Gavin.stop();
-        //Robot.limelight.driverSight();
+        Robot.Gavin.stop();
+        Robot.limelight.driverSight();
     }
 }

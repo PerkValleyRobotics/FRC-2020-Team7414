@@ -10,13 +10,13 @@ public class DriveAimGroup extends CommandGroup {
     public DriveAimGroup(String state) {
         if (state.equalsIgnoreCase("Left")) {
             addSequential(new AutonDriveStraight(AutonConstants.driveCenter));
-            addSequential(new AutonTurn(200)); //spin 180ish degrees
+            addSequential(new AutonTurn(100000)); //spin 180ish degrees
         } else if (state.equalsIgnoreCase("Right")) {
             addSequential(new AutonDriveStraight(AutonConstants.driveleft));
-            addSequential(new AutonTurn(170)); //spin 150ish degrees
+            addSequential(new AutonTurn(80000)); //spin 150ish degrees
         } else if (state.equalsIgnoreCase("Center")) {
             addSequential(new AutonDriveStraight(AutonConstants.driveRight));
-            addSequential(new AutonTurn(140)); //spin 120ish degrees
+            addSequential(new AutonTurn(60000)); //spin 120ish degrees
         }
         addSequential(new AutonAim());
     }

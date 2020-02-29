@@ -27,6 +27,7 @@ public class OIHandler {
 	JoystickButton testAutonStraight;
 	JoystickButton climbDown;
 	JoystickButton testShooterButton;
+	JoystickButton lockHookButton;
 	Button climbLeftButton;
 	Button climbRightButton;
 	Button pistonButton;
@@ -37,9 +38,6 @@ public class OIHandler {
 	Button hookDeployButton;
 	Encoder flywheelEncoder;
 
-	Encoder leftDriveEncoder;
-	Encoder rightDriveEncoder;
-	
 	double rightAxis;
 
 	public OIHandler() {
@@ -79,6 +77,9 @@ public class OIHandler {
 		climbBothButton.whenPressed(new ClimberLift());
 		//climbDown = new JoystickButton(xboxcontroller, PortMap.XBOX_climbDown);
 		//climbDown.whenPressed(new ClimberDown());
+		lockHookButton = new JoystickButton(xboxcontroller, PortMap.XBOX_hookLock);
+		lockHookButton.whenPressed(new ClimberHookLock());
+
 		
 		
 		//colorwheel
@@ -91,16 +92,12 @@ public class OIHandler {
 
 		//flywheelEncoder = new Encoder(PortMap.DIO_flywheelEncoder1, PortMap.DIO_flywheelEncoder2);
 		//flywheelEncoder.reset();
-		leftDriveEncoder = new Encoder(PortMap.DIO_leftDriveEncoder1, PortMap.DIO_leftDriveEncoder2);
-		leftDriveEncoder.reset();
-		rightDriveEncoder = new Encoder(PortMap.DIO_rightDriveEncoder1, PortMap.DIO_rightDriveEncoder2);
-		rightDriveEncoder.reset();
 
 		//auton test
 		//testAutonTurn = new JoystickButton(joystick, PortMap.JOYSTICK_testAutonTurn);
 		//testAutonTurn.whenPressed(new AutonTurn(100));
 		//testAutonStraight = new JoystickButton(joystick, PortMap.JOYSTICK_testAutonStraight);
-		//testAutonStraight.whenPressed(new AutonDriveStraight(5000));
+		//testAutonStraight.whenPressed(new AutonDriveStraight(20000.0));
 
 		testShooterButton = new JoystickButton(xboxcontroller, 5);
 		testShooterButton.whenPressed(new ShooterConveyor());
@@ -149,21 +146,5 @@ public class OIHandler {
 		rate = rate * 1.0/1024.0; //revolutions per count
 		rate = rate * 60; //seconds per minute
 		return rate;
-	}
-
-	public double getRightDegrees() {
-		double position = rightDriveEncoder.get(); //in counts
-		position = position / 4.0;  //1 pulse per 4 counts
-		position = position * rightDriveEncoder.getDistancePerPulse(); //revolutions per pulse
-		position = position * 360; //360 degrees per revolution
-		return position;
-	}
-
-	public double getLeftDegrees() {
-		double position = leftDriveEncoder.get();
-		position = position / 4.0;
-		position  = position * leftDriveEncoder.getDistancePerPulse();
-		position = position * 360;
-		return position;
 	}
 }

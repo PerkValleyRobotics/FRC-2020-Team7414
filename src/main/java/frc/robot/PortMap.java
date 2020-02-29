@@ -8,8 +8,8 @@ public abstract class PortMap {
 	
 	//PWM
 	public static int PWM_left1 = 1;
-	public static int PWM_left2 = 3;
-	public static int PWM_right1 = 6;
+	public static int PWM_left2 = 0;
+	public static int PWM_right1 = 9;
 	public static int PWM_right2 = 7;
 	//public static int PWM_leftWheel = 15; //unused
 	//public static int PWM_rightWheel = 14; //unused
@@ -17,7 +17,7 @@ public abstract class PortMap {
 	public static int PWM_intakeWheel = 4;
 	public static int PWM_conveyorTop = 5;
 	public static int PWM_conveyorBottom = 8;
-	public static int PWM_climberHook = 9;
+	public static int PWM_climberHook = 3;
 	//public static int PWM_climberLeft = 0; //unused
 	//public static int PWM_climberRight = 2; //unused
 
@@ -48,14 +48,16 @@ public abstract class PortMap {
 	public static int XBOX_colorWheelColor = 13; //unused
 	public static int XBOX_colorWheelSpin = 12; //unused
 	public static int XBOX_conveyorForwards = 6;
-	public static int XBOX_conveyorBackwards = 5; //unused
+	public static int XBOX_conveyorBackwards = 14; //unused
 	public static int XBOX_climbLeft = 9;
 	public static int XBOX_climbRight = 10;
 	public static int XBOX_climbPiston = 2;
-	public static int XBOX_climbDown = 3; //unused
+	public static int XBOX_climbDown = 15; //unused
+	public static int XBOX_shooterFree = 3;
 	public static int XBOX_climbHook = 4;
 	public static int XBOX_climbBoth = 1;
 	public static int XBOX_reverseDirection = 7;
+	public static int XBOX_hookLock = 5;
 	//public static int XBOX_POV_climbBoth = 9;
 	//public static int XBOX_POV_conveyorForwards = 90;
 	//public static int XBOX_POV_conveyorBackwards = 270;

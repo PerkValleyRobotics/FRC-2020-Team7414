@@ -38,7 +38,7 @@ public class Shooter extends Subsystem {
     }
 
     public void resetSpeed() {
-        speed = 0.30;
+        speed = 0.40;
     }
 
     public void spin() {
@@ -60,10 +60,16 @@ public class Shooter extends Subsystem {
         }
     }
 
+    public void increasePower(double amount) {
+        speed += amount;
+        if (speed > 0.6) {
+            speed = 0.6;
+        }
+    }
+
     public void spinBackwards() {
-        speed = 0.1;
-        leftShooter.set(ControlMode.PercentOutput, -speed);
-        rightShooter.set(ControlMode.PercentOutput, -speed);
+        leftShooter.set(ControlMode.PercentOutput, -0.2);
+        rightShooter.set(ControlMode.PercentOutput, -0.2);
     }
 
     public void spin(int rpm) {

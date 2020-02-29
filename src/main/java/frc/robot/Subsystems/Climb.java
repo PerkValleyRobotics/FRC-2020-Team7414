@@ -22,7 +22,7 @@ public class Climb extends Subsystem {
 
     final double k_LEFT_SPEED = -0.3;
     final double k_RIGHT_SPEED = 0.3;
-    final double k_HOOK_SPEED = 0.3;
+    final double k_HOOK_SPEED = 0.25;
 
     public Climb() {
         hookDeploy = new PWMVictorSPX(PortMap.PWM_climberHook);
@@ -58,12 +58,16 @@ public class Climb extends Subsystem {
         pistonState = ClimbPistonState.UNLOCKED;
     }
 
+    public void lockHook() {
+        hookDeploy.set(0.2);
+    }
+
     public void deployHook() {
         hookDeploy.set(-k_HOOK_SPEED);
     }
 
     public void retractHook() {
-        hookDeploy.set(k_HOOK_SPEED);
+        hookDeploy.set(0.15);
     }
 
     public void stopHook() {

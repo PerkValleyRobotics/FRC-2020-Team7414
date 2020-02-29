@@ -26,6 +26,7 @@ import frc.robot.Commands.*;
 import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
+import frc.robot.Commands.Autonomous.AutonDriveStraight;
 import frc.robot.Commands.Autonomous.DriveAimGroup;
 import frc.robot.StateTrackers.IntakePositionState;
 import frc.robot.StateTrackers.StartingState;
@@ -135,6 +136,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Index Distance (mm): ", distanceSensor.getRange());
+    SmartDashboard.putBoolean("Compressor Enabled: ", compressor.enabled());
+    SmartDashboard.putNumber("Left Encoder: ", Gavin.getLeftDegrees());
+    SmartDashboard.putNumber("Right Encoder: ", Gavin.getRightDegrees());
     /*Color detectedColor = m_colorSensor.getColor();
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
@@ -170,14 +174,15 @@ public class Robot extends TimedRobot {
     limelight.updateLimelight();
     //compressor.setClosedLoopControl(true);
     //limelight.driverSight();
+    if (oi.getButtonStateJoystick(PortMap.JOYSTICK_testAutonStraight)) {
+      Scheduler.getInstance().add(new AutonDriveStraight(50000));
+    }
+    
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
       Scheduler.getInstance().add(new TeleopAim());
     }
     SmartDashboard.putNumber("Limelight In Range? ", limelight.getRange());
     
-    SmartDashboard.putBoolean("Compressor Enabled: ", compressor.enabled());
-    SmartDashboard.putNumber("Left Encoder: ", oi.getLeftDegrees());
-    SmartDashboard.putNumber("Right Encoder: ", oi.getRightDegrees());
     intake.putIntake();
     climber.putLock();
     shooter.putSpeed();
@@ -189,46 +194,50 @@ public class Robot extends TimedRobot {
 
     // TODO: this could be our prototype limelight regressioning, so we should adjust our getRange() value and change our motor speed.
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
-      if (limelight.getRange() > 1.6) { // CHANGE VALUES
-        shooter.changePower(0.375); // CHANGE VALUES
-      } else if (limelight.getRange() > 1.2) { // CHANGE VALUES
-        shooter.changePower(0.4); // CHANGE VALUES
-      } else if (limelight.getRange() > 1.0) {
-        shooter.changePower(0.415);
-      } else if (limelight.getRange() > 0.8) { // CHANGE VALUES
-        shooter.changePower(0.43); // CHANGE VALUES
-      } else if (limelight.getRange() > 0.4) { // CHANGE VALUES
-        shooter.changePower(0.475); // CHANGE VALUES
-      } else if (limelight.getRange() > 0.3) { // CHANGE VALUES
-        shooter.changePower(0.48); // CHANGE VALUES
-      } else if (limelight.getRange() > 0.2) { // CHANGE VALUES
-        shooter.changePower(0.5); // CHANGE VALUES
-      } else if (limelight.getRange() > 0.1) { // CHANGE VALUES
-        shooter.changePower(0.575); // CHANGE VALUES
-      } else if (limelight.getRange() < 0.03) { 
+      if (!oi.getButtonStateXbox(PortMap.XBOX_shooterFree)) {
+        if (limelight.getRange() > 1.6) { // CHANGE VALUES
+          shooter.changePower(0.375); // CHANGE VALUES
+        } else if (limelight.getRange() > 1.2) { // CHANGE VALUES
+          shooter.changePower(0.4); // CHANGE VALUES
+        } else if (limelight.getRange() > 1.0) {
+          shooter.changePower(0.415);
+        } else if (limelight.getRange() > 0.8) { // CHANGE VALUES
+          shooter.changePower(0.43); // CHANGE VALUES
+        } else if (limelight.getRange() > 0.4) { // CHANGE VALUES
+          shooter.changePower(0.475); // CHANGE VALUES
+        } else if (limelight.getRange() > 0.3) { // CHANGE VALUES
+          shooter.changePower(0.48); // CHANGE VALUES
+        } else if (limelight.getRange() > 0.2) { // CHANGE VALUES
+          shooter.changePower(0.5); // CHANGE VALUES
+        } else if (limelight.getRange() > 0.1) { // CHANGE VALUES
+          shooter.changePower(0.575); // CHANGE VALUES
+        } else if (limelight.getRange() < 0.03) { 
+          shooter.changePower(0.0);
+          shooter.resetSpeed();
+        } else {
         shooter.changePower(0.0);
         shooter.resetSpeed();
+        }
       } else {
-      shooter.changePower(0.0);
-      shooter.resetSpeed();
+        shooter.changePower(0.4);
       }
     }
 
-    // if (oi.getPOVXbox() == 0) {
-    //   if (speedFlag) {
-    //     shooter.changePower(0.005);
-    //     speedFlag = false;
-    //   }
-    // } else if (oi.getPOVXbox() == 180) {
-    //   if (speedFlag) {
-    //     shooter.changePower(-0.005);
-    //     speedFlag = false;
-    //   }
-    // } else {
-    //   speedFlag = true;
-    // }
+     if (oi.getPOVXbox() == 0) {
+       if (speedFlag) {
+         shooter.increasePower(0.005);
+         speedFlag = false;
+       }
+     } else if (oi.getPOVXbox() == 180) {
+       if (speedFlag) {
+         shooter.increasePower(-0.005);
+         speedFlag = false;
+       }
+     } else {
+       speedFlag = true;
+     }
 
-    if (distanceSensor.getRange() < 125 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards))) {
+    if (distanceSensor.getRange() > 0 && distanceSensor.getRange() < 125 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards))) {
      Scheduler.getInstance().add(new ConveyorOnUltra());
     }
 
@@ -329,6 +338,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+    Scheduler.getInstance().run();
+    limelight.updateLimelight();
     //if (timerFlag == false) {
     //  startTime = System.currentTimeMillis();
     //  timerFlag = true;

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Encoder;
 
 import frc.robot.PortMap;
 import frc.robot.Commands.TeleopDrive;
@@ -37,6 +38,9 @@ public class DriveTrain extends Subsystem {
 	double turn;
 	double move;
 
+	Encoder leftDriveEncoder;
+	Encoder rightDriveEncoder;
+
 	public DriveTrain() {
 		left1 = new PWMVictorSPX(PortMap.PWM_left1);
 		left2 = new PWMVictorSPX(PortMap.PWM_left2);
@@ -47,6 +51,33 @@ public class DriveTrain extends Subsystem {
 		right = new SpeedControllerGroup(right1, right2);
 		
 		diffDrive = new DifferentialDrive(left, right);
+
+		leftDriveEncoder = new Encoder(PortMap.DIO_leftDriveEncoder1, PortMap.DIO_leftDriveEncoder2);
+		leftDriveEncoder.setReverseDirection(true);
+		leftDriveEncoder.reset();
+		rightDriveEncoder = new Encoder(PortMap.DIO_rightDriveEncoder1, PortMap.DIO_rightDriveEncoder2);
+		rightDriveEncoder.reset();
+	}
+
+	public void resetEncoders() {
+		leftDriveEncoder.reset();
+		rightDriveEncoder.reset();
+	}
+
+	public double getRightDegrees() {
+		double position = rightDriveEncoder.get(); //in counts
+		position = position / 4.0;  //1 pulse per 4 counts
+		position = position * rightDriveEncoder.getDistancePerPulse(); //revolutions per pulse
+		position = position * 360; //360 degrees per revolution
+		return position;
+	}
+
+	public double getLeftDegrees() {
+		double position = leftDriveEncoder.get();
+		position = position / 4.0;
+		position  = position * leftDriveEncoder.getDistancePerPulse();
+		position = position * 360;
+		return position;
 	}
 
 	public void driveStraight() {
