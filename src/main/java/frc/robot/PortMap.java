@@ -49,6 +49,7 @@ public abstract class PortMap {
 	public static int XBOX_colorWheelSpin = 12; //unused
 	public static int XBOX_conveyorForwards = 6;
 	public static int XBOX_conveyorBackwards = 14; //unused
+	public static int XBOX_generalSpecialFeature = 8;
 	public static int XBOX_climbLeft = 9;
 	public static int XBOX_climbRight = 10;
 	public static int XBOX_climbPiston = 2;

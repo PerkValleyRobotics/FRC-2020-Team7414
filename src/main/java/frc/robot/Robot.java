@@ -183,6 +183,13 @@ public class Robot extends TimedRobot {
     }
     SmartDashboard.putNumber("Limelight In Range? ", limelight.getRange());
     
+    if (oi.getButtonPressedXbox(PortMap.XBOX_climbHook)) {
+      if (oi.getButtonStateXbox(8)) {
+        Scheduler.getInstance().add(new ClimberHookDeployTimed());
+      } else {
+        Scheduler.getInstance().add(new ClimberHookDeploy());
+      }
+    }
     intake.putIntake();
     climber.putLock();
     shooter.putSpeed();
@@ -346,8 +353,6 @@ public class Robot extends TimedRobot {
     //}
     //SmartDashboard.putNumber("Left Encoder", oi.getLeftDegrees());
     //SmartDashboard.putNumber("Right Encoder", oi.getRightDegrees());
-    //limelight.updateLimelight();
-    //Scheduler.getInstance().run();
     /*SmartDashboard.putNumber("Flywheel RPM:", oi.getRPM());
     SmartDashboard.putBoolean("IMU Connected? ", ahrs.isConnected());
     SmartDashboard.putNumber("Yaw: ", ahrs.getYaw());

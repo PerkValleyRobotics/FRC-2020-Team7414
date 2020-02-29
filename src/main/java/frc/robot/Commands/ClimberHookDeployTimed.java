@@ -1,7 +1,7 @@
 package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import frc.robot.PortMap;
 import frc.robot.Robot;
 
 public class ClimberHookDeployTimed extends Command {
@@ -23,7 +23,7 @@ public class ClimberHookDeployTimed extends Command {
     }
 
     public boolean isFinished() {
-        return true;
+        return !Robot.oi.getButtonStateXbox(PortMap.XBOX_climbHook);
     }
 
     public void end() {

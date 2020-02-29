@@ -71,8 +71,8 @@ public class OIHandler {
 		//climbRightButton.whenPressed(new ClimberLiftOneSide());
 		climbPistonButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbPiston);
 		climbPistonButton.whenPressed(new ClimbLockToggle());
-		climbHookButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbHook);
-		climbHookButton.whenPressed(new ClimberHookDeploy());
+		//climbHookButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbHook);
+		//climbHookButton.whenPressed(new ClimberHookDeploy());
 		climbBothButton = new JoystickButton(xboxcontroller, PortMap.XBOX_climbBoth);
 		climbBothButton.whenPressed(new ClimberLift());
 		//climbDown = new JoystickButton(xboxcontroller, PortMap.XBOX_climbDown);
