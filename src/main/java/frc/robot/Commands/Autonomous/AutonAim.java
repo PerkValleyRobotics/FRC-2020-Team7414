@@ -35,11 +35,11 @@ public class AutonAim extends Command {
     }
 
     protected void interrupt() {
-        Robot.limelight.driverSight();
+        //Robot.limelight.driverSight();
     }
 
     public void end() {
         Robot.Gavin.stop();
-        Robot.limelight.driverSight();
+        //Robot.limelight.driverSight();
     }
 }

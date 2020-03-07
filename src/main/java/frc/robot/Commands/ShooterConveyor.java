@@ -15,7 +15,7 @@ public class ShooterConveyor extends Command {
     }
 
     public void execute() {
-        Robot.shooter.spin();
+        Robot.shooter.spinRPM(1);
         if (System.currentTimeMillis() > startTime + 3250) {
             Robot.conveyor.conveyorForwards();
         }

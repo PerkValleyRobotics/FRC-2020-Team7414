@@ -23,11 +23,19 @@ public class AutonDriveStraight extends Command {
     //}
 
     public void execute() {
-        Robot.Gavin.standardDrive(0.0, 0.4);
+        if (length < 0) {
+            Robot.Gavin.standardDrive(0.0, -0.4);
+        } else {
+            Robot.Gavin.standardDrive(0.0, 0.4);
+        }
     }
     
     public boolean isFinished() {
-        return Robot.Gavin.getLeftDegrees()>leftEncoderStart+length;// && Robot.Gavin.getRightDegrees()>rightEncoderStart+length;    
+        if (length > 0) {
+            return Robot.Gavin.getLeftDegrees()<leftEncoderStart-length;
+        } else {
+            return Robot.Gavin.getLeftDegrees()>leftEncoderStart+length;// && Robot.Gavin.getRightDegrees()>rightEncoderStart+length;    
+        }
         //return false;
     }
 

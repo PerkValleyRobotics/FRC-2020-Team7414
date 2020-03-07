@@ -23,10 +23,6 @@ public class ConveyorOn extends Command {
         return !Robot.oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards);
     }
 
-    public void interrupted() {
-        Robot.conveyor.conveyorOff();
-    }
-
     public void end() {
         Robot.conveyor.conveyorOff();
     }

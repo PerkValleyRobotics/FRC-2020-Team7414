@@ -15,7 +15,7 @@ import frc.robot.StateTrackers.ClimbPistonState;
 
 public class Climb extends Subsystem {
 
-    PWMVictorSPX hookDeploy;
+    public PWMVictorSPX hookDeploy;
     CANSparkMax liftLeft;
     CANSparkMax liftRight;
     CANEncoder liftLeftEncoder;
@@ -23,20 +23,20 @@ public class Climb extends Subsystem {
     DoubleSolenoid climbLock;
     public ClimbPistonState pistonState;
 
-    final double k_LEFT_SPEED = -0.3;
-    final double k_RIGHT_SPEED = 0.3;
-    final double k_HOOK_SPEED = 0.25;
+    final double k_LEFT_SPEED = -0.55;
+    final double k_RIGHT_SPEED = 0.55;
+    final double k_HOOK_SPEED = 0.215;
 
     public Climb() {
         hookDeploy = new PWMVictorSPX(PortMap.PWM_climberHook);
-        liftLeft = new CANSparkMax(PortMap.CAN_climbLeft, MotorType.kBrushless);
-        liftRight = new CANSparkMax(PortMap.CAN_climbRight, MotorType.kBrushless);
-        liftLeftEncoder = liftLeft.getEncoder();
-        liftRightEncoder = liftRight.getEncoder();
+        //liftLeft = new CANSparkMax(PortMap.CAN_climbLeft, MotorType.kBrushless);
+        //liftRight = new CANSparkMax(PortMap.CAN_climbRight, MotorType.kBrushless);
+        //liftLeftEncoder = liftLeft.getEncoder();
+        //liftRightEncoder = liftRight.getEncoder();
         climbLock = new DoubleSolenoid(PortMap.PCM_climbLock1, PortMap.PCM_climbLock2);
         hookDeploy.set(0);
-        liftLeft.set(0);
-        liftRight.set(0);
+        //liftLeft.set(0);
+        //liftRight.set(0);
         pistonState = ClimbPistonState.UNLOCKED;
         climbLock.set(Value.kReverse); //try kOff?
         //also try mounting horizontally
@@ -66,11 +66,13 @@ public class Climb extends Subsystem {
     }
 
     public double getRightEncoder() {
-        return liftRightEncoder.getPosition();
+        return 0;
+        //return liftRightEncoder.getPosition();
     }
 
     public double getLeftEncoder() {
-        return liftLeftEncoder.getPosition();
+        return 0;
+        //return liftLeftEncoder.getPosition();
     }
 
     public void lockHook() {
@@ -82,7 +84,7 @@ public class Climb extends Subsystem {
     }
 
     public void retractHook() {
-        hookDeploy.set(0.15);
+        hookDeploy.set(-0.15);
     }
 
     public void stopHook() {
@@ -90,32 +92,32 @@ public class Climb extends Subsystem {
     }
 
     public void reverseClimb() {
-        liftLeft.set(-k_LEFT_SPEED);
-        liftRight.set(-k_RIGHT_SPEED);
+        //liftLeft.set(-k_LEFT_SPEED);
+        //liftRight.set(-k_RIGHT_SPEED);
     }
 
     public void climbLeft() {
-        liftLeft.set(k_LEFT_SPEED);
+        //liftLeft.set(k_LEFT_SPEED);
     }
     
     public void reverseClimbLeft() {
-        liftLeft.set(-k_LEFT_SPEED);
+        //liftLeft.set(-k_LEFT_SPEED);
     }
 
     public void climbRight() {
-        liftRight.set(k_RIGHT_SPEED);
+        //liftRight.set(k_RIGHT_SPEED);
     }
 
     public void reverseClimbRight() {
-        liftRight.set(-k_RIGHT_SPEED);
+        //liftRight.set(-k_RIGHT_SPEED);
     }
 
     public void climbLeftStop() {
-        liftLeft.set(0);
+        //liftLeft.set(0);
     }
 
     public void climbRightStop() {
-        liftRight.set(0);
+        //liftRight.set(0);
     }
     
     public void climb() {
@@ -124,8 +126,8 @@ public class Climb extends Subsystem {
     }
 
     public void stopClimb() {
-        liftLeft.set(0);
-        liftRight.set(0);
+        //liftLeft.set(0);
+        //liftRight.set(0);
         hookDeploy.set(0);
     }
 

@@ -7,29 +7,38 @@ import frc.robot.Robot;
 public class AutonShoot extends Command {
 
     long startTime;
-
+    boolean flag = true;
+    
     public AutonShoot() {
-        /*requires(Robot.shooter);
+        requires(Robot.shooter);
         requires(Robot.conveyor);
-        startTime = System.currentTimeMillis();*/
+        startTime = System.currentTimeMillis();
     }
 
     public void execute() {
-        /*Robot.shooter.spin();
-        if (System.currentTimeMillis() - startTime % 1000 == 0) {
-            Robot.conveyor.conveyorForwards();
-        } else if (System.currentTimeMillis() - startTime % 1000 == 499) {
-            Robot.conveyor.conveyorOff();
-        }*/
+        if (flag) {
+            startTime = System.currentTimeMillis();
+            flag = false;
+        }
+        if (Robot.limelight.getTv()) {
+            Robot.shooter.changePower(0.35);
+            Robot.shooter.spin();
+            if (System.currentTimeMillis() - startTime % 1000 < 100) {
+                Robot.conveyor.conveyorForwards();
+            } else if (System.currentTimeMillis() - startTime % 1000 > 450 && System.currentTimeMillis() - startTime % 1000 < 550) {
+                Robot.conveyor.conveyorOff();
+            }
+        }
     }
 
     public boolean isFinished() {
-        //return System.currentTimeMillis() > startTime + 4000;
-        return false;
+        return System.currentTimeMillis() > startTime + 4000;
+        //return true;
     }
 
     public void end() {
         Robot.conveyor.conveyorOff();
         Robot.shooter.stopSpin();
+        Robot.limelight.driverSight();
     }
 }

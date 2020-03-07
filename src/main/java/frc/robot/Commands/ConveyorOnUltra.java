@@ -30,7 +30,7 @@ public class ConveyorOnUltra extends Command {
     }
 
     public boolean isFinished() {
-        return Robot.distanceSensor.getRange() > 300;
+        return Robot.distanceSensor.getRange() > 50; //orignal was 300
     }
 
     public void interrupted() {

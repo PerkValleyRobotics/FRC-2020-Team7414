@@ -7,16 +7,16 @@ public abstract class PortMap {
 	public static int CONTROLLER_xboxController = 1;
 	
 	//PWM
-	public static int PWM_left1 = 1;
-	public static int PWM_left2 = 0;
-	public static int PWM_right1 = 9;
-	public static int PWM_right2 = 7;
+	public static int PWM_left1 = 1; // unused
+	public static int PWM_left2 = 0; // unused
+	public static int PWM_right1 = 8; // unused
+	public static int PWM_right2 = 7; // unused
 	//public static int PWM_leftWheel = 15; //unused
 	//public static int PWM_rightWheel = 14; //unused
 	public static int PWM_colorWheel = 11;
 	public static int PWM_intakeWheel = 4;
 	public static int PWM_conveyorTop = 5;
-	public static int PWM_conveyorBottom = 8;
+	public static int PWM_conveyorBottom = 9;
 	public static int PWM_climberHook = 3;
 	//public static int PWM_climberLeft = 0; //unused
 	//public static int PWM_climberRight = 2; //unused
@@ -87,6 +87,10 @@ public abstract class PortMap {
 	public static int CAN_shooterRight = 2;
 	public static int CAN_climbLeft = 5;
 	public static int CAN_climbRight = 4;
+	public static int CAN_left1 = 13;
+	public static int CAN_left2 = 7;
+	public static int CAN_right1 = 12;
+	public static int CAN_right2 = 8;
 
 	//PCM
 	public static int PCM_thruster2 = 0; // unused

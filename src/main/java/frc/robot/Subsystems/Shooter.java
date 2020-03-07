@@ -18,11 +18,17 @@ public class Shooter extends Subsystem {
     TalonSRX leftShooter;
     TalonSRX rightShooter;
 
-    double speed = 0.30;
+    double speed = 0.45; //og=.45
     double angle;
 
-    double kFLeft = 0.012476;
+    double kF = 0.009407;
+    double kP = (1023.0*0.18)/1050.0;
+    double kI = 0.001;
+    double kD = 10.0*(1023.0*0.15)/1050.0;
     double kRight = 0.012630;
+
+    double prevError = 0;
+    double sumError = 0;
 
     public Shooter() {
         //leftWheel = new PWMTalonSRX(PortMap.PWM_leftWheel);
@@ -31,6 +37,19 @@ public class Shooter extends Subsystem {
         leftShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         rightShooter = new TalonSRX(PortMap.CAN_shooterRight);
         rightShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+
+        leftShooter.config_kF(0, kF, 30);
+        leftShooter.config_kP(0, kP, 30);
+        leftShooter.config_kI(0, kI, 30);
+        leftShooter.config_kD(0, kD, 30);
+        leftShooter.setInverted(true);
+        leftShooter.setSensorPhase(false);
+
+        rightShooter.config_kF(0, kF, 30);
+        rightShooter.config_kP(0, kP, 30);
+        rightShooter.config_kI(0, kI, 30);
+        rightShooter.config_kD(0, kD, 30);
+        rightShooter.setSensorPhase(false);
     }
     
     public void putSpeed() {
@@ -38,7 +57,7 @@ public class Shooter extends Subsystem {
     }
 
     public void resetSpeed() {
-        speed = 0.40;
+        speed = 0.45;
     }
 
     public void spin() {
@@ -55,9 +74,9 @@ public class Shooter extends Subsystem {
 
     public void changePower(double amount) {
         speed = amount;
-        if (speed > 0.6) {
-            speed = 0.6;
-        }
+        // if (speed > 0.65) {
+        //     speed = 0.65;
+        // }
     }
 
     public void increasePower(double amount) {
@@ -72,10 +91,11 @@ public class Shooter extends Subsystem {
         rightShooter.set(ControlMode.PercentOutput, -0.2);
     }
 
-    public void spin(int rpm) {
+    public void spinRPM(int rpm) {
         //velocity setpoint is in units/100ms
         leftShooter.set(ControlMode.Velocity, rpm);
         rightShooter.set(ControlMode.Velocity, rpm);
+
     }
 
     public void stopSpin() {
@@ -83,6 +103,23 @@ public class Shooter extends Subsystem {
         //rightWheel.set(0);
         leftShooter.set(ControlMode.PercentOutput, 0);
         rightShooter.set(ControlMode.PercentOutput, 0);
+    }
+
+    public void shooterPID(double error) { // Skeleton for future code: this has to change in terms of values
+        double kP = 0.017;
+        double kI = 0.038;
+        double kD = 0.0000;
+        double diffError = error - prevError;
+        sumError = error * 0.02;
+
+        double speed = error*kP + sumError*kI + diffError*kD;
+        
+        spinPID(speed);
+    }
+
+    public void spinPID(double speed) {
+        leftShooter.set(ControlMode.Velocity, speed);
+        rightShooter.set(ControlMode.Velocity, speed);
     }
 
     protected void initDefaultCommand() {

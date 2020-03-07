@@ -16,7 +16,7 @@ public class Intake extends Subsystem {
     PWMVictorSPX intakeWheel;
     public IntakePositionState positionState;
 
-    final double k_SPEED = 0.25;
+    final double k_SPEED = 0.45;
 
     public Intake() {
         intakeWheel = new PWMVictorSPX(PortMap.PWM_intakeWheel);

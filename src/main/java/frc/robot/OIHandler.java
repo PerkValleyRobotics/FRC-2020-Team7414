@@ -99,7 +99,7 @@ public class OIHandler {
 		//testAutonStraight = new JoystickButton(joystick, PortMap.JOYSTICK_testAutonStraight);
 		//testAutonStraight.whenPressed(new AutonDriveStraight(20000.0));
 
-		testShooterButton = new JoystickButton(xboxcontroller, 5);
+		testShooterButton = new JoystickButton(joystick, 11);
 		testShooterButton.whenPressed(new ShooterConveyor());
 	}
 

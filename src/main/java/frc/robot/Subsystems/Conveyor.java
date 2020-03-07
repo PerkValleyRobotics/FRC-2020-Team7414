@@ -11,8 +11,8 @@ public class Conveyor extends Subsystem {
 
     PWMVictorSPX conveyorTop;
     PWMVictorSPX conveyorBottom;
-    public static final double k_SPEED_TOP = -0.3;
-    public static final double k_SPEED_BOTTOM = -0.45;
+    public static final double k_SPEED_TOP = -0.4; //og:.35
+    public static final double k_SPEED_BOTTOM = -0.4; //og:.35
 
     public Conveyor() {
         conveyorTop = new PWMVictorSPX(PortMap.PWM_conveyorTop);

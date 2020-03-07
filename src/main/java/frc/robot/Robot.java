@@ -27,6 +27,7 @@ import frc.robot.OIHandler;
 import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
 import frc.robot.Commands.Autonomous.AutonDriveStraight;
+import frc.robot.Commands.Autonomous.AutonEverything;
 import frc.robot.Commands.Autonomous.DriveAimGroup;
 import frc.robot.StateTrackers.IntakePositionState;
 import frc.robot.StateTrackers.StartingState;
@@ -43,7 +44,7 @@ public class Robot extends TimedRobot {
   public static WheelOfFortune colorWheel;
 
   public static Rev2mDistanceSensor distanceSensor;
-  public static AHRS ahrs;
+  //public static AHRS ahrs;
   public static Vision limelight;
   public static I2C.Port indexerPort = I2C.Port.kOnboard;
   public static CameraServer server;
@@ -81,7 +82,7 @@ public class Robot extends TimedRobot {
   //public static DigitalInput yellow;
   //public static DigitalInput green;
 
-  public static String startingState;
+  public static String startingState = "Center";
 
   //public static AnalogInput ultrasanicDivided;
 
@@ -92,7 +93,7 @@ public class Robot extends TimedRobot {
     intake = new Intake();
     limelight = new Vision();
     limelight.lightOff();
-    ahrs = new AHRS();
+    //ahrs = new AHRS();
     conveyor = new Conveyor();
     //m_colorSensor = new ColorSensorV3(i2cPort);
     //m_colorMatcher = new ColorMatch();
@@ -102,7 +103,7 @@ public class Robot extends TimedRobot {
     distanceSensor.setEnabled(true);
     distanceSensor.setAutomaticMode(true);
     compressor = new Compressor();
-    compressor.setClosedLoopControl(true);
+    //compressor.setClosedLoopControl(true);
     
     //ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     server = CameraServer.getInstance();
@@ -117,13 +118,13 @@ public class Robot extends TimedRobot {
     positionChooser.setDefaultOption("Left", "Left");
     positionChooser.addOption("Center", "Center");
     positionChooser.addOption("Right", "Right");
-    SmartDashboard.putData("Position", positionChooser);
+    SmartDashboard.putData("POSITION", positionChooser);
 
     autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("Do Nothing", new AutonDoNothing());
+    autoChooser.setDefaultOption("Drive and Shoot", new AutonEverything());
+    autoChooser.addOption("Do Nothing", new AutonDoNothing());
     autoChooser.addOption("Drive Off Line", new AutonDriveOffLine());
-    autoChooser.addOption("Drive and Shoot", new DriveAimGroup(startingState));
-    SmartDashboard.putData("Autonomous", autoChooser);
+    SmartDashboard.putData("AUTO", autoChooser);
 
     /*m_colorMatcher.addColorMatch(k_BLUE_TARGET);
     m_colorMatcher.addColorMatch(k_GREEN_TARGET);
@@ -139,6 +140,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("Compressor Enabled: ", compressor.enabled());
     SmartDashboard.putNumber("Left Encoder: ", Gavin.getLeftDegrees());
     SmartDashboard.putNumber("Right Encoder: ", Gavin.getRightDegrees());
+    SmartDashboard.putNumber("RightClimbEncoder: ", climber.getRightEncoder());
+    SmartDashboard.putNumber("LeftClimbEncoder: ", climber.getLeftEncoder());
     /*Color detectedColor = m_colorSensor.getColor();
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
@@ -172,11 +175,11 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
     limelight.updateLimelight();
-    //compressor.setClosedLoopControl(true);
+    compressor.setClosedLoopControl(false);
     //limelight.driverSight();
-    if (oi.getButtonStateJoystick(PortMap.JOYSTICK_testAutonStraight)) {
-      Scheduler.getInstance().add(new AutonDriveStraight(50000));
-    }
+    // if (oi.getButtonStateJoystick(PortMap.JOYSTICK_testAutonStraight)) {
+    //   Scheduler.getInstance().add(new AutonDriveStraight(50000));
+    // }
     
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
       Scheduler.getInstance().add(new TeleopAim());
@@ -184,7 +187,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Limelight In Range? ", limelight.getRange());
     
     if (oi.getButtonPressedXbox(PortMap.XBOX_climbHook)) {
-      if (oi.getButtonStateXbox(8)) {
+      if (oi.getButtonStateXbox(PortMap.XBOX_generalSpecialFeature)) {
         Scheduler.getInstance().add(new ClimberHookDeployTimed());
       } else {
         Scheduler.getInstance().add(new ClimberHookDeploy());
@@ -203,48 +206,50 @@ public class Robot extends TimedRobot {
     if (oi.getTrigger(PortMap.XBOX_leftTriggerAxis) > 0.5) {
       if (!oi.getButtonStateXbox(PortMap.XBOX_shooterFree)) {
         if (limelight.getRange() > 1.6) { // CHANGE VALUES
-          shooter.changePower(0.375); // CHANGE VALUES
+          shooter.changePower(0.36); // CHANGE VALUES
         } else if (limelight.getRange() > 1.2) { // CHANGE VALUES
-          shooter.changePower(0.4); // CHANGE VALUES
+          shooter.changePower(0.38); // CHANGE VALUES
         } else if (limelight.getRange() > 1.0) {
-          shooter.changePower(0.415);
+          shooter.changePower(0.365);
         } else if (limelight.getRange() > 0.8) { // CHANGE VALUES
-          shooter.changePower(0.43); // CHANGE VALUES
+          shooter.changePower(0.37); // CHANGE VALUES
+        } else if (limelight.getRange() > 0.5) {
+          shooter.changePower(0.35);
         } else if (limelight.getRange() > 0.4) { // CHANGE VALUES
-          shooter.changePower(0.475); // CHANGE VALUES
+          shooter.changePower(0.375); // CHANGE VALUES
         } else if (limelight.getRange() > 0.3) { // CHANGE VALUES
-          shooter.changePower(0.48); // CHANGE VALUES
+          shooter.changePower(0.431); // CHANGE VALUES
         } else if (limelight.getRange() > 0.2) { // CHANGE VALUES
-          shooter.changePower(0.5); // CHANGE VALUES
+          shooter.changePower(0.53); // CHANGE VALUES
         } else if (limelight.getRange() > 0.1) { // CHANGE VALUES
-          shooter.changePower(0.575); // CHANGE VALUES
+          shooter.changePower(0.85); // CHANGE VALUES
         } else if (limelight.getRange() < 0.03) { 
-          shooter.changePower(0.0);
-          shooter.resetSpeed();
+          //shooter.changePower(0.0);
+          //shooter.resetSpeed();
         } else {
-        shooter.changePower(0.0);
-        shooter.resetSpeed();
+        //shooter.changePower(0.0);+
+        //shooter.resetSpeed();
         }
-      } else {
-        shooter.changePower(0.4);
-      }
+      }//} //else {
+        //shooter.changePower(0.5);
+      //}
     }
 
      if (oi.getPOVXbox() == 0) {
        if (speedFlag) {
-         shooter.increasePower(0.005);
+         shooter.increasePower(0.01);
          speedFlag = false;
        }
      } else if (oi.getPOVXbox() == 180) {
        if (speedFlag) {
-         shooter.increasePower(-0.005);
+         shooter.increasePower(-0.01);
          speedFlag = false;
        }
      } else {
        speedFlag = true;
      }
 
-    if (distanceSensor.getRange() > 0 && distanceSensor.getRange() < 125 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards))) {
+    if (distanceSensor.getRange() > 0 && distanceSensor.getRange() < 200 && !conveyor.getCurrentCommandName().equalsIgnoreCase("Ultrasanic") && !(oi.getButtonStateXbox(PortMap.XBOX_conveyorForwards))) {
      Scheduler.getInstance().add(new ConveyorOnUltra());
     }
 

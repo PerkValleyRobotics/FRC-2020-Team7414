@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import com.revrobotics.SparkMax;
+
 import org.opencv.core.Mat;
 
 import edu.wpi.first.wpilibj.PWMVictorSPX;
@@ -8,15 +10,24 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Encoder;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+
 import frc.robot.PortMap;
 import frc.robot.Commands.TeleopDrive;
 
 public class DriveTrain extends Subsystem {
 
-	PWMVictorSPX left1;
-	PWMVictorSPX left2;
-	PWMVictorSPX right1;
-	PWMVictorSPX right2;
+	// PWMVictorSPX left1;
+	// PWMVictorSPX left2;
+	// PWMVictorSPX right1;
+	// PWMVictorSPX right2;
+
+	CANSparkMax left1;
+	CANSparkMax left2;
+	CANSparkMax right1;
+	CANSparkMax right2;
 
 	SpeedControllerGroup left;
 	SpeedControllerGroup right;
@@ -29,7 +40,7 @@ public class DriveTrain extends Subsystem {
 	final double k_BACKWARD_DIFFERENCE = 0.03;
 	final double k_MINIMUM_THRESHOLD = 0.1;
 	final double k_MAXIMUM_THRESHOLD_AIM = 0.3;
-	final double k_ANGLE_THRESHOLD = 0.45;
+	final double k_ANGLE_THRESHOLD = 0.05;
 
 	double sumErrorAim = 0;
 	double prevErrorAim = 0;
@@ -42,10 +53,11 @@ public class DriveTrain extends Subsystem {
 	Encoder rightDriveEncoder;
 
 	public DriveTrain() {
-		left1 = new PWMVictorSPX(PortMap.PWM_left1);
-		left2 = new PWMVictorSPX(PortMap.PWM_left2);
-		right1 = new PWMVictorSPX(PortMap.PWM_right1);
-		right2 = new PWMVictorSPX(PortMap.PWM_right2);
+
+		left1 = new CANSparkMax(PortMap.CAN_left1, MotorType.kBrushless);
+		left2 = new CANSparkMax(PortMap.CAN_left2, MotorType.kBrushless);
+		right1 = new CANSparkMax(PortMap.CAN_right1, MotorType.kBrushless);
+		right2 = new CANSparkMax(PortMap.CAN_right2, MotorType.kBrushless);
 
 		left = new SpeedControllerGroup(left1, left2);
 		right = new SpeedControllerGroup(right1, right2);

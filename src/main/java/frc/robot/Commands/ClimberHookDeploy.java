@@ -8,6 +8,8 @@ import frc.robot.PortMap;
 public class ClimberHookDeploy extends Command {
 
     long startTime;
+    double powerStart = 0.235;
+    double power = powerStart;
 
     public ClimberHookDeploy() {
         requires(Robot.climber);
@@ -16,11 +18,16 @@ public class ClimberHookDeploy extends Command {
     }
 
     public void execute() {
+        power += (System.currentTimeMillis() - startTime)/500.0 * 0.025;
+        if (power > 0.4) {
+            power = 0.4;
+        }
+        Robot.climber.hookDeploy.set(power);
         if (Robot.oi.getReverse()) {
             Robot.climber.retractHook();
-        } else {
+        }/* else {
             Robot.climber.deployHook();
-        }
+        }*/
     }
 
     public void end() {
