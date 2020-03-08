@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.AutonConstants;
 
-public class AutonEverything extends Command {
+public class AutonEverythingCenter extends Command {
 
     long startTime = 0;
     boolean flag = true;
@@ -14,7 +14,7 @@ public class AutonEverything extends Command {
     double length;
     boolean flag2 = true;
     
-    public AutonEverything() {
+    public AutonEverythingCenter() {
         requires(Robot.conveyor);
         requires(Robot.shooter);
         //requires(Robot.intake);
@@ -22,7 +22,7 @@ public class AutonEverything extends Command {
         Robot.Gavin.resetEncoders();
         leftStart = Robot.Gavin.getLeftDegrees();
         rightStart = Robot.Gavin.getRightDegrees();
-        length = AutonConstants.everyThingDriveLeft;
+        length = 600000;
         flag2 = true;
     }
 
@@ -43,29 +43,29 @@ public class AutonEverything extends Command {
             }
         } else {
             double time = (System.currentTimeMillis() - startTime)/1000.0;
-            if (time > 0 && time < .5) {
+            if (time > 0 && time < .2) {
                 Robot.Gavin.standardDrive(0.35, -0.1);
                 Robot.limelight.targetingSight();
-            } else if (time > .5 && time < 1.5) {
+            } else if (time > .2 && time < 1.2) {
                 Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
-            } else if (time > 1.5 && time < 5.0 && Robot.limelight.getTv()) {
+            } else if (time > 1.2 && time < 4.7 && Robot.limelight.getTv()) {
                 Robot.Gavin.stop();
                 Robot.shooter.changePower(0.455);
                 //Robot.shooter.spin();
                 Robot.shooter.spinVel(7700);
-            } else if (time > 5.0 && time < 5.3 && Robot.limelight.getTv()) {
+            } else if (time > 4.7 && time < 5.0 && Robot.limelight.getTv()) {
                 Robot.conveyor.conveyorForwards();
                 Robot.shooter.spinVel(7700);
-            } else if (time > 5.3 && time < 6.3 && Robot.limelight.getTv()) {
+            } else if (time > 5.0 && time < 6.0 && Robot.limelight.getTv()) {
                 Robot.conveyor.conveyorOff();
                 Robot.shooter.spinVel(7700);
-            } else if (time > 6.3 && time < 6.7 && Robot.limelight.getTv()) {
+            } else if (time > 6.0 && time < 6.4 && Robot.limelight.getTv()) {
                 Robot.conveyor.conveyorForwards();
                 Robot.shooter.spinVel(7700);
-            } else if (time > 6.7 && time < 7.7 && Robot.limelight.getTv()) {
+            } else if (time > 6.4 && time < 7.4 && Robot.limelight.getTv()) {
                 Robot.conveyor.conveyorOff();
                 Robot.shooter.spinVel(7700);
-            } else if (time > 7.7 && time < 8.7 && Robot.limelight.getTv()) {
+            } else if (time > 7.4 && time < 8.4 && Robot.limelight.getTv()) {
                 Robot.conveyor.conveyorForwards();
                 Robot.shooter.spinVel(7700);
             }

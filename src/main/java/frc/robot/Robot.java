@@ -28,6 +28,8 @@ import frc.robot.Commands.Autonomous.AutonDoNothing;
 import frc.robot.Commands.Autonomous.AutonDriveOffLine;
 import frc.robot.Commands.Autonomous.AutonDriveStraight;
 import frc.robot.Commands.Autonomous.AutonEverything;
+import frc.robot.Commands.Autonomous.AutonEverythingCenter;
+import frc.robot.Commands.Autonomous.AutonEverythingRight;
 import frc.robot.Commands.Autonomous.DriveAimGroup;
 import frc.robot.StateTrackers.IntakePositionState;
 import frc.robot.StateTrackers.StartingState;
@@ -121,7 +123,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("POSITION", positionChooser);
 
     autoChooser = new SendableChooser<Command>();
-    autoChooser.setDefaultOption("Drive and Shoot", new AutonEverything());
+    autoChooser.setDefaultOption("Drive and Shoot", new AutonEverythingRight());
     autoChooser.addOption("Do Nothing", new AutonDoNothing());
     autoChooser.addOption("Drive Off Line", new AutonDriveOffLine());
     SmartDashboard.putData("AUTO", autoChooser);
@@ -142,6 +144,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Encoder: ", Gavin.getRightDegrees());
     SmartDashboard.putNumber("RightClimbEncoder: ", climber.getRightEncoder());
     SmartDashboard.putNumber("LeftClimbEncoder: ", climber.getLeftEncoder());
+    shooter.putSpeed();
     /*Color detectedColor = m_colorSensor.getColor();
     String colorString;
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);

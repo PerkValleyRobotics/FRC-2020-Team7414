@@ -54,6 +54,8 @@ public class Shooter extends Subsystem {
     
     public void putSpeed() {
         SmartDashboard.putNumber("Shooter Speed: ", speed);
+        SmartDashboard.putNumber("Right RPM: ", rightShooter.getSelectedSensorVelocity() * (600.0/4096.0));
+        SmartDashboard.putNumber("Left RPM: ", leftShooter.getSelectedSensorVelocity() * (600.0/4096.0));
     }
 
     public void resetSpeed() {
@@ -64,7 +66,7 @@ public class Shooter extends Subsystem {
         leftShooter.set(ControlMode.PercentOutput, speed);
         rightShooter.set(ControlMode.PercentOutput, speed);
         if (leftShooter.getSelectedSensorVelocity() > 30000) {
-            
+
         }
         //leftShooter.set(ControlMode.Velocity, 40000);
         /*angle = Robot.limelight.getTy();
@@ -74,6 +76,20 @@ public class Shooter extends Subsystem {
         }*/
         //leftWheel.set(-speed); 
         //rightWheel.set(-speed);
+    }
+
+    public void spinVel(int rpm) {
+        if (leftShooter.getSelectedSensorVelocity() > 20000) {
+            leftShooter.set(ControlMode.Velocity, rpm * (4096.0/600.0));
+        } else {
+            leftShooter.set(ControlMode.PercentOutput, speed);
+        }
+
+        if (rightShooter.getSelectedSensorVelocity() > 20000) {
+            rightShooter.set(ControlMode.Velocity, rpm * (4096.0/600.0));
+        } else {
+            rightShooter.set(ControlMode.PercentOutput, speed);
+        }
     }
 
     public void changePower(double amount) {

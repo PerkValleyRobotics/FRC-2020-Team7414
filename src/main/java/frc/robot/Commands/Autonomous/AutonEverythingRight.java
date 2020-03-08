@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.AutonConstants;
 
-public class AutonEverything extends Command {
+public class AutonEverythingRight extends Command {
 
     long startTime = 0;
     boolean flag = true;
@@ -14,7 +14,7 @@ public class AutonEverything extends Command {
     double length;
     boolean flag2 = true;
     
-    public AutonEverything() {
+    public AutonEverythingRight() {
         requires(Robot.conveyor);
         requires(Robot.shooter);
         //requires(Robot.intake);
@@ -22,7 +22,7 @@ public class AutonEverything extends Command {
         Robot.Gavin.resetEncoders();
         leftStart = Robot.Gavin.getLeftDegrees();
         rightStart = Robot.Gavin.getRightDegrees();
-        length = AutonConstants.everyThingDriveLeft;
+        length = 400000;
         flag2 = true;
     }
 
@@ -44,7 +44,7 @@ public class AutonEverything extends Command {
         } else {
             double time = (System.currentTimeMillis() - startTime)/1000.0;
             if (time > 0 && time < .5) {
-                Robot.Gavin.standardDrive(0.35, -0.1);
+                //Robot.Gavin.standardDrive(0.35, -0.1);
                 Robot.limelight.targetingSight();
             } else if (time > .5 && time < 1.5) {
                 Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
