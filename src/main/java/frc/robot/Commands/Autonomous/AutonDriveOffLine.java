@@ -1,7 +1,7 @@
 package frc.robot.Commands.Autonomous;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import frc.robot.AutonConstants;
 import frc.robot.Robot;
 
 public class AutonDriveOffLine extends Command {
@@ -15,7 +15,7 @@ public class AutonDriveOffLine extends Command {
         Robot.Gavin.resetEncoders();
         leftStart = Robot.Gavin.getLeftDegrees();
         rightStart = Robot.Gavin.getRightDegrees();
-        length = 200000;
+        length = AutonConstants.offLineLength;
     }
     
     public void execute() {

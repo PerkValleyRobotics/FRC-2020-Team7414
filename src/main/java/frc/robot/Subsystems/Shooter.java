@@ -63,6 +63,10 @@ public class Shooter extends Subsystem {
     public void spin() {
         leftShooter.set(ControlMode.PercentOutput, speed);
         rightShooter.set(ControlMode.PercentOutput, speed);
+        if (leftShooter.getSelectedSensorVelocity() > 30000) {
+            
+        }
+        //leftShooter.set(ControlMode.Velocity, 40000);
         /*angle = Robot.limelight.getTy();
         speed = (angle + 0) / 30; // plug in actual values, 0 should be required to get lowest value to positive, and then regress.
         if (speed < .5) {

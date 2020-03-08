@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
     distanceSensor.setEnabled(true);
     distanceSensor.setAutomaticMode(true);
     compressor = new Compressor();
-    //compressor.setClosedLoopControl(true);
+    compressor.setClosedLoopControl(false);
     
     //ultrasanicDivided = new AnalogInput(PortMap.ANALOG_dividedUltrasanic);
     server = CameraServer.getInstance();

@@ -38,9 +38,9 @@ public class DriveTrain extends Subsystem {
 
 	final double k_FORWARD_DIFFERENCE = 0.023;
 	final double k_BACKWARD_DIFFERENCE = 0.03;
-	final double k_MINIMUM_THRESHOLD = 0.1;
-	final double k_MAXIMUM_THRESHOLD_AIM = 0.3;
-	final double k_ANGLE_THRESHOLD = 0.05;
+	final double k_MINIMUM_THRESHOLD = 0.07;
+	final double k_MAXIMUM_THRESHOLD_AIM = 0.25;
+	final double k_ANGLE_THRESHOLD = 0.7;
 
 	double sumErrorAim = 0;
 	double prevErrorAim = 0;
@@ -97,13 +97,13 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void aimButWithPID(double error) {
-		double kP = 0.017;
-		double kI = 0.038;
-		double kD = 0.000;
+		double kP = 0.07;
+		double kI = 0.0;
+		double kD = 0.00;
 		double diffErrorAim = error - prevErrorAim;
 		sumErrorAim = error*.02;
 
-		double speed = error*kP + sumErrorAim*kI + diffErrorAim*kD;
+		double speed = 0.25*(error*kP + sumErrorAim*kI + diffErrorAim*kD);
 		if (Math.abs(speed) < k_MINIMUM_THRESHOLD) {
 			speed = Math.copySign(1, speed) * k_MINIMUM_THRESHOLD;
 		} else if (Math.abs(speed) > k_MAXIMUM_THRESHOLD_AIM) {
@@ -117,8 +117,8 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void intakeAim(double error, double x, double y) {
-		double kP = 0.017;
-		double kI = 0.038;
+		double kP = 0.012;
+		double kI = 0.034;
 		double kD = 0.000;
 		double diffErrorAim = error - prevErrorAim;
 		sumErrorAim = error * 0.02;
@@ -224,6 +224,10 @@ public class DriveTrain extends Subsystem {
 			rightMotorOutput -= k_BACKWARD_DIFFERENCE;
 		} else {
 
+		}
+		if (Math.abs(x) < 0.05 && Math.abs(y) < 0.05) {
+			rightMotorOutput = 0;
+			leftMotorOutput = 0;
 		}
 		diffDrive.tankDrive(leftMotorOutput, rightMotorOutput);
 	}
