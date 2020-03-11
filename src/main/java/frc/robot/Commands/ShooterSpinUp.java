@@ -9,13 +9,14 @@ public class ShooterSpinUp extends Command {
     public ShooterSpinUp() {
         requires(Robot.shooter);
         setInterruptible(false);
+        Robot.conveyor.setShooterOn();
     }
 
     public void execute() {
         if (Robot.oi.getReverse()) {
             Robot.shooter.spinBackwards();
         } else {
-            Robot.shooter.spin();
+            Robot.shooter.spinVel();
         }
     }
 
@@ -25,6 +26,7 @@ public class ShooterSpinUp extends Command {
 
     public void end() {
         //Robot.shooter.stopSpin();
+        Robot.conveyor.setShooterOff();
     }
     
     public boolean isFinished() {

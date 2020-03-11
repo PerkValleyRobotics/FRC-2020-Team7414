@@ -11,6 +11,7 @@ public class ConveyorOnUltra extends Command {
 
     public ConveyorOnUltra() {
         requires(Robot.conveyor);
+        requires(Robot.intake);
         setInterruptible(false);
         setName("Ultrasanic");
         flag = false;
@@ -20,6 +21,7 @@ public class ConveyorOnUltra extends Command {
     
     public void execute() {
         Robot.conveyor.conveyorForwards();
+        Robot.intake.intakeOn();
         /*if (Robot.ultrasanicDivided.getVoltage() > PortMap.k_ULTRA && !flag) {
             flag = true;
             flagTime = System.currentTimeMillis();
@@ -30,7 +32,7 @@ public class ConveyorOnUltra extends Command {
     }
 
     public boolean isFinished() {
-        return Robot.distanceSensor.getRange() > 50; //orignal was 300
+        return Robot.distanceSensor.getRange() > 200; //original was 300
     }
 
     public void interrupted() {
@@ -39,5 +41,6 @@ public class ConveyorOnUltra extends Command {
 
     public void end() {
         Robot.conveyor.conveyorOff();
+        Robot.intake.intakeOff();
     }
 }

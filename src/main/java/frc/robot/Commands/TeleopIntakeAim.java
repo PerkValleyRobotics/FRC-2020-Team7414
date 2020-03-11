@@ -16,7 +16,7 @@ public class TeleopIntakeAim extends Command {
     }
 
     public void execute() {
-        Robot.Gavin.intakeAim(Robot.limelight.getTx(), Robot.oi.getJoystickX(), Robot.oi.getJoystickY());
+        //Robot.Gavin.intakeAim(Robot.limelight.getTx(), Robot.oi.getJoystickX(), Robot.oi.getJoystickY());
     }
 
     public boolean isFinished() {

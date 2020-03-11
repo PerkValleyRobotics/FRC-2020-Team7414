@@ -240,12 +240,14 @@ public class Robot extends TimedRobot {
 
      if (oi.getPOVXbox() == 0) {
        if (speedFlag) {
-         shooter.increasePower(0.01);
+         //shooter.increasePower(0.01);
+         shooter.increaseVelocity(50);
          speedFlag = false;
        }
      } else if (oi.getPOVXbox() == 180) {
        if (speedFlag) {
-         shooter.increasePower(-0.01);
+         //shooter.increasePower(-0.01);
+         shooter.increaseVelocity(-50);
          speedFlag = false;
        }
      } else {

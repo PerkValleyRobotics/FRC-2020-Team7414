@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
 
 import com.revrobotics.CANSparkMax;
@@ -97,26 +98,27 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void aimButWithPID(double error) {
-		double kP = 0.07;
-		double kI = 0.0;
-		double kD = 0.00;
+		double kP = 0.06;//1 	//0.06
+		double kI = 0.015;//3 	//0.015
+		double kD = 0.0;//2 	//0.0
 		double diffErrorAim = error - prevErrorAim;
 		sumErrorAim = error*.02;
 
 		double speed = 0.25*(error*kP + sumErrorAim*kI + diffErrorAim*kD);
-		if (Math.abs(speed) < k_MINIMUM_THRESHOLD) {
+		/*if (Math.abs(speed) < k_MINIMUM_THRESHOLD) {
 			speed = Math.copySign(1, speed) * k_MINIMUM_THRESHOLD;
 		} else if (Math.abs(speed) > k_MAXIMUM_THRESHOLD_AIM) {
 			speed = Math.copySign(1, speed) * k_MAXIMUM_THRESHOLD_AIM;
-		} 
-		if (Math.abs(error) < k_ANGLE_THRESHOLD) {
+		} */
+		if (Math.abs(error) <= k_ANGLE_THRESHOLD) {
 			speed = 0;
 		}
+		SmartDashboard.putNumber("Diff: ", diffErrorAim);
 		prevErrorAim = error;
 		standardTankDrive(speed, -speed);
 	}
 
-	public void intakeAim(double error, double x, double y) {
+	/*public void intakeAim(double error, double x, double y) {
 		double kP = 0.012;
 		double kI = 0.034;
 		double kD = 0.000;
@@ -134,7 +136,7 @@ public class DriveTrain extends Subsystem {
 		}
 		prevErrorAim = error;
 		standardDrive(speed, y);
-	}
+	}*/
 
 	public void resetError() {
 		sumErrorAim = 0;

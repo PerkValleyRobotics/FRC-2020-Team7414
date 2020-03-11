@@ -6,6 +6,8 @@ import frc.robot.PortMap;
 
 public class TeleopAim extends Command {
     
+    long startTime;
+
     public TeleopAim() {
         requires(Robot.Gavin);
         setInterruptible(false);
@@ -13,10 +15,13 @@ public class TeleopAim extends Command {
         //Robot.limelight.setPipeline(PortMap.LIMELIGHT_targetingPipeline);
         Robot.limelight.targetingSight();
         Robot.limelight.lightOn();
+        startTime = System.currentTimeMillis();
     }
 
     public void execute() {
-        Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
+        if (System.currentTimeMillis() > startTime + 500) {
+            Robot.Gavin.aimButWithPID(Robot.limelight.getTx());
+        }
     }
 
     public boolean isFinished() {

@@ -18,7 +18,9 @@ public class Shooter extends Subsystem {
     TalonSRX leftShooter;
     TalonSRX rightShooter;
 
-    double speed = 0.45; //og=.45
+    double speed = 0.40; //og=.45
+    //int velocity = 7400;
+    int velocity = 7400;
     double angle;
 
     double kF = 0.009407;
@@ -27,6 +29,15 @@ public class Shooter extends Subsystem {
     double kD = 10.0*(1023.0*0.15)/1050.0;
     double kRight = 0.012630;
 
+    double kP_Right = 0.17*1023.0/700.0;
+    double kI_Right = 0.0005;
+    double kD_Right = 1.7*1023.0/700.0;
+    double kF_Right = 0.4*1023.0/47000.0;
+    double kP_Left = 0.17*1023.0/550.0;
+    double kI_Left = 0.001;
+    double kD_Left = 2.0*1023.0/550.0;
+    double kF_Left = 0.4*1023.0/40750.0;
+
     double prevError = 0;
     double sumError = 0;
 
@@ -34,32 +45,48 @@ public class Shooter extends Subsystem {
         //leftWheel = new PWMTalonSRX(PortMap.PWM_leftWheel);
         //rightWheel = new PWMTalonSRX(PortMap.PWM_rightWheel);
         leftShooter = new TalonSRX(PortMap.CAN_shooterLeft);
-        leftShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        leftShooter.configFactoryDefault();
+        leftShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
         rightShooter = new TalonSRX(PortMap.CAN_shooterRight);
-        rightShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        rightShooter.configFactoryDefault();
+        rightShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 30);
 
-        leftShooter.config_kF(0, kF, 30);
-        leftShooter.config_kP(0, kP, 30);
-        leftShooter.config_kI(0, kI, 30);
-        leftShooter.config_kD(0, kD, 30);
+        leftShooter.setInverted(true);
+		leftShooter.setSensorPhase(false);
+
+		leftShooter.configNominalOutputForward(0, 30);
+		leftShooter.configNominalOutputReverse(0, 30);
+		leftShooter.configPeakOutputForward(1, 30);
+		leftShooter.configPeakOutputReverse(-1, 30);
+
+        leftShooter.config_kF(0, kF_Left, 30);
+        leftShooter.config_kP(0, kP_Left, 30);
+        leftShooter.config_kI(0, kI_Left, 30);
+        leftShooter.config_kD(0, kD_Left, 30);
         leftShooter.setInverted(true);
         leftShooter.setSensorPhase(false);
-
-        rightShooter.config_kF(0, kF, 30);
-        rightShooter.config_kP(0, kP, 30);
-        rightShooter.config_kI(0, kI, 30);
-        rightShooter.config_kD(0, kD, 30);
+        
+        rightShooter.config_kF(0, kF_Right, 30);
+        rightShooter.config_kP(0, kP_Right, 30);
+        rightShooter.config_kI(0, kI_Right, 30);
+        rightShooter.config_kD(0, kD_Right, 30);
         rightShooter.setSensorPhase(false);
     }
     
     public void putSpeed() {
-        SmartDashboard.putNumber("Shooter Speed: ", speed);
+        SmartDashboard.putNumber("Shooter Speed: ", velocity);
+        SmartDashboard.putNumber("Right Power: ", rightShooter.getMotorOutputPercent());
         SmartDashboard.putNumber("Right RPM: ", rightShooter.getSelectedSensorVelocity() * (600.0/4096.0));
+        SmartDashboard.putNumber("Left Power: ", leftShooter.getMotorOutputPercent());
         SmartDashboard.putNumber("Left RPM: ", leftShooter.getSelectedSensorVelocity() * (600.0/4096.0));
     }
 
     public void resetSpeed() {
         speed = 0.45;
+    }
+
+    public void increaseVelocity(int rpm) {
+        velocity += rpm;
     }
 
     public void spin() {
@@ -78,17 +105,21 @@ public class Shooter extends Subsystem {
         //rightWheel.set(-speed);
     }
 
+    public void spinVel() {
+        spinVel(velocity);
+    }
+
     public void spinVel(int rpm) {
-        if (leftShooter.getSelectedSensorVelocity() > 20000) {
-            leftShooter.set(ControlMode.Velocity, rpm * (4096.0/600.0));
+        if (leftShooter.getSelectedSensorVelocity() > rpm * 4096.0 / 600.0 - 15000) {
+            leftShooter.set(ControlMode.Velocity, rpm * 4096.0 / 600.0);
         } else {
-            leftShooter.set(ControlMode.PercentOutput, speed);
+            leftShooter.set(ControlMode.PercentOutput, 0.4);
         }
 
-        if (rightShooter.getSelectedSensorVelocity() > 20000) {
+        if (rightShooter.getSelectedSensorVelocity() > rpm * (4096.0/600.0) - 15000) {
             rightShooter.set(ControlMode.Velocity, rpm * (4096.0/600.0));
         } else {
-            rightShooter.set(ControlMode.PercentOutput, speed);
+            rightShooter.set(ControlMode.PercentOutput, 0.4);
         }
     }
 
